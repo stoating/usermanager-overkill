@@ -8,3 +8,10 @@
 - replace compojure with reitit
 - replace component with integrant
 - replace selmer with hiccup
+
+# notes
+
+- build with:
+- ``cd projects/usermanager && clojure -T:build uber``
+- run with:
+- ``java -jar projects/usermanager/target/usermanager-standalone.jar``

@@ -1,4 +1,5 @@
-(ns usermanager.web.core)
+(ns usermanager.web.core
+  (:gen-class))
 
 (defn -main []
   (println "Hello, World!"))

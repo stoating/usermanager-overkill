@@ -1,4 +1,8 @@
-{:deps {org.clojure/clojure {:mvn/version "1.11.1"}}
+{:deps {poly/web {:local/root "../../bases/web"}
+        org.clojure/clojure {:mvn/version "1.11.2"}}
 
- :aliases {:test {:extra-paths []
-                  :extra-deps  {}}}}
+ :aliases {:test {:extra-paths ["test"]
+                  :extra-deps  {}}
+
+           :build {:replace-deps {io.github.clojure/tools.build {:mvn/version "0.10.0"}}
+                   :ns-default build}}}
