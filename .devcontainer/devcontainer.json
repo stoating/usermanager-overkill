@@ -1,0 +1,49 @@
+// for format details, see https://aka.ms/devcontainer.json. for config options, see the README at:
+{
+  "name": "CLJ/S",
+  "build": {
+    // Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
+    "dockerfile": "Dockerfile"
+  },
+
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+
+  // set *default* container specific settings.json values on container create.
+  "customizations": {
+    "vscode": {
+      "settings": {},
+      "extensions": [
+        "betterthantomorrow.calva",
+        "bradlc.vscode-tailwindcss",
+        "davidanson.vscode-markdownlint",
+        "djblue.portal",
+        "eamodio.gitlens",
+        "esbenp.prettier-vscode",
+        "github.copilot",
+        "github.copilot-chat",
+        "irongeek.vscode-env",
+        "joshuapoehls.json-escaper",
+        "medo64.render-crlf",
+        "moshfeu.compare-folders",
+        "ms-azuretools.vscode-docker",
+        "rapidapi.vscode-rapidapi-client",
+        "redhat.vscode-yaml",
+        "shardulm94.trailing-spaces",
+        "zainchen.json"
+      ]
+    }
+  },
+  // use 'forwardPorts' to make a list of ports inside the container available locally.
+  "forwardPorts": [
+    8080
+  ],
+
+  // get and start XTDB database
+  // see: https://docs.xtdb.com/intro/getting-started.html
+  "postStartCommand": "docker run --pull=always -tip 6543:3000 ghcr.io/xtdb/xtdb-standalone-ea"
+
+  // uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+  //"remoteUser": "vscode"
+}
