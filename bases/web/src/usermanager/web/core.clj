@@ -6,7 +6,7 @@
 
 
 ;; initialized recursively
-;; handler/greet -> adapter/jetty
+;; app/greet -> app/server
 (def config
   {:adapter/jetty {:port 8080
                    :handler (ig/ref :handler/greet)}
@@ -15,16 +15,20 @@
 
 (defmethod ig/init-key :adapter/jetty
   [_ {:keys [handler] :as opts}]
+  (println "Starting" opts)
   (jetty/run-jetty handler (-> opts (dissoc :handler) (assoc :join? false))))
+
+
+(defmethod ig/halt-key! :adapter/jetty
+  [_ server]
+  (println "Stopping" server)
+  (.stop server))
 
 
 (defmethod ig/init-key :handler/greet
   [_ {:keys [name]}]
+  (println "Starting" name)
   (fn [_] (resp/response (str "Hello " name))))
-
-
-(defmethod ig/halt-key! :adapter/jetty [_ server]
-  (.stop server))
 
 
 (def system
@@ -33,6 +37,7 @@
 
 (defn -main []
   system)
+
 
 (comment
   ;; shutdown system
