@@ -1,5 +1,6 @@
 (ns usermanager.web.core
-  (:require [integrant.core :as ig]
+  (:require [clojure.java.io :as io]
+            [integrant.core :as ig]
             [ring.adapter.jetty :as jetty]
             [ring.util.response :as resp])
   (:gen-class))
@@ -8,9 +9,10 @@
 ;; initialized recursively
 ;; app/greet -> app/server
 (def config
-  {:adapter/jetty {:port 8080
-                   :handler (ig/ref :handler/greet)}
-   :handler/greet {:name "Alice"}})
+  (-> "./web/config.edn"
+      (io/resource)
+      (slurp)
+      (ig/read-string)))
 
 
 (defmethod ig/init-key :adapter/jetty
