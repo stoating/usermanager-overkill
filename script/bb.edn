@@ -1,0 +1,3 @@
+{:deps {}
+ :tasks
+ {xtdb-container-get-run (shell "docker run --pull=always -tip 6543:3000 ghcr.io/xtdb/xtdb-standalone-ea")}}

@@ -38,11 +38,7 @@
   // use 'forwardPorts' to make a list of ports inside the container available locally.
   "forwardPorts": [
     8080
-  ],
-
-  // get and start XTDB database
-  // see: https://docs.xtdb.com/intro/getting-started.html
-  "postStartCommand": "docker run --pull=always -tip 6543:3000 ghcr.io/xtdb/xtdb-standalone-ea"
+  ]
 
   // uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
   //"remoteUser": "vscode"
