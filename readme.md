@@ -1,4 +1,5 @@
-todo
+# todo
+
 - implement base project
 - replace sql with xtdb
 - replace qeries with XTQL
