@@ -5,7 +5,7 @@
             [ring.util.response :as resp]
             [nextjournal.beholder :as bh]
             [web.home :as home]
-            [web.filewatcher :as fw])
+            [usermanager.filewatcher.interface :as fw])
   (:gen-class))
 
 
@@ -66,10 +66,8 @@
 
 
 (comment
-  ;; shutdown system
   (ig/halt! system)
 
-  ;; suspend system
   (ig/suspend! system)
 
   (ig/resume config system)

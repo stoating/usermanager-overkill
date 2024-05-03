@@ -1,6 +1,4 @@
-;; The code in this file has been copied from https://github.com/jakemcc/reload
-;; and is licensed under the EPL version 1.0 (or any later version).
-(ns usermanager.web.reload
+(ns usermanager.filewatcher.reload
   (:require [clojure.repl :as repl]
             [clojure.tools.namespace.dir :as dir]
             [clojure.tools.namespace.find :as find]
@@ -8,13 +6,17 @@
             [clojure.tools.namespace.repl :as ns-repl]
             [clojure.tools.namespace.track :as track]))
 
+
 (defonce tracker-atom (atom (track/tracker)))
 
+
 (def remove-disabled #'ns-repl/remove-disabled)
+
 
 (defn- print-pending-reloads [tracker]
   (when-let [r (seq (::track/load tracker))]
     (prn :reloading r)))
+
 
 (defn print-and-return [tracker]
   (if-let [e (::reload/error tracker)]
@@ -24,6 +26,7 @@
         (repl/pst e)
         e)
     :ok))
+
 
 (defn refresh [tracker dirs]
   (let [tracker-new (apply dir/scan-dirs tracker dirs {:platform find/clj})

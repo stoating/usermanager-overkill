@@ -1,6 +1,6 @@
 (ns dev
   (:require [usermanager.web.core :as web]
-            [web.filewatcher :as fw]
+            [usermanager.filewatcher.interface :as fw]
             [integrant.core :as ig]
             [nextjournal.beholder :as bh]))
 
