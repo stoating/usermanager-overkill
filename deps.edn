@@ -1,13 +1,15 @@
 {:deps {org.clojure/clojure {:mvn/version "1.11.2"}}
 
- :aliases {:default {:extra-deps {poly/web {:local/root "bases/web"}
-                                  poly/time {:local/root "components/time"}
-                                  poly/log {:local/root "components/log"}}}
+ :aliases {:+default {:extra-deps {poly/web  {:local/root "bases/web"}
+                                   poly/time {:local/root "components/time"}
+                                   poly/log {:local/root "components/log"}}}
 
            :dev  {:extra-paths ["development/src"]
-                  :extra-deps {poly/web {:local/root "bases/web"}
+                  :extra-deps {poly/web  {:local/root "bases/web"}
                                poly/time {:local/root "components/time"}
-                               poly/log {:local/root "components/log"}}}
+                               poly/log  {:local/root "components/log"}
+
+                               com.nextjournal/beholder {:mvn/version "1.0.2"}}}
 
            :test {:extra-paths ["bases/web/test"
                                 "components/time/test"

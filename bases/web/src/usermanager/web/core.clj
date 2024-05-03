@@ -3,11 +3,9 @@
             [integrant.core :as ig]
             [ring.adapter.jetty :as jetty]
             [ring.util.response :as resp]
-            [nextjournal.beholder :as beholder]
-            [usermanager.time.interface :as time]
-            [usermanager.log.interface :as logging]
-            [usermanager.web.reload :as reload]
-            [web.home :as home])
+            [nextjournal.beholder :as bh]
+            [web.home :as home]
+            [web.filewatcher :as fw])
   (:gen-class))
 
 
@@ -18,47 +16,13 @@
       (ig/read-string)))
 
 
-(defn eval-files! [cb]
-  (let [eval-paths ["bases/web/resources"]
-        on-eval nil]
-    (println "eval-paths:" eval-paths)
-    (println "on-eval:" on-eval)
-    (println "callback content:" cb)
-    (let [result (swap! reload/tracker-atom reload/refresh eval-paths)]
-      (doseq [f on-eval]
-        (f cb result))
-      result)))
-
-
-(def time-since-last-save (atom (java.util.Date.)))
-
-
-(defn watcher-cb-actions [cb]
-  (println "start watcher callback actions")
-  (eval-files! cb)
-  (println "finish watcher callback actions"))
-
-
-(defn watcher-cb [cb]
-  (println "watcher callback triggered.")
-  (if (time/elapsed? @time-since-last-save :now 2 :seconds)
-    ((Thread/sleep 100)
-     (logging/catchall-verbose (watcher-cb-actions cb))
-     (reset! time-since-last-save (java.util.Date.)))
-    (println "spamming save, skip watcher callback actions")))
-
-
-(def watcher
-  (beholder/watch watcher-cb "bases/web/resources"))
-
-
 (defmethod ig/init-key :app/filewatcher
-  [key value]
-  (println "starting:" key value)
-  (println "- init filewatcher timer")
-  time-since-last-save
-  (println "- init filewatcher")
-  watcher)
+  [key _]
+  (println "starting:" key)
+  #_(println "- init filewatcher timer")
+  fw/time-since-last-save
+  #_(println "- init filewatcher")
+  fw/watcher)
 
 
 (defmethod ig/init-key :app/server
@@ -67,39 +31,38 @@
         options (-> value
                     (dissoc :handler)
                     (assoc :join? false))]
-    (println "starting:" key value)
-    (println "handler :" handler)
-    (println "options :" options)
+    (println "starting:" key)
+    #_(println "options :" options)
     (jetty/run-jetty handler options)))
 
 
 (defmethod ig/init-key :app/home
   [key value]
   (let [name (get value :name)]
-    (println "starting:" key value)
-    (println "using   :" name)
+    (println "starting:" key)
+    #_(println "using   :" name)
     (fn [_] (resp/response (str home/layout)))))
 
 
 (defmethod ig/halt-key! :app/filewatcher
-  [key value]
-  (println "stopping:" key value)
-  (beholder/stop watcher))
+  [key _]
+  (println "stopping:" key)
+  (bh/stop fw/watcher))
 
 
 (defmethod ig/halt-key! :app/server
   [key value]
   (let [server value]
-    (println "stopping:" key value)
+    (println "stopping:" key)
     (.stop server)))
 
 
-(def system
+(defn system []
   (ig/init config))
 
 
 (defn -main []
-  system)
+  (system))
 
 
 (comment
@@ -108,4 +71,6 @@
 
   ;; suspend system
   (ig/suspend! system)
+
+  (ig/resume config system)
   )
