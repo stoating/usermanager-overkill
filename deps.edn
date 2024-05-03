@@ -1,11 +1,17 @@
 {:deps {org.clojure/clojure {:mvn/version "1.11.2"}}
 
- :aliases {:default {:extra-deps {poly/web {:local/root "bases/web"}}}
+ :aliases {:default {:extra-deps {poly/web {:local/root "bases/web"}
+                                  poly/time {:local/root "components/time"}
+                                  poly/log {:local/root "components/log"}}}
 
            :dev  {:extra-paths ["development/src"]
-                  :extra-deps {poly/web {:local/root "bases/web"}}}
+                  :extra-deps {poly/web {:local/root "bases/web"}
+                               poly/time {:local/root "components/time"}
+                               poly/log {:local/root "components/log"}}}
 
-           :test {:extra-paths ["bases/web/test"]}
+           :test {:extra-paths ["bases/web/test"
+                                "components/time/test"
+                                "components/log/test"]}
 
            :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]
                   :extra-deps {polylith/clj-poly {:mvn/version "0.2.19"}}}}}

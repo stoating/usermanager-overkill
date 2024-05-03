@@ -1,4 +1,4 @@
-(ns usermanager.web.util
+(ns usermanager.log.core
   (:require [clojure.stacktrace :as st]))
 
 (defmacro catchall-verbose

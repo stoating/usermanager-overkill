@@ -1,4 +1,4 @@
-(ns usermanager.web.time)
+(ns usermanager.time.core)
 
 
 (def rfc3339 "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")

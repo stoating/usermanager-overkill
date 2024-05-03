@@ -1,4 +1,6 @@
-{:deps {poly/web {:local/root "../../bases/web"}
+{:deps {poly/web  {:local/root "../../bases/web"}
+        poly/time {:local/root "../../components/time"}
+        poly/log  {:local/root "../../components/log"}
         org.clojure/clojure {:mvn/version "1.11.2"}}
 
  :aliases {:test {:extra-paths ["test"]

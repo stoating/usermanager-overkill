@@ -26,9 +26,9 @@
     :ok))
 
 (defn refresh [tracker dirs]
-  (let [new-tracker (apply dir/scan-dirs tracker dirs {:platform find/clj})
-        new-tracker (remove-disabled new-tracker)]
-    (print-pending-reloads new-tracker)
-    (let [new-tracker (reload/track-reload (assoc new-tracker ::track/unload []))]
-      (print-and-return new-tracker)
-      new-tracker)))
+  (let [tracker-new (apply dir/scan-dirs tracker dirs {:platform find/clj})
+        tracker-new (remove-disabled tracker-new)]
+    (print-pending-reloads tracker-new)
+    (let [tracker-new (reload/track-reload (assoc tracker-new ::track/unload []))]
+      (print-and-return tracker-new)
+      tracker-new)))

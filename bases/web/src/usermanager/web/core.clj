@@ -4,8 +4,8 @@
             [ring.adapter.jetty :as jetty]
             [ring.util.response :as resp]
             [nextjournal.beholder :as beholder]
-            [usermanager.web.time :as time]
-            [usermanager.web.util :as util]
+            [usermanager.time.interface :as time]
+            [usermanager.log.interface :as logging]
             [usermanager.web.reload :as reload]
             [web.home :as home])
   (:gen-class))
@@ -45,7 +45,7 @@
   (if (time/elapsed? @last-called :now 2 :seconds)
     ((println "perform watcher callback actions")
      (Thread/sleep 100)
-     (util/catchall-verbose (watcher-cb-actions cb))
+     (logging/catchall-verbose (watcher-cb-actions cb))
      (reset! last-called (java.util.Date.)))
     (println "saved too soon, skip watcher callback actions")))
 
