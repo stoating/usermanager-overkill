@@ -16,8 +16,6 @@
            [:div {:id "app"}]]))
 
 
-;; initialized recursively
-;; app/greet -> app/server
 (def config
   (-> "./web/config.edn"
       (io/resource)
@@ -25,14 +23,19 @@
       (ig/read-string)))
 
 
-(def watcher
-  (beholder/watch prn "bases/web"))
+(defn watcher-cb [cb]
+  (println "File changed")
+  (prn cb))
+
+
+(defn watcher []
+  (beholder/watch watcher-cb "bases/web/src"))
 
 
 (defmethod ig/init-key :app/filewatcher
   [_ _]
   (println "Starting filewatcher")
-  watcher)
+  (watcher))
 
 
 (defmethod ig/halt-key! :app/filewatcher
