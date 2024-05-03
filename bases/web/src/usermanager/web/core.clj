@@ -5,7 +5,9 @@
             [ring.util.response :as resp]
             [hiccup2.core :as h]
             [nextjournal.beholder :as beholder]
-            [usermanager.web.time :as time])
+            [usermanager.web.time :as time]
+            [usermanager.web.util :as util]
+            [usermanager.web.reload :as reload])
   (:gen-class))
 
 
@@ -13,7 +15,7 @@
   (h/html [:head
            [:title "Hello"]]
           [:body
-           [:h1 "Hello, world"]
+           [:h1 "Hello, world aaaa"]
            [:div {:id "app"}]]))
 
 
@@ -24,17 +26,36 @@
       (ig/read-string)))
 
 
+(defn eval-files!
+  [{:keys [eval-paths on-eval]
+    :or {eval-paths ["bases/web/src"]}
+    :as ctx}]
+  (println "eval paths" eval-paths)
+  (println "on eval" on-eval)
+  (println "context" ctx)
+  (let [result (swap! reload/global-tracker reload/refresh eval-paths)]
+    (doseq [f on-eval]
+      (f ctx result))
+    result))
+
+
 (def last-called (atom (java.util.Date.)))
+
+
+(defn watcher-cb-actions [cb]
+  (println "start watcher callback actions")
+  (eval-files! cb)
+  (println "finish watcher callback actions"))
 
 
 (defn watcher-cb [cb]
   (println "watcher callback triggered.")
   (if (time/elapsed? @last-called :now 2 :seconds)
-    ((println "perform watcher actions")
+    ((println "perform watcher callback actions")
      (Thread/sleep 100)
-     (prn cb)
+     (util/catchall-verbose (watcher-cb-actions cb))
      (reset! last-called (java.util.Date.)))
-    (println "saved too soon, skipping watcher actions")))
+    (println "saved too soon, skip watcher callback actions")))
 
 
 (defn watcher []
