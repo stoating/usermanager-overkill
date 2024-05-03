@@ -18,20 +18,19 @@
       (ig/read-string)))
 
 
-(defn eval-files!
-  [{:keys [eval-paths on-eval]
-    :or {eval-paths ["bases/web/resources"]}
-    :as ctx}]
-  (println "eval paths" eval-paths)
-  (println "on eval" on-eval)
-  (println "context" ctx)
-  (let [result (swap! reload/global-tracker reload/refresh eval-paths)]
-    (doseq [f on-eval]
-      (f ctx result))
-    result))
+(defn eval-files! [cb]
+  (let [eval-paths ["bases/web/resources"]
+        on-eval nil]
+    (println "eval-paths:" eval-paths)
+    (println "on-eval:" on-eval)
+    (println "callback content:" cb)
+    (let [result (swap! reload/tracker-atom reload/refresh eval-paths)]
+      (doseq [f on-eval]
+        (f cb result))
+      result)))
 
 
-(def last-called (atom (java.util.Date.)))
+(def time-since-last-save (atom (java.util.Date.)))
 
 
 (defn watcher-cb-actions [cb]
@@ -42,50 +41,57 @@
 
 (defn watcher-cb [cb]
   (println "watcher callback triggered.")
-  (if (time/elapsed? @last-called :now 2 :seconds)
-    ((println "perform watcher callback actions")
-     (Thread/sleep 100)
+  (if (time/elapsed? @time-since-last-save :now 2 :seconds)
+    ((Thread/sleep 100)
      (logging/catchall-verbose (watcher-cb-actions cb))
-     (reset! last-called (java.util.Date.)))
-    (println "saved too soon, skip watcher callback actions")))
+     (reset! time-since-last-save (java.util.Date.)))
+    (println "spamming save, skip watcher callback actions")))
 
 
-(defn watcher []
+(def watcher
   (beholder/watch watcher-cb "bases/web/resources"))
 
 
 (defmethod ig/init-key :app/filewatcher
-  [_ _]
-  (println "Setting filewatcher timer")
-  last-called
-  (println "Starting filewatcher")
-  (watcher))
-
-
-(defmethod ig/halt-key! :app/filewatcher
-  [_ _]
-  (println "Stopping filewatcher")
-  (beholder/stop watcher))
+  [key value]
+  (println "starting:" key value)
+  (println "- init filewatcher timer")
+  time-since-last-save
+  (println "- init filewatcher")
+  watcher)
 
 
 (defmethod ig/init-key :app/server
-  [_ {:keys [handler] :as opts}]
-  (println "Starting" opts)
-  (jetty/run-jetty handler (-> opts
-                               (dissoc :handler)
-                               (assoc :join? false))))
+  [key value]
+  (let [handler (get value :handler)
+        options (-> value
+                    (dissoc :handler)
+                    (assoc :join? false))]
+    (println "starting:" key value)
+    (println "handler :" handler)
+    (println "options :" options)
+    (jetty/run-jetty handler options)))
+
+
+(defmethod ig/init-key :app/home
+  [key value]
+  (let [name (get value :name)]
+    (println "starting:" key value)
+    (println "using   :" name)
+    (fn [_] (resp/response (str home/layout)))))
+
+
+(defmethod ig/halt-key! :app/filewatcher
+  [key value]
+  (println "stopping:" key value)
+  (beholder/stop watcher))
 
 
 (defmethod ig/halt-key! :app/server
-  [_ server]
-  (println "Stopping" server)
-  (.stop server))
-
-
-(defmethod ig/init-key :handler/greet
-  [_ {:keys [name]}]
-  (println "Starting" name)
-  (fn [_] (resp/response (str home/layout))))
+  [key value]
+  (let [server value]
+    (println "stopping:" key value)
+    (.stop server)))
 
 
 (def system

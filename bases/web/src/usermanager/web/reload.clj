@@ -8,7 +8,7 @@
             [clojure.tools.namespace.repl :as ns-repl]
             [clojure.tools.namespace.track :as track]))
 
-(defonce global-tracker (atom (track/tracker)))
+(defonce tracker-atom (atom (track/tracker)))
 
 (def remove-disabled #'ns-repl/remove-disabled)
 

@@ -1,4 +1,4 @@
 {:app/filewatcher {}
  :app/server {:port 8080
-              :handler #ig/ref :handler/greet}
- :handler/greet {:name "Alice"}}
+              :handler #ig/ref :app/home}
+ :app/home {:name "Alice"}}
