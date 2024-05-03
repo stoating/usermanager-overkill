@@ -1,8 +1,9 @@
 (ns usermanager.filewatcher.actions
   (:require [usermanager.filewatcher.reload :as reload]))
 
+
 (defn eval-files! [cb]
-  (let [eval-paths ["bases/web/resources" "components"]
+  (let [eval-paths ["bases" "components"]
         on-eval nil]
     (println "eval-paths:" eval-paths)
     (println "on-eval:" on-eval)

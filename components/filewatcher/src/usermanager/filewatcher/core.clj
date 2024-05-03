@@ -1,8 +1,8 @@
 (ns usermanager.filewatcher.core
   (:require [nextjournal.beholder :as beholder]
-            [usermanager.time.interface :as time]
+            [usermanager.filewatcher.actions :as actions]
             [usermanager.log.interface :as logging]
-            [usermanager.filewatcher.actions :as actions]))
+            [usermanager.time.interface :as time]))
 
 
 (def time-since-last-save (atom (java.util.Date.)))
@@ -16,12 +16,12 @@
 
 (defn watcher-cb [cb]
   (println "watcher callback triggered.")
-  (if (time/elapsed? @time-since-last-save :now 2 :seconds)
-    ((Thread/sleep 200)
+  (if (time/elapsed? @time-since-last-save :now 3 :seconds)
+    ((Thread/sleep 300)
      (logging/catchall-verbose (watcher-cb-actions cb))
      (reset! time-since-last-save (java.util.Date.)))
-    (println "spamming the filewatcher, skip watcher callback actions")))
+    (println "spamming filewatcher, skip callback actions")))
 
 
 (def watcher
-  (beholder/watch watcher-cb "bases/web/resources" "components"))
+  (beholder/watch watcher-cb "bases" "components"))

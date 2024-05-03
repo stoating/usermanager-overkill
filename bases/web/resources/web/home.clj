@@ -1,9 +1,10 @@
 (ns web.home
   (:require [hiccup2.core :as h]))
 
+
 (def layout
   (h/html [:head
            [:title "Hello"]]
           [:body
-           [:h1 "Hello, world fffppppppwf"]
+           [:h1 "Hello, world astpppqfsbf"]
            [:div {:id "app"}]]))

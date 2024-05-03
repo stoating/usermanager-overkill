@@ -1,11 +1,11 @@
 (ns usermanager.web.core
   (:require [clojure.java.io :as io]
             [integrant.core :as ig]
+            [nextjournal.beholder :as bh]
             [ring.adapter.jetty :as jetty]
             [ring.util.response :as resp]
-            [nextjournal.beholder :as bh]
-            [web.home :as home]
-            [usermanager.filewatcher.interface :as fw])
+            [usermanager.filewatcher.interface :as fw]
+            [web.home :as home])
   (:gen-class))
 
 
@@ -57,7 +57,7 @@
     (.stop server)))
 
 
-(def system
+(defonce system
   (ig/init config))
 
 

@@ -1,8 +1,8 @@
 (ns dev
-  (:require [usermanager.web.core :as web]
+  (:require [integrant.core :as ig]
+            [nextjournal.beholder :as bh]
             [usermanager.filewatcher.interface :as fw]
-            [integrant.core :as ig]
-            [nextjournal.beholder :as bh]))
+            [usermanager.web.core :as web]))
 
 (ig/halt! web/system)
 (ig/init web/config)
