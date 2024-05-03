@@ -8,6 +8,14 @@
   (:gen-class))
 
 
+(def layout
+  (h/html [:head
+           [:title "Hello"]]
+          [:body
+           [:h1 "Hello, world"]
+           [:div {:id "app"}]]))
+
+
 ;; initialized recursively
 ;; app/greet -> app/server
 (def config
@@ -15,6 +23,22 @@
       (io/resource)
       (slurp)
       (ig/read-string)))
+
+
+(def watcher
+  (beholder/watch prn "bases/web"))
+
+
+(defmethod ig/init-key :app/filewatcher
+  [_ _]
+  (println "Starting filewatcher")
+  watcher)
+
+
+(defmethod ig/halt-key! :app/filewatcher
+  [_ _]
+  (println "Stopping filewatcher")
+  (beholder/stop watcher))
 
 
 (defmethod ig/init-key :app/server
@@ -31,14 +55,6 @@
   (.stop server))
 
 
-(def layout
-  (h/html [:head
-           [:title "Hello"]]
-          [:body
-           [:h1 "Hello, world"]
-           [:div {:id "app"}]]))
-
-
 (defmethod ig/init-key :handler/greet
   [_ {:keys [name]}]
   (println "Starting" name)
@@ -47,13 +63,6 @@
 
 (def system
   (ig/init config))
-
-
-(def watcher
-  (beholder/watch prn "bases/web"))
-
-
-(beholder/stop watcher)
 
 
 (defn -main []
