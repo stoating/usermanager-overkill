@@ -15,7 +15,7 @@
   (h/html [:head
            [:title "Hello"]]
           [:body
-           [:h1 "Hello, world aaaa"]
+           [:h1 "Hello, world"]
            [:div {:id "app"}]]))
 
 

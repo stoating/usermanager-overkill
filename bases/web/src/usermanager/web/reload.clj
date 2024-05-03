@@ -3,13 +3,14 @@
 (ns usermanager.web.reload
   (:require [clojure.repl :as repl]
             [clojure.tools.namespace.dir :as dir]
+            [clojure.tools.namespace.find :as find]
             [clojure.tools.namespace.reload :as reload]
-            clojure.tools.namespace.repl
+            [clojure.tools.namespace.repl :as ns-repl]
             [clojure.tools.namespace.track :as track]))
 
 (defonce global-tracker (atom (track/tracker)))
 
-(def remove-disabled #'clojure.tools.namespace.repl/remove-disabled)
+(def remove-disabled #'ns-repl/remove-disabled)
 
 (defn- print-pending-reloads [tracker]
   (when-let [r (seq (::track/load tracker))]
@@ -24,8 +25,8 @@
         e)
     :ok))
 
-(defn refresh [tracker directories]
-  (let [new-tracker (apply dir/scan tracker directories)
+(defn refresh [tracker dirs]
+  (let [new-tracker (apply dir/scan-dirs tracker dirs {:platform find/clj})
         new-tracker (remove-disabled new-tracker)]
     (print-pending-reloads new-tracker)
     (let [new-tracker (reload/track-reload (assoc new-tracker ::track/unload []))]
