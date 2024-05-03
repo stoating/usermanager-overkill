@@ -3,20 +3,12 @@
             [integrant.core :as ig]
             [ring.adapter.jetty :as jetty]
             [ring.util.response :as resp]
-            [hiccup2.core :as h]
             [nextjournal.beholder :as beholder]
             [usermanager.web.time :as time]
             [usermanager.web.util :as util]
-            [usermanager.web.reload :as reload])
+            [usermanager.web.reload :as reload]
+            [web.home :as home])
   (:gen-class))
-
-
-(def layout
-  (h/html [:head
-           [:title "Hello"]]
-          [:body
-           [:h1 "Hello, world"]
-           [:div {:id "app"}]]))
 
 
 (def config
@@ -28,7 +20,7 @@
 
 (defn eval-files!
   [{:keys [eval-paths on-eval]
-    :or {eval-paths ["bases/web/src"]}
+    :or {eval-paths ["bases/web/resources"]}
     :as ctx}]
   (println "eval paths" eval-paths)
   (println "on eval" on-eval)
@@ -59,7 +51,7 @@
 
 
 (defn watcher []
-  (beholder/watch watcher-cb "bases/web/src"))
+  (beholder/watch watcher-cb "bases/web/resources"))
 
 
 (defmethod ig/init-key :app/filewatcher
@@ -93,7 +85,7 @@
 (defmethod ig/init-key :handler/greet
   [_ {:keys [name]}]
   (println "Starting" name)
-  (fn [_] (resp/response (str (h/html layout)))))
+  (fn [_] (resp/response (str home/layout))))
 
 
 (def system
