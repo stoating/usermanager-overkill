@@ -3,7 +3,8 @@
             [integrant.core :as ig]
             [ring.adapter.jetty :as jetty]
             [ring.util.response :as resp]
-            [hiccup2.core :as h])
+            [hiccup2.core :as h]
+            [nextjournal.beholder :as beholder])
   (:gen-class))
 
 
@@ -34,7 +35,7 @@
   (h/html [:head
            [:title "Hello"]]
           [:body
-           [:h1 "Hello, world!"]
+           [:h1 "Hello, world"]
            [:div {:id "app"}]]))
 
 
@@ -46,6 +47,13 @@
 
 (def system
   (ig/init config))
+
+
+(def watcher
+  (beholder/watch prn "bases/web"))
+
+
+(beholder/stop watcher)
 
 
 (defn -main []
