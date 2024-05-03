@@ -15,13 +15,15 @@
       (ig/read-string)))
 
 
-(defmethod ig/init-key :adapter/jetty
+(defmethod ig/init-key :app/server
   [_ {:keys [handler] :as opts}]
   (println "Starting" opts)
-  (jetty/run-jetty handler (-> opts (dissoc :handler) (assoc :join? false))))
+  (jetty/run-jetty handler (-> opts
+                               (dissoc :handler)
+                               (assoc :join? false))))
 
 
-(defmethod ig/halt-key! :adapter/jetty
+(defmethod ig/halt-key! :app/server
   [_ server]
   (println "Stopping" server)
   (.stop server))
@@ -30,7 +32,9 @@
 (defmethod ig/init-key :handler/greet
   [_ {:keys [name]}]
   (println "Starting" name)
-  (fn [_] (resp/response (str "Hello " name))))
+  (fn [_] (resp/response (-> "./web/mypage.html"
+                             (io/resource)
+                             slurp))))
 
 
 (def system
