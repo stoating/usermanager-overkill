@@ -5,7 +5,7 @@
             [usermanager.web.reload :as reload]))
 
 (defn eval-files! [cb]
-  (let [eval-paths ["bases/web/resources"]
+  (let [eval-paths ["bases" "components"]
         on-eval nil]
     (println "eval-paths:" eval-paths)
     (println "on-eval:" on-eval)
@@ -35,4 +35,4 @@
 
 
 (def watcher
-  (beholder/watch watcher-cb "bases/web/resources"))
+  (beholder/watch watcher-cb "bases" "components"))

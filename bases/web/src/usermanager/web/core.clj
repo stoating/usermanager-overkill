@@ -57,12 +57,12 @@
     (.stop server)))
 
 
-(defn system []
+(def system
   (ig/init config))
 
 
 (defn -main []
-  (system))
+  system)
 
 
 (comment

@@ -5,5 +5,5 @@
   (h/html [:head
            [:title "Hello"]]
           [:body
-           [:h1 "Hello, world wwwffff"]
+           [:h1 "Hello, world fssfwf"]
            [:div {:id "app"}]]))
