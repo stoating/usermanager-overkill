@@ -4,7 +4,8 @@
             [ring.adapter.jetty :as jetty]
             [ring.util.response :as resp]
             [hiccup2.core :as h]
-            [nextjournal.beholder :as beholder])
+            [nextjournal.beholder :as beholder]
+            [usermanager.web.time :as time])
   (:gen-class))
 
 
@@ -23,9 +24,17 @@
       (ig/read-string)))
 
 
+(def last-called (atom (java.util.Date.)))
+
+
 (defn watcher-cb [cb]
-  (println "File changed")
-  (prn cb))
+  (println "watcher callback triggered.")
+  (if (time/elapsed? @last-called :now 2 :seconds)
+    ((println "perform watcher actions")
+     (Thread/sleep 100)
+     (prn cb)
+     (reset! last-called (java.util.Date.)))
+    (println "saved too soon, skipping watcher actions")))
 
 
 (defn watcher []
@@ -34,6 +43,8 @@
 
 (defmethod ig/init-key :app/filewatcher
   [_ _]
+  (println "Setting filewatcher timer")
+  last-called
   (println "Starting filewatcher")
   (watcher))
 
