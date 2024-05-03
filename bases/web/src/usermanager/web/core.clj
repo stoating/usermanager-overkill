@@ -2,7 +2,8 @@
   (:require [clojure.java.io :as io]
             [integrant.core :as ig]
             [ring.adapter.jetty :as jetty]
-            [ring.util.response :as resp])
+            [ring.util.response :as resp]
+            [hiccup2.core :as h])
   (:gen-class))
 
 
@@ -29,12 +30,18 @@
   (.stop server))
 
 
+(def layout
+  (h/html [:head
+           [:title "Hello"]]
+          [:body
+           [:h1 "Hello, world!"]
+           [:div {:id "app"}]]))
+
+
 (defmethod ig/init-key :handler/greet
   [_ {:keys [name]}]
   (println "Starting" name)
-  (fn [_] (resp/response (-> "./web/mypage.html"
-                             (io/resource)
-                             slurp))))
+  (fn [_] (resp/response (str (h/html layout)))))
 
 
 (def system
