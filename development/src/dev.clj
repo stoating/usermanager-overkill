@@ -33,4 +33,5 @@
   (pprint/pprint fw/tracker-atom)
   (reset! fw/tracker-atom (atom (track/tracker)))
   ;
+  (spit "out.edn" (with-out-str (pprint/pprint [:key "value"])))
   )

@@ -1,4 +1,4 @@
-(ns web.home
+(ns web.views.home
   (:require [hiccup2.core :as h]))
 
 
@@ -9,5 +9,5 @@
   (h/html [:head
            [:title "Hello"]]
           [:body
-           [:h1 "Hello, world sfffpbf"]
+           [:h1 "Hello, worald"]
            [:div {:id "app"}]]))
