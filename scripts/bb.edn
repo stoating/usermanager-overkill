@@ -1,7 +1,7 @@
 {:deps {}
  :tasks
- {test (shell "echo hi")
-  xtdb-container-get-run (shell "docker run --pull=always -tip 6543:3000 ghcr.io/xtdb/xtdb-standalone-ea")
-  tailwind-install [(shell "npm install -D tailwindcss")
-                    (shell "npx tailwindcss init")
-                    (shell "npx tailwindcss -i ./src/input.css -o ./src/output.css --watch")]}}
+ {; init tailwind watcher
+  startup (shell "echo hi")
+
+  ; start the xtdb container
+  xtdb-container-get-run (shell "docker run --pull=always -tip 6543:3000 ghcr.io/xtdb/xtdb-standalone-ea")}}

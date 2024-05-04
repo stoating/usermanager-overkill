@@ -7,7 +7,9 @@
 
 (def layout
   (h/html [:head
-           [:title "Hello"]]
+           [:title "Hello"]
+           [:link {:rel "stylesheet", :href "output.css"}]]
           [:body
            [:h1 "Hello, worald"]
-           [:div {:id "app"}]]))
+           [:div.text-blue-500 {:id "app"}
+            "honssk honk"]]))
