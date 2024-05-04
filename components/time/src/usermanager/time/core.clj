@@ -1,5 +1,7 @@
 (ns usermanager.time.core)
 
+(println "in ns:" (str *ns*))
+
 
 (def rfc3339 "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
 

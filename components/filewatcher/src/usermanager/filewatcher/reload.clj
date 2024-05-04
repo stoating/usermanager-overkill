@@ -7,6 +7,9 @@
             [clojure.tools.namespace.track :as track]))
 
 
+(println "in ns:" (str *ns*))
+
+
 (defonce tracker-atom (atom (track/tracker)))
 
 

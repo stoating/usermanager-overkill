@@ -12,6 +12,9 @@
   (:gen-class))
 
 
+(println "in ns:" (str *ns*))
+
+
 (def config
   (-> "./web/config.edn"
       (io/resource)
@@ -25,7 +28,7 @@
   #_(println "- init filewatcher timer")
   fw/time-since-last-save
   #_(println "- init filewatcher")
-  fw/watcher)
+  (fw/watcher))
 
 
 (defmethod ig/init-key :app/server
@@ -100,8 +103,12 @@
     (.stop server)))
 
 
-(defonce system
-  (ig/init config))
+(def system
+  (try
+    (ig/init config)
+    (catch Exception e
+      (println (str "caught exception: " (.getMessage e)))
+      (println "the server is likely already started"))))
 
 
 (defn -main []
@@ -113,4 +120,5 @@
 
   (ig/suspend! system)
 
-  (ig/resume config system))
+  (ig/resume config system)
+  )

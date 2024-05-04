@@ -1,12 +1,36 @@
 (ns dev
-  (:require [integrant.core :as ig]
+  (:require [clojure.pprint :as pprint]
+            [clojure.tools.namespace.track :as track]
+            [integrant.core :as ig]
             [nextjournal.beholder :as bh]
             [usermanager.filewatcher.interface :as fw]
             [usermanager.web.core :as web]))
 
-(ig/halt! web/system)
-(ig/init web/config)
+(println "in ns:" (str *ns*))
 
-fw/watcher
-(bh/stop fw/watcher)
+(comment
+  ;; restart system
+  (ig/halt! web/system)
 
+  (ig/init web/config)
+
+
+  ;; stop/start filewatcher
+  fw/watcher
+
+  (println "im doing this too")
+  (bh/stop fw/watcher)
+
+  ;; eval files a
+  ;; {:type :modify, :path #object[sun.nio.fs.UnixPath 0x30604729 /workspaces/usermanager/bases/web/resources/web/home.clj]}
+  (pprint/pprint (fw/eval-files! {:type :modify
+                                  :path "/workspaces/usermanager"}))
+
+  (def mydata {:type :modify, :path [sun.nio.fs.UnixPath 0x65d3d571 "/workspaces/usermanager/components/filewatcher/src/usermanager/filewatcher/actions.clj"]})
+
+  (get mydata :path)
+
+  (pprint/pprint fw/tracker-atom)
+  (reset! fw/tracker-atom (atom (track/tracker)))
+  ;
+  )

@@ -4,6 +4,7 @@
             [usermanager.log.interface :as logging]
             [usermanager.time.interface :as time]))
 
+(println "in ns:" (str *ns*))
 
 (def time-since-last-save (atom (java.util.Date.)))
 
@@ -24,4 +25,4 @@
 
 
 (def watcher
-  (beholder/watch watcher-cb "bases" "components"))
+  (beholder/watch watcher-cb "bases" "components" "development"))

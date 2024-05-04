@@ -2,6 +2,8 @@
   (:refer-clojure :exclude [test])
   (:require [clojure.tools.build.api :as b]))
 
+(println "in ns:" (str *ns*))
+
 (def app 'usermanager)
 (def main 'usermanager.web.core)
 (def class-dir "target/classes")
