@@ -1,6 +1,6 @@
 (ns usermanager.web.core-test
-  (:require [clojure.test :as test :refer :all]
-            [usermanager.web.core :as core]))
+  (:require [clojure.test :as test :refer [deftest is]]
+            #_[usermanager.web.core :as core]))
 
 
 (println "in ns:" (str *ns*))

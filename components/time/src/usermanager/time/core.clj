@@ -3,24 +3,24 @@
 (println "in ns:" (str *ns*))
 
 
-(def rfc3339 "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+#_(def rfc3339 "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
 
 
-(defn parse-date [date & [format]]
+#_(defn parse-date [date & [format]]
   (.parse (new java.text.SimpleDateFormat (or format rfc3339)) date))
 
 
-(defn format-date [date & [format]]
+#_(defn format-date [date & [format]]
   (.format (new java.text.SimpleDateFormat (or format rfc3339)) date))
 
 
-(defn crop-date [d fmt]
+#_(defn crop-date [d fmt]
   (-> d
       (format-date fmt)
       (parse-date fmt)))
 
 
-(defn crop-day [t]
+#_(defn crop-day [t]
   (crop-date t "yyyy-MM-dd"))
 
 
@@ -48,7 +48,7 @@
       (seconds-between t1 t2)))
 
 
-(defn between-hours? [t h1 h2]
+#_(defn between-hours? [t h1 h2]
   (let [hours (/ (mod (quot (inst-ms t) (* 1000 60))
                       (* 60 24))
                  60.0)]
@@ -58,9 +58,9 @@
           (<= hours h2)))))
 
 
-(defn add-seconds [date seconds]
+#_(defn add-seconds [date seconds]
   (java.util.Date/from (.plusSeconds (.toInstant date) seconds)))
 
 
-(defn now []
+#_(defn now []
   (java.util.Date.))

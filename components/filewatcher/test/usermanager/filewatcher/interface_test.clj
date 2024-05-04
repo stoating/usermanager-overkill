@@ -1,6 +1,6 @@
 (ns usermanager.filewatcher.interface-test
-  (:require [clojure.test :as test :refer :all]
-            [usermanager.filewatcher.interface :as filewatcher]))
+  (:require [clojure.test :as test :refer [deftest is]]
+            #_[usermanager.filewatcher.interface :as filewatcher]))
 
 (println "in ns:" (str *ns*))
 
