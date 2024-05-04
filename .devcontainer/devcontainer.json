@@ -1,13 +1,15 @@
 // for format details, see https://aka.ms/devcontainer.json. for config options, see the README at:
 {
   "name": "CLJ/S",
+
   "build": {
     // Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
     "dockerfile": "Dockerfile"
   },
 
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+    "docker-in-docker": "latest",
+    "github-cli": "latest"
   },
 
   // set *default* container specific settings.json values on container create.
@@ -36,10 +38,13 @@
       ]
     }
   },
+
   // use 'forwardPorts' to make a list of ports inside the container available locally.
   "forwardPorts": [
     8080
-  ]
+  ],
+
+  "postCreateCommand": "cd scripts && bb startup"
 
   // uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
   //"remoteUser": "vscode"
