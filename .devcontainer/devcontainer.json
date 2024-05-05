@@ -44,7 +44,7 @@
     8080
   ],
 
-  "postCreateCommand": "cd scripts && bb startup"
+  "postCreateCommand": "cd scripts && bb base-web-startup"
 
   // uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
   //"remoteUser": "vscode"

@@ -43,3 +43,6 @@ projects/**/pom.xml
 
 # clj-kondo
 .clj-kondo/*
+
+# tailwind
+**/tailwind_output.css

@@ -8,8 +8,8 @@
 (def layout
   (h/html [:head
            [:title "Hello"]
-           [:link {:rel "stylesheet", :href "output.css"}]]
+           [:link {:rel "stylesheet", :href "assets/css/tailwind_output.css"}]]
           [:body
-           [:h1 "Hello, worald"]
-           [:div.text-blue-500 {:id "app"}
+           [:h1.text-blue-700 "Hello, wossss"]
+           [:div.text-blue-400 {:id "app"}
             "honssk honk"]]))
