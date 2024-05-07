@@ -23,4 +23,5 @@
     {}
     [:body
      [:h1 {:class (tw [tw-input])}"Hello worlda"]
-     [:div {:id "app"}]])))
+     [:div {:id "app"}]
+     [:a {:href "/login"} "login"]])))

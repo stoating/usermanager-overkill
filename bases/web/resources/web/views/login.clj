@@ -1,5 +1,6 @@
 (ns web.views.login
-  (:require [rum.core :as rum]))
+  (:require [rum.core :as rum]
+            [web.views.-default :as default]))
 
 
 (println "in ns:" (str *ns*))
@@ -7,9 +8,9 @@
 
 (def layout
   (rum/render-static-markup
-   [:head
-    [:title "Hello"]
-    [:link {:rel "stylesheet", :href "assets/css/tailwind_output.css"}]
+   (default/page
+    {}
     [:body
      [:h1.text-blue-400 "im the login"]
-     [:div {:id "app"}]]]))
+     [:div {:id "app"}]
+     [:a {:href "/"} "home"]])))
