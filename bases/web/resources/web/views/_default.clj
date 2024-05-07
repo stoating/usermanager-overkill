@@ -76,12 +76,12 @@
    (-> ctx
        (merge #:base{:title "title"
                      :lang "en-US"
-                     :icon "/img/glider.png"
+                     :icon "/img/favicon-16x16.png"
                      :description (str "title" " Description")
                      :image "https://clojure.org/images/clojure-logo-120b.png"})
        (update :base/head
                (fn [head]
-                 (concat [[:link {:rel "stylesheet" :href "assets/css/tailwind_output.css"}]
+                 (concat [[:link {:rel "stylesheet" :href "css/tailwind_output.css"}]
                           [:script {:src "js/main.js"}]
                           [:script {:src "https://unpkg.com/htmx.org@1.9.12"}]
                           [:script {:src "https://unpkg.com/htmx.org/dist/ext/ws.js"}]
