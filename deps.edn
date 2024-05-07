@@ -1,4 +1,6 @@
-{:deps {org.clojure/clojure {:mvn/version "1.11.2"}}
+{:mvn/repos {"ossrh-snapshots" {:url "https://s01.oss.sonatype.org/content/repositories/snapshots"}}
+
+ :deps {org.clojure/clojure {:mvn/version "1.11.2"}}
 
  :aliases {:+default {:extra-deps {}}
 
