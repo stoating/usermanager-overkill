@@ -15,7 +15,10 @@
            :test {:extra-paths ["bases/web/test"
                                 "components/filewatcher/test"
                                 "components/log/test"
-                                "components/time/test"]}
+                                "components/time/test"]
+                  :extra-deps {com.xtdb/xtdb-core {:mvn/version "2.0.0-SNAPSHOT"}}
+                  :jvm-opts ["--add-opens=java.base/java.nio=ALL-UNNAMED"
+                             "-Dio.netty.tryReflectionSetAccessible=true"]}
 
            :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]
                   :extra-deps {polylith/clj-poly {:mvn/version "0.2.19"}}}}}
