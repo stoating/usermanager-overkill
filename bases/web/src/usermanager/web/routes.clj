@@ -1,20 +1,21 @@
 (ns usermanager.web.routes
-  (:require [reitit.ring :as ring]
-            [reitit.ring.middleware.parameters :as parameters]
+  (:require [reitit.ring :as r]
+            [reitit.ring.middleware.parameters :as par]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
-            [ring.util.response :as resp]
+            [ring.util.response :as rr]
             [web.views.home :as home]
             [web.views.login :as login]))
 
 (defn app []
-  (ring/ring-handler
-   (ring/router
-    [["/" {:get {:handler (fn [_] (resp/response (str home/layout)))}}]
-     ["/login" {:get {:handler (fn [_] (resp/response (str login/layout)))}}]]
-    {:data {:middleware [parameters/parameters-middleware
+  (r/ring-handler
+   (r/router
+    [["/"      {:get {:handler (fn [_] (rr/response (str home/layout)))}}]
+     ["/login" {:get {:handler (fn [_] (rr/response (str login/layout)))}}]]
+
+    {:data {:middleware [par/parameters-middleware
                          wrap-keyword-params]}})
-   (ring/routes
-    (ring/create-resource-handler
+   (r/routes
+    (r/create-resource-handler
      {:path "/"})
-    (ring/create-default-handler
+    (r/create-default-handler
      {:not-found (constantly {:status 404 :body "Not found"})}))))

@@ -12,7 +12,7 @@
 
 
 (def config
-  (-> "./web/config.edn"
+  (-> "./config.edn"
       (io/resource)
       (slurp)
       (ig/read-string)))
@@ -35,11 +35,20 @@
     (jetty/run-jetty handler options)))
 
 
-(defmethod ig/init-key :app/run-app
+(defmethod ig/init-key :app/app
   [key value]
   (println "starting:" key)
   (println "using   :" value)
   (routes/app))
+
+
+#_(defmethod ig/init-key :app/database
+  [key value]
+  (let [handler (get value :handler)
+        options (-> value
+                    (dissoc :handler)
+                    (assoc :join? false))]
+    (println "starting:" key)))
 
 
 (defmethod ig/halt-key! :app/filewatcher

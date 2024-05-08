@@ -17,11 +17,34 @@
 (def tw-input
   ["text-6xl"])
 
+(def primary
+  [:div
+   [:h1 "Welcome to the User Manager"]
+   [:p "This is a simple web application that allows you to manage users."]])
+
+(def links-component
+  [:ul
+   [:li [:a {:href "/"} "Home"]]
+   [:li [:a {:href "/user/list"
+             :title "View the list of users"} "Users"]]
+   [:li [:a {:href "/user/form"
+             :title "Fill out form to add new user"} "Add User"]]
+   [:li [:a {:href "/reset"
+             :title "Resets change tracking"} "Reset"]]])
+
+(def changes-count 5)
+
+(def changes-count-component
+  [:div (str "Your have made " changes-count " change(s) since the last reset")])
+
 (def layout
   (rum/render-static-markup
    (default/page
     {}
     [:body
-     [:h1 {:class (tw [tw-input])}"Hello worlda"]
-     [:div {:id "app"}]
-     [:a {:href "/login"} "login"]])))
+     [:div
+      [:h1 "User Manager"]
+      links-component
+      [:br]
+      [:div {:id "primary"} primary]]
+     changes-count-component])))

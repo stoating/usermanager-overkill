@@ -1,0 +1,6 @@
+{:app/filewatcher {}
+
+ :app/server {:port 8080
+              :handler #ig/ref :app/app}
+
+ :app/app {}}
