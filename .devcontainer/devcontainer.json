@@ -40,11 +40,14 @@
   },
 
   // use 'forwardPorts' to make a list of ports inside the container available locally.
+  // 8080: web server
+  // 6543: xtdb database
   "forwardPorts": [
-    8080
+    8080,
+    6543
   ],
 
-  "postCreateCommand": "cd scripts && bb base-web-startup"
+  "postCreateCommand": "cd scripts && bb startup"
 
   // uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
   //"remoteUser": "vscode"

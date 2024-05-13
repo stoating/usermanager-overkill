@@ -46,3 +46,6 @@ projects/**/pom.xml
 
 # tailwind
 **/tailwind_output.css
+
+# scripts
+scripts/container_id.txt

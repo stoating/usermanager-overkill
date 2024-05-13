@@ -1,17 +1,54 @@
 {:deps {}
+
  :tasks
- {; init tailwind watcher for the web base
-  web-start-tailwind (shell {:dir "../bases/web/resources/tools/tailwind"}
-                            (str "npx tailwindcss "
-                                 "-i tailwind.css "
-                                 "-o ../../public/css/tailwind_output.css "
-                                 "--watch"))
+ {web-start-tailwind
+  {:doc "init tailwind watcher for the web base"
+   :task (shell
+          {:dir "../bases/web/resources/tools/tailwind"}
+          (str "npx tailwindcss "
+               "-i tailwind.css "
+               "-o ../../public/css/tailwind_output.css "
+               "--watch"))}
 
-  ; start the xtdb container
-  xtdb-container-get-run (shell (str "docker run "
-                                     "--pull=always "
-                                     "-tip 6543:3000 "
-                                     "ghcr.io/xtdb/xtdb-standalone-ea"))
+  -xtdb-container-id
+  {:doc "get the xtdb container id and save to a file"
+   :task (shell {:out "container_id.txt"}
+                (str "docker ps -a -q --filter "
+                     "ancestor=ghcr.io/xtdb/xtdb-standalone-ea "
+                     "--format=\"{{.ID}}\""))}
 
-  ; startup the web base
-  base-web-startup (do (run 'web-start-tailwind))}}
+  xtdb-container-stop
+  {:doc "stop the xtdb container"
+   :depends [-xtdb-container-id]
+   :task (shell
+          (str "docker stop " (slurp "container_id.txt")))}
+
+  xtdb-container-remove
+  {:doc "stop the xtdb container"
+   :depends [-xtdb-container-id xtdb-container-stop]
+   :task (shell
+          (str "docker rm " (slurp "container_id.txt")))}
+
+  xtdb-container-pull-run
+  {:doc "start the xtdb container. pull if missing"
+   :task (shell
+          (str "docker run "
+               "--pull=missing "
+               "-tip 6543:3000 "
+               "ghcr.io/xtdb/xtdb-standalone-ea"))}
+
+  startup
+  {:doc "startup sequence for the web base"
+   :task (run '-startup {:parallel true})}
+
+  -startup {:depends [startup:tailwind startup:xtdb]}
+
+  startup:tailwind
+  {:doc "run start tailwind"
+   :task (run 'web-start-tailwind)}
+
+  startup:xtdb
+  {:doc "run start xtdb container"
+   :task (do (try (run 'xtdb-container-remove)
+                   (finally
+                     (run 'xtdb-container-pull-run))))}}}
