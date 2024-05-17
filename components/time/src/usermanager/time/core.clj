@@ -64,3 +64,5 @@
 
 #_(defn now []
   (java.util.Date.))
+
+(println "end ns:" (str *ns*))

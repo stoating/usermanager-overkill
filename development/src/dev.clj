@@ -15,10 +15,10 @@
   (ig/init web/config)
 
 
-  ;; stop/start filewatcher
+  ;; start filewatcher
+  ;; note: you should not have to do this
   fw/watcher
-
-  (println "im doing this too")
+  ;; stop filewatcher
   (bh/stop fw/watcher)
 
   ;; eval files a
