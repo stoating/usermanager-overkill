@@ -38,3 +38,5 @@
     (let [tracker-new (reload/track-reload (assoc tracker-new ::track/unload []))]
       (print-and-return tracker-new)
       tracker-new)))
+
+(println "end ns:" (str *ns*))

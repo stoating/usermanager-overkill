@@ -16,3 +16,5 @@
 
 (def tracker-atom
   reload/tracker-atom)
+
+(println "end ns:" (str *ns*))
