@@ -1,7 +1,17 @@
 {:deps {}
 
  :tasks
- {web-start-tailwind
+ {git-config-name
+  {:doc "set the git user name"
+   :task (shell
+          (str "git config --global user.name stoating"))}
+
+  git-config-email
+  {:doc "set the git user email"
+   :task (shell
+          (str "git config --global user.email zack.slade@gmail.com"))}
+
+  web-start-tailwind
   {:doc "init tailwind watcher for the web base"
    :task (shell
           {:dir "../bases/web/resources/tools/tailwind"}
@@ -49,6 +59,8 @@
 
   startup:xtdb
   {:doc "run start xtdb container"
-   :task (do (try (run 'xtdb-container-remove)
-                   (finally
-                     (run 'xtdb-container-pull-run))))}}}
+   :task (do (run 'git-config-name)
+             (run 'git-config-email)
+             (try (run 'xtdb-container-remove)
+                  (finally
+                    (run 'xtdb-container-pull-run))))}}}
