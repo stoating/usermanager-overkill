@@ -1,6 +1,8 @@
 (ns web.views.user.list
   (:require [rum.core :as rum]))
 
+(println "in ns:" (str *ns*))
+
 (def user-xt-id "123")
 
 (defn user-list []
@@ -18,3 +20,5 @@
       [:td "Email"]
       [:td "Name"]
       [:td [:a {:href (str "/user/delete/" user-xt-id)} "Delete"]]]]]))
+
+(println "end ns:" (str *ns*))

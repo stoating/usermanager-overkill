@@ -98,3 +98,5 @@
     body]
    [:.flex-grow]
    [:.flex-grow]))
+
+(println "end ns:" (str *ns*))

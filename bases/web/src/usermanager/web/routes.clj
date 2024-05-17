@@ -6,6 +6,8 @@
             [web.views.home :as home]
             [web.views.login :as login]))
 
+(println "in ns:" (str *ns*))
+
 (defn app []
   (r/ring-handler
    (r/router
@@ -19,3 +21,5 @@
      {:path "/"})
     (r/create-default-handler
      {:not-found (constantly {:status 404 :body "Not found"})}))))
+
+(println "end ns:" (str *ns*))

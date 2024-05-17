@@ -13,3 +13,5 @@
       (doseq [f on-eval]
         (f cb result))
       result)))
+
+(println "end ns:" (str *ns*))

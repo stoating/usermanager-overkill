@@ -26,7 +26,7 @@
   (pprint/pprint (fw/eval-files! {:type :modify
                                   :path "/workspaces/usermanager"}))
 
-  (def mydata {:type :modify, :path [sun.nio.fs.UnixPath 0x65d3d571 "/workspaces/usermanager/components/filewatcher/src/usermanager/filewatcher/actions.clj"]})
+  #_(def mydata {:type :modify, :path [sun.nio.fs.UnixPath 0x65d3d571 "/workspaces/usermanager/components/filewatcher/src/usermanager/filewatcher/actions.clj"]})
 
   (get mydata :path)
 
@@ -35,3 +35,5 @@
   ;
   (spit "out.edn" (with-out-str (pprint/pprint [:key "value"])))
   )
+
+(println "end ns:" (str *ns*))

@@ -1,6 +1,10 @@
 (ns web.views.user.default)
 
-(def message "im a message")
+(println "in ns:" (str *ns*))
 
-(def user-default
+#_(def message "im a message")
+
+#_(def user-default
   message)
+
+(println "end ns:" (str *ns*))

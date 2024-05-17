@@ -11,3 +11,5 @@
 
 (comment
   (println "in the comment"))
+
+(println "end ns:" (str *ns*))

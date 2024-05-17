@@ -12,17 +12,20 @@
 (defn watcher-cb-actions [cb]
   (println "start watcher callback actions")
   (actions/eval-files! cb)
-  (println "finish watcher callback actions"))
+  (println "finish watcher callback actions")
+  (println "*******************************"))
 
 
 (defn watcher-cb [cb]
   (println "watcher callback triggered.")
-  (if (time/elapsed? @time-since-last-save :now 3 :seconds)
-    ((Thread/sleep 300)
+  (if (time/elapsed? @time-since-last-save :now 1 :seconds)
+    ((Thread/sleep 100)
      (logging/catchall-verbose (watcher-cb-actions cb))
      (reset! time-since-last-save (java.util.Date.)))
     (println "spamming filewatcher, skip callback actions")))
 
 
 (def watcher
-  (beholder/watch watcher-cb "bases" "components" "development"))
+  (beholder/watch watcher-cb "bases/web/resources" "components" "development"))
+
+(println "end ns:" (str *ns*))

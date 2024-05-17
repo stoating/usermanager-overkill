@@ -1,6 +1,8 @@
 (ns web.views.user.form
   (:require [rum.core :as rum]))
 
+(println "in ns:" (str *ns*))
+
 (defn form-template []
   (rum/render-static-markup
    [:form {:method "post"
@@ -27,3 +29,5 @@
     [:input {:type "submin"
              :value "Save User"}]]
    ))
+
+(println "end ns:" (str *ns*))
