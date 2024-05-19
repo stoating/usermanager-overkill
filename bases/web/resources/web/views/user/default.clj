@@ -6,5 +6,3 @@
 
 #_(def user-default
   message)
-
-(println "end ns:" (str *ns*))

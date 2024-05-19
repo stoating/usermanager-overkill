@@ -21,5 +21,3 @@
      {:path "/"})
     (r/create-default-handler
      {:not-found (constantly {:status 404 :body "Not found"})}))))
-
-(println "end ns:" (str *ns*))

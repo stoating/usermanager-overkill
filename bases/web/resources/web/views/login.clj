@@ -14,5 +14,3 @@
      [:h1.text-blue-400 "im the login"]
      [:div {:id "app"}]
      [:a {:href "/"} "home"]])))
-
-(println "end ns:" (str *ns*))

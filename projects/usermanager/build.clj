@@ -29,5 +29,3 @@
     (println "\nBuilding JAR...")
     (b/uber opts))
   opts)
-
-(println "end ns:" (str *ns*))

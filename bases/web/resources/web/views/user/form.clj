@@ -29,5 +29,3 @@
     [:input {:type "submin"
              :value "Save User"}]]
    ))
-
-(println "end ns:" (str *ns*))

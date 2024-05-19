@@ -48,5 +48,3 @@
       [:br]
       [:div {:id "primary"} primary]]
      changes-count-component])))
-
-(println "end ns:" (str *ns*))

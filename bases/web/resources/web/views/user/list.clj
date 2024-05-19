@@ -20,5 +20,3 @@
       [:td "Email"]
       [:td "Name"]
       [:td [:a {:href (str "/user/delete/" user-xt-id)} "Delete"]]]]]))
-
-(println "end ns:" (str *ns*))

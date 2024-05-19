@@ -5,5 +5,3 @@
 
 (defn watcher []
   (core/watcher))
-
-(println "end ns:" (str *ns*))

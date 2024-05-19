@@ -5,5 +5,3 @@
 
 (defn elapsed? [t1 t2 x unit]
   (core/elapsed? t1 t2 x unit))
-
-(println "end ns:" (str *ns*))

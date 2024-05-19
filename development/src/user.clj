@@ -25,5 +25,3 @@
   (def portal (p/open))
   (add-tap #'p/submit)
   )
-
-(println "end ns:" (str *ns*))

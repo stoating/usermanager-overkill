@@ -6,5 +6,3 @@
 
 (deftest dummy-test
   (is (= 1 1)))
-
-(println "end ns:" (str *ns*))

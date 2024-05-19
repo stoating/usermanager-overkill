@@ -27,5 +27,3 @@
 
 (defn watcher []
   (beholder/watch watcher-cb "bases" "components" "development"))
-
-(println "end ns:" (str *ns*))
