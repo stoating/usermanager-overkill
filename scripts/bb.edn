@@ -37,7 +37,7 @@
           (str "docker stop " (slurp "container_id.txt")))}
 
   xtdb-container-remove
-  {:doc "stop the xtdb container"
+  {:doc "remove the xtdb container"
    :depends [-xtdb-container-id xtdb-container-stop]
    :task (shell
           (str "docker rm " (slurp "container_id.txt")))}
