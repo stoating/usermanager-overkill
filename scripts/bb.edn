@@ -47,7 +47,7 @@
    :task (shell
           (str "docker run "
                "--pull=missing "
-               "-tip 6543:3000 "
+               "-tip " (env "APP_XTDB_PORT") ":3000 "
                "ghcr.io/xtdb/xtdb-standalone-ea"))}
 
   print-env
