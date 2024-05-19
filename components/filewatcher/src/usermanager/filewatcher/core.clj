@@ -6,7 +6,7 @@
 
 (println "in ns:" (str *ns*))
 
-(def time-since-last-save (atom (java.util.Date.)))
+(defonce time-since-last-save (atom (java.util.Date.)))
 
 
 (defn watcher-cb-actions [cb]
@@ -26,6 +26,6 @@
 
 
 (def watcher
-  (beholder/watch watcher-cb "bases/web/resources" "components" "development"))
+  (beholder/watch watcher-cb "bases/web/resources" "components/log" "components/time" "development"))
 
 (println "end ns:" (str *ns*))

@@ -5,15 +5,21 @@
  :aliases {:+default {:extra-deps {}}
 
            :dev  {:extra-paths ["development/src"]
-                  :extra-deps {poly/web  {:local/root "bases/web"}
-                               poly/fw   {:local/root "components/filewatcher"}
+                  :extra-deps {;; components
                                poly/log  {:local/root "components/log"}
                                poly/time {:local/root "components/time"}
 
+                               ;; bases
+                               poly/web  {:local/root "bases/web"}
+
+                               ;; other
                                com.nextjournal/beholder    {:mvn/version "1.0.2"}
                                integrant/integrant         {:mvn/version "0.9.0"}
                                org.clojure/tools.namespace {:mvn/version "1.5.0"}
                                djblue/portal {:mvn/version "0.55.1"}}}
+
+           :+filewatcher {:extra-paths []
+                          :extra-deps {poly/fw {:local/root "components/filewatcher"}}}
 
            :test {:extra-paths ["bases/web/test"
                                 "components/filewatcher/test"

@@ -1,6 +1,4 @@
-{:app/server {:handler #ig/ref :app/app
-              :port 8080}
-
- :app/app {}
-
+{:app/server {:port 8080
+              :handler #ig/ref :app/app}
+ :app/app {:db #ig/ref :app/database}
  :app/database {}}

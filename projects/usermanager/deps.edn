@@ -1,5 +1,4 @@
 {:deps {poly/web  {:local/root "../../bases/web"}
-        poly/fw   {:local/root "../../components/filewatcher"}
         poly/log  {:local/root "../../components/log"}
         poly/time {:local/root "../../components/time"}
 
