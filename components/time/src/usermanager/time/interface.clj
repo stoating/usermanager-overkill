@@ -1,5 +1,5 @@
 (ns usermanager.time.interface
-  (:require #_[usermanager.time.core :as core]))
+  #_(:require #_[usermanager.time.core :as core]))
 
 (println "in ns:" (str *ns*))
 

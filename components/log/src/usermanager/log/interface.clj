@@ -1,5 +1,5 @@
 (ns usermanager.log.interface
-  (:require #_[usermanager.log.core :as core]))
+  #_(:require #_[usermanager.log.core :as core]))
 
 (println "in ns:" (str *ns*))
 

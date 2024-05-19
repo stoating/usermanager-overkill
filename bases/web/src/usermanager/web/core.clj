@@ -63,21 +63,8 @@
   (.stop server))
 
 
-(def system
-  (ig/init config))
-
-
 (defn -main []
-  system)
-
-
-(comment
-  (ig/halt! system)
-  (ig/init config)
-  (ig/suspend! system)
-  (ig/resume config system)
-  (-main)
-  )
+  (ig/init config))
 
 
 (comment

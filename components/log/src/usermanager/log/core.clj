@@ -1,5 +1,5 @@
 (ns usermanager.log.core
-  (:require #_[clojure.stacktrace :as st]))
+  #_(:require #_[clojure.stacktrace :as st]))
 
 (println "in ns:" (str *ns*))
 

@@ -1,5 +1,5 @@
 (ns web.views.user.list
-  (:require #_[rum.core :as rum]))
+  #_(:require #_[rum.core :as rum]))
 
 (println "in ns:" (str *ns*))
 
