@@ -24,17 +24,17 @@
   (crop-date t "yyyy-MM-dd"))
 
 
-#_(defn- expand-now [x]
+(defn- expand-now [x]
   (if (= x :now)
     (java.util.Date.)
     x))
 
 
-#_(defn seconds-between [t1 t2]
+(defn seconds-between [t1 t2]
   (quot (- (inst-ms (expand-now t2)) (inst-ms (expand-now t1))) 1000))
 
 
-#_(defn seconds-in [x unit]
+(defn seconds-in [x unit]
   (case unit
     :seconds x
     :minutes (* x 60)
@@ -43,7 +43,7 @@
     :weeks (* x 60 60 24 7)))
 
 
-#_(defn elapsed? [t1 t2 x unit]
+(defn elapsed? [t1 t2 x unit]
   (<= (seconds-in x unit)
       (seconds-between t1 t2)))
 

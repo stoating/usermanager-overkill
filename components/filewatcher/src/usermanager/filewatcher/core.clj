@@ -25,7 +25,7 @@
     (println "spamming filewatcher, skip callback actions")))
 
 
-(def watcher
-  (beholder/watch watcher-cb "bases/web/resources" "components/log" "components/time" "development"))
+(defn watcher []
+  (beholder/watch watcher-cb "bases" "components" "development"))
 
 (println "end ns:" (str *ns*))

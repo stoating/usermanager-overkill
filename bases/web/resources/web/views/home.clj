@@ -19,7 +19,7 @@
 
 (def primary
   [:div
-   [:h1 "Welcome to the User Managerxxx"]
+   [:h1 "Welcome to the User Manager"]
    [:p "This is a simple web application that allows you to manage users."]])
 
 (def links-component

@@ -1,9 +1,9 @@
 (ns usermanager.log.core
-  #_(:require #_[clojure.stacktrace :as st]))
+  (:require [clojure.stacktrace :as st]))
 
 (println "in ns:" (str *ns*))
 
-#_(defmacro catchall-verbose
+(defmacro catchall-verbose
   [& body]
   `(try
      ~@body
