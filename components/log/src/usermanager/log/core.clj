@@ -9,5 +9,3 @@
      ~@body
      (catch Exception e#
        (st/print-stack-trace e#))))
-
-(println "end ns:" (str *ns*))

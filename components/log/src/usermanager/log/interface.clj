@@ -5,5 +5,3 @@
 
 (defn catchall-verbose [& body]
   (core/catchall-verbose body))
-
-(println "end ns:" (str *ns*))
