@@ -18,11 +18,15 @@
 (println "in ns:" (str *ns*))
 
 
+(defmethod aero/reader 'ig/ref
+  [_ _ value]
+  (ig/ref value))
+
+
 (def config
   (-> "./config.edn"
       (io/resource)
-      (slurp)
-      (ig/read-string))
+      (aero/read-config))
   #_{:app/server {:port 8080
                 :handler (ig/ref :app/app)}
    :app/app {:db (ig/ref :app/database)}
@@ -58,11 +62,11 @@
 
 (defmethod ig/init-key :app/database
   [key {:keys [url port]}]
-  (println "starting:" key)
-  (println "url:" url)
-  (println "port:" port)
-  (with-open [node (xtc/start-client "http://localhost:6543")]
-    (xt/status node)))
+  (let [xtdb-url (str url ":" port)]
+    (println "starting:" key)
+    (println "url:" xtdb-url)
+    (with-open [node (xtc/start-client xtdb-url)]
+      (xt/status node))))
 
 
 (defmethod ig/halt-key! :app/server

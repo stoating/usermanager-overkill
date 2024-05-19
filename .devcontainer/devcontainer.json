@@ -47,7 +47,15 @@
     6543
   ],
 
-  "postCreateCommand": "cd scripts && bb startup"
+  "postCreateCommand": "cd scripts && bb startup",
+
+  "containerEnv": {
+    "APP_BASE_URL": "http://localhost",
+    "APP_SERVER_PORT": "8080",
+    "APP_XTDB_PORT": "6543",
+    "APP_GITHUB_USER_NAME": "stoating",
+    "APP_GITHUB_USER_EMAIL": "zack.slade@gmail.com"
+  }
 
   // uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
   //"remoteUser": "vscode"

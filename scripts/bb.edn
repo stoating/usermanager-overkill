@@ -1,15 +1,18 @@
 {:deps {}
 
  :tasks
- {git-config-name
-  {:doc "set the git user name"
-   :task (shell
-          (str "git config --global user.name stoating"))}
+ {:init (defn env [s] (System/getenv s))
+  :enter (println "Entering:" (:name (current-task)))
 
-  git-config-email
+  set-git-config-name
+  {:doc "set the git user name"
+   :task (shell "git config --global user.name"
+                (env "APP_GITHUB_USER_NAME"))}
+
+  set-git-config-email
   {:doc "set the git user email"
-   :task (shell
-          (str "git config --global user.email zack.slade@gmail.com"))}
+   :task (shell "git config --global user.email"
+                (env "APP_GITHUB_USER_EMAIL"))}
 
   web-start-tailwind
   {:doc "init tailwind watcher for the web base"
@@ -47,20 +50,30 @@
                "-tip 6543:3000 "
                "ghcr.io/xtdb/xtdb-standalone-ea"))}
 
+  print-env
+  {:doc "print the env vars"
+   :task (shell "printenv")}
+
   startup
   {:doc "startup sequence for the web base"
-   :task (run '-startup {:parallel true})}
+   :task (do (run 'print-env)
+             (run '-startup-parallel {:parallel true}))}
 
-  -startup {:depends [startup:tailwind startup:xtdb]}
+  -startup-parallel {:depends [startup-parallel:git
+                               startup-parallel:tailwind
+                               startup-parallel:xtdb]}
 
-  startup:tailwind
+  startup-parallel:git
+  {:doc "set git env vars"
+   :task (do (run 'set-git-config-name)
+             (run 'set-git-config-email))}
+
+  startup-parallel:tailwind
   {:doc "run start tailwind"
    :task (run 'web-start-tailwind)}
 
-  startup:xtdb
+  startup-parallel:xtdb
   {:doc "run start xtdb container"
-   :task (do (run 'git-config-name)
-             (run 'git-config-email)
-             (try (run 'xtdb-container-remove)
+   :task (do (try (run 'xtdb-container-remove)
                   (finally
                     (run 'xtdb-container-pull-run))))}}}
