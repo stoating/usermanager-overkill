@@ -1,12 +1,12 @@
 (ns web.views.home
   (:require [rum.core :as rum]
             [web.views.-default :as default]
-            [clojure.string :as str]))
+            #_[clojure.string :as str]))
 
 
 (println "in ns:" (str *ns*))
 
-(defn tw
+#_(defn tw
   [classes]
   (->> (flatten classes)
        (remove nil?)
@@ -14,7 +14,7 @@
        (sort)
        (str/join " ")))
 
-(def tw-input
+#_(def tw-input
   ["text-6xl"])
 
 (def primary

@@ -1,9 +1,6 @@
 (ns usermanager.web.database
-  (:require [next.jdbc :as jdbc]
-            [next.jdbc.sql :as sql]
+  (:require [next.jdbc.sql :as sql]
             [next.jdbc.xt] ; activate XTDB support
-            [xtdb.client :as xtc]
-            [xtdb.api :as xt]
             [portal.api :as p]))
 
 (println "in ns:" (str *ns*))

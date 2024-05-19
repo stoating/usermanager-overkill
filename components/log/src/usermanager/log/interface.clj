@@ -1,9 +1,9 @@
 (ns usermanager.log.interface
-  (:require [usermanager.log.core :as core]))
+  (:require #_[usermanager.log.core :as core]))
 
 (println "in ns:" (str *ns*))
 
-(defn catchall-verbose [& body]
+#_(defn catchall-verbose [& body]
   (core/catchall-verbose body))
 
 (println "end ns:" (str *ns*))

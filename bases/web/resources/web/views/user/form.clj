@@ -1,9 +1,9 @@
 (ns web.views.user.form
-  (:require [rum.core :as rum]))
+  (:require #_[rum.core :as rum]))
 
 (println "in ns:" (str *ns*))
 
-(defn form-template []
+#_(defn form-template []
   (rum/render-static-markup
    [:form {:method "post"
            :action "/user/save"}]

@@ -1,17 +1,15 @@
 (ns usermanager.web.core
   (:require [aero.core :as aero]
             [clojure.java.io :as io]
+            [clojure.pprint :as pp]
             [integrant.core :as ig]
             [next.jdbc.sql :as sql]
             [next.jdbc.xt]
-            #_[nextjournal.beholder :as bh]
             [portal.api :as p]
             [ring.adapter.jetty :as jetty]
-            #_[usermanager.filewatcher.interface :as fw]
             [usermanager.web.routes :as routes]
             [xtdb.api :as xt]
-            [xtdb.client :as xtc]
-            [clojure.pprint :as pp])
+            [xtdb.client :as xtc])
   (:gen-class))
 
 
@@ -26,18 +24,7 @@
 (def config
   (-> "./config.edn"
       (io/resource)
-      (aero/read-config))
-  #_{:app/server {:port 8080
-                :handler (ig/ref :app/app)}
-   :app/app {:db (ig/ref :app/database)}
-   :app/database {}})
-
-
-#_(defmethod ig/init-key :app/filewatcher
-  [key _]
-  (println "starting:" key)
-  fw/time-since-last-save
-  fw/watcher)
+      (aero/read-config)))
 
 
 (defmethod ig/init-key :app/server
