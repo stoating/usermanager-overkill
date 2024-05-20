@@ -1,6 +1,5 @@
 (ns web.views.home
-  (:require [rum.core :as rum]
-            [web.views.-default :as default]
+  (:require [web.views.-default :as default]
             #_[clojure.string :as str]))
 
 
@@ -19,7 +18,7 @@
 
 (def primary
   [:div
-   [:h1 "Welcome to the User Manager"]
+   [:h1 "Welcome to the User Managerxxxxxxx"]
    [:p "This is a simple web application that allows you to manage users."]])
 
 (def links-component
@@ -37,14 +36,13 @@
 (def changes-count-component
   [:div (str "Your have made " changes-count " change(s) since the last reset")])
 
-(def layout
-  (rum/render-static-markup
-   (default/page
-    {}
-    [:body
-     [:div
-      [:h1 "User Manager"]
-      links-component
-      [:br]
-      [:div {:id "primary"} primary]]
-     changes-count-component])))
+(defn layout [db]
+  (default/page
+   {}
+   [:body
+    [:div
+     [:h1 "User Manager"]
+     links-component
+     [:br]
+     [:div {:id "primary"} primary]]
+    changes-count-component]))
