@@ -2,4 +2,6 @@
               :handler #ig/ref :app/app}
  :app/app {:db #ig/ref :app/database}
  :app/database {:url #env APP_BASE_URL
-                :port #long #env APP_XTDB_PORT}}
+                :port #long #env APP_XTDB_PORT
+                :portal #ig/ref :app/portal}
+ :app/portal {}}

@@ -4,10 +4,16 @@
             [portal.api :as p]
             [xtdb.api :as xt]))
 
+
+(println "in ns:" (str *ns*))
+(add-tap #'p/submit)
+
+
 (def departments-seed
   (-> "./bases/web/resources/database/seed/departments.edn"
       slurp
       edn/read-string))
+
 
 (def users-seed
   (-> "./bases/web/resources/database/seed/users.edn"
@@ -32,6 +38,3 @@
         (println "Unable to populate the initial data -- proceed with caution!")))
     (tap> (xt/q db '(from :users [*])))
     (tap> (xt/q db '(from :departments [*])))))
-
-(defonce portal (p/open))
-(add-tap #'p/submit)

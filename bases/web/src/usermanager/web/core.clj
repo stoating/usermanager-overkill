@@ -3,6 +3,7 @@
             [clojure.java.io :as io]
             [integrant.core :as ig]
             [next.jdbc.xt]
+            [portal.api :as p]
             [ring.adapter.jetty :as jetty]
             [usermanager.web.database.seed :as seed]
             [usermanager.web.routes :as routes]
@@ -53,6 +54,13 @@
     (with-open [db (xtc/start-client xtdb-url)]
       (xt/status db)
       (seed/seed db))))
+
+
+(defmethod ig/init-key :app/portal
+  [key {:keys [db]}]
+  (println "starting:" key)
+  (println "using   :" db)
+  (defonce portal (p/open)))
 
 
 (defmethod ig/halt-key! :app/server
