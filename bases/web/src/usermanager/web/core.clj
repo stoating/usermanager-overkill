@@ -57,9 +57,9 @@
 
 
 (defmethod ig/init-key :app/portal
-  [key {:keys [db]}]
+  [key value]
   (println "starting:" key)
-  (println "using   :" db)
+  (println "using   :" value)
   (defonce portal (p/open)))
 
 

@@ -26,15 +26,18 @@
   (when-not (seq (try
                    (xt/q db '(from :departments [*]))
                    (catch Exception _)))
-    (tap> db)
     (try
+      ;; populate departments table
       (doseq [[ix d] (map-indexed vector departments-seed)]
         (sql/insert! db :departments {:name d :xt$id (inc ix)}))
+
+      ;; populate users table
       (doseq [a users-seed]
         (sql/insert! db :users (assoc a :xt$id (random-uuid))))
+
       (println "Populated database with initial data!")
       (catch Exception e
         (println "Exception:" (ex-message e))
-        (println "Unable to populate the initial data -- proceed with caution!")))
-    (tap> (xt/q db '(from :users [*])))
-    (tap> (xt/q db '(from :departments [*])))))
+        (println "Unable to populate the initial data -- proceed with caution!"))))
+  (tap> (xt/q db '(from :users [*])))
+  (tap> (xt/q db '(from :departments [*]))))
