@@ -24,6 +24,13 @@
   (ig-repl/reset-all)
 
 
+  (def myval [{:department-id 4,
+               :email "sean@worldsingles.com",
+               :first-name "Sean",
+               :xt/id #uuid "142bb771-ad2e-4eab-bfc6-59115ade65e9",
+               :last-name "Corfield"}])
+
+  (get (first myval) :first-name)
   )
 
 (comment

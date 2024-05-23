@@ -39,5 +39,7 @@
       (catch Exception e
         (println "Exception:" (ex-message e))
         (println "Unable to populate the initial data -- proceed with caution!"))))
+  (tap> "seed")
   (tap> (xt/q db '(from :users [*])))
+  (tap> db)
   (tap> (xt/q db '(from :departments [*]))))

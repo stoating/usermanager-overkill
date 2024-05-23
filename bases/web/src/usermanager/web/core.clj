@@ -53,7 +53,8 @@
     (println "url     :" xtdb-url)
     (with-open [db (xtc/start-client xtdb-url)]
       (xt/status db)
-      (seed/seed db))))
+      (seed/seed db)
+      db)))
 
 
 (defmethod ig/init-key :app/portal

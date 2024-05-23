@@ -1,20 +1,25 @@
 (ns usermanager.web.routes
-  (:require [reitit.ring :as r]
+  (:require [portal.api :as p]
+            [reitit.ring :as r]
             [reitit.ring.middleware.parameters :as par]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [web.views.views :as views]))
 
 (println "in ns:" (str *ns*))
+(add-tap #'p/submit)
 
 
-(def middleware-db
-  {:name ::db
-   :compile (fn [{:keys [db]} _]
-              (fn [handler]
-                (fn [req]
-                  (handler (assoc req :db db)))))})
+(def wrap-database
+  {:name ::wrap-database
+   :description "place the database at :db"
+   :wrap (fn [handler db]
+           (fn [request]
+             (handler (assoc request :db db))))})
+
 
 (defn app [db]
+  (tap> "app")
+  (tap> db)
   (r/ring-handler
    (r/router
     [["/"      views/home]
@@ -23,7 +28,7 @@
     {:data {:db db
             :middleware [par/parameters-middleware
                          wrap-keyword-params
-                         middleware-db]}})
+                         [wrap-database db]]}})
 
    (r/routes
     (r/redirect-trailing-slash-handler)
