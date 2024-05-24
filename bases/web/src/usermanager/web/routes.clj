@@ -18,8 +18,6 @@
 
 
 (defn app [db]
-  (tap> "app")
-  (tap> db)
   (r/ring-handler
    (r/router
     [["/"      views/home]

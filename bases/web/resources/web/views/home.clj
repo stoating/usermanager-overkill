@@ -11,10 +11,7 @@
 (defn layout [req]
   (let [db (:db req)
         users (db/get-users db)]
-    (tap> "layout")
-    (tap> users)
-    (tap> db)
-    (tap> req)
+    #_(tap> req)
     (default/page
      {}
      [:body
