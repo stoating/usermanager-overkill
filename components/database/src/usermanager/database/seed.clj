@@ -1,4 +1,4 @@
-(ns usermanager.web.database.seed
+(ns usermanager.database.seed
   (:require [clojure.edn :as edn]
             [next.jdbc.sql :as sql]
             [portal.api :as p]
@@ -10,13 +10,13 @@
 
 
 (def departments-seed
-  (-> "./bases/web/resources/database/seed/departments.edn"
+  (-> "./components/database/resources/database/departments.edn"
       slurp
       edn/read-string))
 
 
 (def users-seed
-  (-> "./bases/web/resources/database/seed/users.edn"
+  (-> "./components/database/resources/database/users.edn"
       slurp
       edn/read-string))
 

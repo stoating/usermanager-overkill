@@ -5,10 +5,8 @@
             [next.jdbc.xt]
             [portal.api :as p]
             [ring.adapter.jetty :as jetty]
-            [usermanager.web.database.seed :as seed]
-            [usermanager.web.routes :as routes]
-            [xtdb.api :as xt]
-            [xtdb.client :as xtc])
+            [usermanager.database.interface :as db]
+            [usermanager.web.routes :as routes])
   (:gen-class))
 
 
@@ -51,17 +49,15 @@
   (let [xtdb-url (str url ":" port)]
     (println "starting:" key)
     (println "url     :" xtdb-url)
-    (with-open [db (xtc/start-client xtdb-url)]
-      (xt/status db)
-      (seed/seed db)
-      db)))
+    (db/init-db xtdb-url)))
 
 
 (defmethod ig/init-key :app/portal
   [key value]
   (println "starting:" key)
   (println "using   :" value)
-  (defonce portal (p/open)))
+  (defonce portal (p/open))
+  (println "portal  :" portal))
 
 
 (defmethod ig/halt-key! :app/server

@@ -1,0 +1,5 @@
+{:paths ["src" "resources"]
+ :deps {com.xtdb/xtdb-api             {:mvn/version "2.0.0-SNAPSHOT"}
+        com.xtdb/xtdb-http-client-jvm {:mvn/version "2.0.0-SNAPSHOT"}}
+ :aliases {:test {:extra-paths ["test"]
+                  :extra-deps {}}}}

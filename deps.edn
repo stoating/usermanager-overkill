@@ -4,6 +4,7 @@
 
  :aliases {:dev  {:extra-paths ["development/src"]
                   :extra-deps {;; components
+                               poly/db   {:local/root "components/database"}
                                poly/fw   {:local/root "components/filewatcher"}
                                poly/log  {:local/root "components/log"}
                                poly/time {:local/root "components/time"}
@@ -19,6 +20,7 @@
                                djblue/portal {:mvn/version "0.55.1"}}}
 
            :test {:extra-paths ["bases/web/test"
+                                "components/database/test"
                                 "components/filewatcher/test"
                                 "components/log/test"
                                 "components/time/test"]
