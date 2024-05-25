@@ -8,10 +8,21 @@
 (add-tap #'p/submit)
 
 
+(def changes
+  "Count the number of changes (since the last reload)."
+  (atom 5))
+
+
+(defn reset-changes
+  [req]
+  (reset! changes 0)
+  (assoc-in req [:params :message] "The change tracker has been reset."))
+
+
 (defn layout [req]
   (let [db (:db req)
         users (db/get-users db)]
-    #_(tap> req)
+    (tap> req)
     (default/page
      {}
      [:body
@@ -30,4 +41,4 @@
         [:div
          [:h1 "Welcome to the User Managerxx"]
          [:p "This is a simple web application that allows you to manage users."]]]]
-      [:div (str "Your have made 5 change(s) since the last reset")]])))
+      [:div (str "Your have made " @changes " change(s) since the last reset")]])))
