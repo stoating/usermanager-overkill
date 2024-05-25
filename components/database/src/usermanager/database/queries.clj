@@ -19,7 +19,7 @@
       (get-in [0 :xt/id])))
 
 
-#_(defn get-user-by-id [db id]
+(defn get-user-by-id [db id]
   (->> (xt/q db '(from :users [*]))
        (filter #(= (:xt/id %) id))
        first))
