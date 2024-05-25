@@ -1,5 +1,6 @@
 (ns usermanager.database.seed
   (:require [clojure.edn :as edn]
+            [clojure.java.io :as io]
             [portal.api :as p]
             [usermanager.database.transactions :as tx]
             [xtdb.api :as xt]))
@@ -10,13 +11,15 @@
 
 
 (def departments-seed
-  (-> "./components/database/resources/database/departments.edn"
+  (-> "./database/departments.edn"
+      io/resource
       slurp
       edn/read-string))
 
 
 (def users-seed
-  (-> "./components/database/resources/database/users.edn"
+  (-> "./database/users.edn"
+      io/resource
       slurp
       edn/read-string))
 
