@@ -18,15 +18,16 @@
                           (return name)))
         (nth id)))
 
-  (defn get-user-by-id [id]
-    (-> (xt/q mynode '(-> (from :user [name xt/id])
-                          (return name))))
-    (-> (filter #(= (:xt/id %) id) mydata)
-        first))
+  (defn get-user-by-id [db id]
+    (->> (xt/q db '(from :users [*]))
+         (filter #(= (:xt/id %) id))
+         first))
 
-  (get-department-by-id 0)
-  (get-user-by-id #uuid "c2409067-bca1-40e4-9fcf-c96469ae7855")
+  (xt/submit-tx mynode [[]])
 
+  (get-user-by-id mynode #uuid "898ab528-71ec-4aaa-aa28-238e8a409f7a")
+
+  (mynode)
   (def mydata [{:department-id 4,
                 :email "sean@worldsingles.com",
                 :first-name "Sean",
@@ -38,8 +39,29 @@
                 :xt/id #uuid "c2409067-bca1-40e4-9fcf-c96469ae7855",
                 :last-name "Corfield"}])
 
-  (-> (filter #(= (:department-id %) 4) mydata)
+  (-> (filter (fn [c] (= (:department-id c) 4)) mydata)
       first)
+
+  (defn insert-department [db name id]
+    (xt/submit-tx db [[:put-docs :departments
+                       {:xt/id id
+                        :name name}]]))
+
+
+  (if (nil? (get-max-id-departments mynode))
+    (insert-department mynode 0 "Engineering")
+    (-> (get-max-id-departments mynode)
+        inc
+        (insert-department mynode "Engineering")))
+
+
+  (defn get-max-id-departments [db]
+    (-> (xt/q db '(-> (from :departments [xt/id])
+                      (order-by {:val xt/id :dir :desc})
+                      (limit 1)))
+        (get-in [0 :xt/id])))
+
+  (get-max-id-departments mynode)
 
   (get-in (first [{:first-name "John"}]) [:first-name])
   (get (first [{:first-name "John"}]) :first-name)
