@@ -4,8 +4,5 @@
             [web.views.home :as home]
             [web.views.login :as login]))
 
-(defn home [req]
-  (rr/response (str (rum/render-static-markup (home/layout req)))))
-
 (defn login [_]
   (rr/response (str login/layout)))

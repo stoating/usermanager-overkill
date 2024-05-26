@@ -1,5 +1,6 @@
 (ns usermanager.web.routes
   (:require [portal.api :as p]
+            [reitit.core :as rc]
             [reitit.ring :as r]
             [reitit.ring.middleware.parameters :as par]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
@@ -14,29 +15,31 @@
 (defn my-middleware
   [handler]
   (fn [req]
-    (let [resp (handler req)]
+    (let [resp (handler req)
+          view (get-in req [:reitit.core/match :data :name])]
       (if (resp/response? resp)
         resp
-        (views/home resp)))))
+        (view resp)))))
 
 
 (def wrap-database
   {:name ::wrap-database
    :description "place the database at :db"
    :wrap (fn [handler db]
-           (fn [request]
-             (handler (assoc request :db db))))})
+           (fn [req]
+             (handler (assoc req :db db))))})
 
 
 (defn app [db]
   (r/ring-handler
    (r/router
-    [["/"      views/home]
-     ["/reset" {:handler home/reset-changes}]
+    [["/"      {:name home/homex
+                :handler home/message-default}]
+     ["/reset" {:name home/home
+                :handler home/message-reset}]
      ["/login" views/login]]
 
-    {:data {:db db
-            :middleware [my-middleware
+    {:data {:middleware [my-middleware
                          par/parameters-middleware
                          wrap-keyword-params
                          [wrap-database db]]}})
@@ -51,3 +54,6 @@
      {:not-found (constantly {:status 404 :body "Not found"})
       :method-not-allowed (constantly {:status 405 :body "Method not allowed"})
       :not-acceptable (constantly {:status 406 :body "Not acceptable"})}))))
+
+(comment
+  rc/Match)
