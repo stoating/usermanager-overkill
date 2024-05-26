@@ -5,7 +5,6 @@
             [reitit.ring.middleware.parameters :as par]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.util.response :as resp]
-            [web.views.views :as views]
             [web.views.home :as home]))
 
 (println "in ns:" (str *ns*))
@@ -15,11 +14,11 @@
 (defn my-middleware
   [handler]
   (fn [req]
-    (let [resp (handler req)
-          view (get-in req [:reitit.core/match :data :name])]
+    (let [resp (handler req)]
+      #_(tap> resp)
       (if (resp/response? resp)
         resp
-        (view resp)))))
+        (home/render-page resp)))))
 
 
 (def wrap-database
@@ -33,11 +32,8 @@
 (defn app [db]
   (r/ring-handler
    (r/router
-    [["/"      {:name home/homex
-                :handler home/message-default}]
-     ["/reset" {:name home/home
-                :handler home/message-reset}]
-     ["/login" views/login]]
+    [["/"      home/message-default]
+     ["/reset" home/message-reset]]
 
     {:data {:middleware [my-middleware
                          par/parameters-middleware

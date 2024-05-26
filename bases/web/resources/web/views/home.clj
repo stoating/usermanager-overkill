@@ -1,7 +1,7 @@
 (ns web.views.home
   (:require [portal.api :as p]
             [usermanager.database.interface :as db]
-            [web.views.-default :as default]
+            [web.layouts.default :as default]
             [rum.core :as rum]
             [ring.util.response :as rr]))
 
@@ -25,21 +25,19 @@
   [req]
   (assoc-in req [:params :message]
             (str "Welcome to the User Manager application demo! "
-                 "This uses just Aero, Beholder, Integrant, Polylith, Portal, Reitit, Rum, XTDB, Babashka, Docker, and Devcontainers.")))
+                 "This uses just Aero, Beholder, Integrant, Polylith, Portal, Reitit, Rum, XTDB, Babashka, HTMX, Docker, and Devcontainers.")))
 
 
 (defn layout [req]
   (let [changes (get-in req [:params :changes])
-        #_db #_(:db req)
-        #_users #_(db/get-users db)
+        db (:db req)
+        users (db/get-users db)
         message (get-in req [:params :message])]
-    (tap> "layout")
-    (tap> req)
+    #_(tap> req)
     (default/page
-     {}
      [:body
       [:div
-       [:h1 "hi" #_(get (first users) :first-name)]
+       [:h1 (get (first users) :first-name)]
        [:ul
         [:li [:a {:href "/"} "Home"]]
         [:li [:a {:href "/user/list"
@@ -57,10 +55,7 @@
       [:div (str "Message: " message)]])))
 
 
-(defn home [req]
-  (let [data (assoc-in req [:params :changes] 7)]
-    (rr/response (str (rum/render-static-markup (layout data))))))
-
-(defn homex [req]
-  (let [data (assoc-in req [:params :changes] @changes)]
-    (rr/response (str (rum/render-static-markup (layout data))))))
+(defn render-page [req]
+  (let [data (assoc-in req [:params :changes] @changes)
+        html (str (rum/render-static-markup (layout data)))]
+    (rr/response html)))

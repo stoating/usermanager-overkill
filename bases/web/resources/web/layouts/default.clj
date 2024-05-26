@@ -1,0 +1,49 @@
+(ns web.layouts.default)
+
+(println "in ns:" (str *ns*))
+
+
+(def html
+  [:html
+   {:lang "en-US"}])
+
+
+(def head
+  (let [title "my_title"
+        description "my_description"]
+    [:head
+     [:title title]
+     [:meta {:name "description" :content description}]
+     [:meta {:property "og:title"
+             :content title}]
+     [:meta {:property "og:description"
+             :content description}]
+     [:meta {:property "og:image"
+             :content "https://clojure.org/images/clojure-logo-120b.png"}]
+     [:meta {:name "twitter:card"
+             :content "summary_large_image"}]
+     [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]
+     [:meta {:charset "utf-8"}]
+     [:link {:rel "icon"
+             :type "image/png"
+             :sizes "16x16"
+             :href "/img/favicon-16x16.png"}]
+     [:link {:rel "stylesheet" :href "css/tailwind_output.css"}]
+     [:script {:src "js/main.js"}]
+     [:script {:src "https://unpkg.com/htmx.org@1.9.12"}]
+     [:script {:src "https://unpkg.com/htmx.org/dist/ext/ws.js"}]
+     [:script {:src "https://unpkg.com/hyperscript.org@0.9.8"}]]))
+
+
+(defn body
+  [children]
+    (conj
+     html
+     head
+     [:body {:class ["p-3" "mx-auto" "max-w-screen-sm"]}
+      children]))
+
+
+(defn page
+  [& contents]
+  (apply body contents))
