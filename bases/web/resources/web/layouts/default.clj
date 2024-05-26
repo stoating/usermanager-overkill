@@ -4,8 +4,7 @@
 
 
 (def html
-  [:html
-   {:lang "en-US"}])
+  [:html {:lang "en-US"}])
 
 
 (def head
@@ -40,8 +39,12 @@
     (conj
      html
      head
-     [:body {:class ["p-3" "mx-auto" "max-w-screen-sm"]}
-      children]))
+     [:body {:class ["absolute" "w-full" "min-h-full" "flex" "flex-col"]}
+      [:.flex-grow]
+      [:. {:class ["p-3" "mx-auto" "max-w-screen-sm" "w-full"]}
+       children]
+      [:.flex-grow]
+      [:.flex-grow]]))
 
 
 (defn page
