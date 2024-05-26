@@ -29,9 +29,7 @@
              :href "/img/favicon-16x16.png"}]
      [:link {:rel "stylesheet" :href "css/tailwind_output.css"}]
      [:script {:src "js/main.js"}]
-     [:script {:src "https://unpkg.com/htmx.org@1.9.12"}]
-     [:script {:src "https://unpkg.com/htmx.org/dist/ext/ws.js"}]
-     [:script {:src "https://unpkg.com/hyperscript.org@0.9.8"}]]))
+     [:script {:src "js/htmx.min.js"}]]))
 
 
 (defn body
