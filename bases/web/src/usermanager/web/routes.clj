@@ -14,8 +14,11 @@
 (defn my-middleware
   [handler]
   (fn [req]
+    (tap> "req")
+    (tap> req)
     (let [resp (handler req)]
-      #_(tap> resp)
+      (tap> "resp")
+      (tap> resp)
       (if (resp/response? resp)
         resp
         (home/render-page resp)))))
@@ -33,7 +36,9 @@
   (r/ring-handler
    (r/router
     [["/"      home/message-default]
-     ["/reset" home/message-reset]]
+     ["/reset" home/message-reset]
+     ["/test"  home/message-1]
+     ["/test2" home/message-2]]
 
     {:data {:middleware [my-middleware
                          par/parameters-middleware

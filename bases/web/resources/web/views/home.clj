@@ -28,6 +28,25 @@
                  "This uses just Aero, Beholder, Integrant, Polylith, Portal, Reitit, Rum, XTDB, Babashka, HTMX, Docker, and Devcontainers.")))
 
 
+(defn message-1 [req]
+  (tap> "message-1")
+  (tap> req)
+  (rr/response (str (rum/render-static-markup
+                     [:button {:hx-get "/test2"
+                               :hx-trigger "click"
+                               :hx-swap "outerHTML"}
+                      "im the new message"]))))
+
+(defn message-2 [req]
+  (tap> "message-1")
+  (tap> req)
+  (rr/response (str (rum/render-static-markup
+                     [:button {:hx-get "/test"
+                               :hx-trigger "click"
+                               :hx-swap "outerHTML"}
+                      "im the original message"]))))
+
+
 (defn layout [req]
   (let [changes (get-in req [:params :changes])
         db (:db req)
@@ -52,7 +71,11 @@
          [:h1 "Welcome to the User Managerxx"]
          [:p "This is a simple web application that allows you to manage users."]]]]
       [:div (str "Your have made " changes " change(s) since the last reset")]
-      [:div (str "Message: " message)]])))
+      [:div (str "Message: " message)]
+      [:button {:hx-get "/test"
+                :hx-trigger "click"
+                :hx-swap "outerHTML"}
+       "im the original message"]])))
 
 
 (defn render-page [req]

@@ -26,9 +26,8 @@
      [:link {:rel "icon"
              :type "image/png"
              :sizes "16x16"
-             :href "/img/favicon-16x16.png"}]
+             :href "img/favicon-16x16.png"}]
      [:link {:rel "stylesheet" :href "css/tailwind_output.css"}]
-     [:script {:src "js/main.js"}]
      [:script {:src "js/htmx.min.js"}]]))
 
 
