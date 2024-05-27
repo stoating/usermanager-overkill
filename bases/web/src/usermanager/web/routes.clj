@@ -14,11 +14,7 @@
 (defn my-middleware
   [handler]
   (fn [req]
-    (tap> "req")
-    (tap> req)
     (let [resp (handler req)]
-      (tap> "resp")
-      (tap> resp)
       (if (resp/response? resp)
         resp
         (home/render-page resp)))))
@@ -37,8 +33,8 @@
    (r/router
     [["/"      home/message-default]
      ["/reset" home/message-reset]
-     ["/test"  home/message-1]
-     ["/test2" home/message-2]]
+     ["/test"  home/message-toggle-to]
+     ["/test2" home/message-toggle-back]]
 
     {:data {:middleware [my-middleware
                          par/parameters-middleware

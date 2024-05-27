@@ -15,41 +15,51 @@
   (atom 5))
 
 
-(defn message-reset
-  [req]
-  (reset! changes 0)
-  (assoc-in req [:params :message] "The change tracker has been reset."))
-
-
 (defn message-default
   [req]
+  (tap> req)
   (assoc-in req [:params :message]
             (str "Welcome to the User Manager application demo! "
-                 "This uses just Aero, Beholder, Integrant, Polylith, Portal, Reitit, Rum, XTDB, Babashka, HTMX, Docker, and Devcontainers.")))
+                 "This uses just Aero, Beholder, Integrant, Polylith, Portal, Reitit, Rum, XTDB, Babashka, HTMX, Tailwind, Docker, and Devcontainers.")))
 
 
-(defn message-1 [req]
-  (tap> "message-1")
-  (tap> req)
-  (rr/response (str (rum/render-static-markup
-                     [:button {:hx-get "/test2"
-                               :hx-trigger "click"
-                               :hx-swap "outerHTML"}
-                      "im the new message"]))))
+(defn to-html [hiccup]
+  (-> hiccup
+      rum/render-static-markup
+      str
+      rr/response))
 
-(defn message-2 [req]
-  (tap> "message-1")
-  (tap> req)
-  (rr/response (str (rum/render-static-markup
-                     [:button {:hx-get "/test"
-                               :hx-trigger "click"
-                               :hx-swap "outerHTML"}
-                      "im the original message"]))))
+
+(defn my-changes [changes]
+  [:div {:id "my-changes-id"}
+   (str "Your have made " changes " change(s) since the last reset")])
+
+
+(defn message-reset [_]
+  (reset! changes 0)
+  (to-html (my-changes @changes)))
+
+
+(def my-message
+  [:button {:hx-get "/test"
+            :hx-trigger "click"
+            :hx-swap "outerHTML"}
+   "im the original message"])
+
+
+(defn message-toggle-to [_]
+  (-> my-message
+      (assoc-in [1 :hx-get] "/test2")
+      (assoc 2 "im the new message")
+      to-html))
+
+
+(defn message-toggle-back [_]
+  (to-html my-message))
 
 
 (defn layout [req]
-  (let [changes (get-in req [:params :changes])
-        db (:db req)
+  (let [db (:db req)
         users (db/get-users db)
         message (get-in req [:params :message])]
     #_(tap> req)
@@ -63,19 +73,20 @@
                   :title "View the list of users"} "Users"]]
         [:li [:a {:href "/user/form"
                   :title "Fill out form to add new user"} "Add User"]]
-        [:li [:a {:href "/reset"
-                  :title "Resets change tracking"} "Reset"]]]
+        [:li [:button {:hx-get "/reset"
+                       :hx-trigger "click"
+                       :hx-target "#my-changes-id"
+                       :hx-swap "outerHTML"
+                       :title "Resets change tracking"}
+              "Reset"]]]
        [:br]
        [:div {:id "primary"}
         [:div
-         [:h1 "Welcome to the User Managerxx"]
+         [:h1 "Welcome to the User Managerx"]
          [:p "This is a simple web application that allows you to manage users."]]]]
-      [:div (str "Your have made " changes " change(s) since the last reset")]
+      (my-changes @changes)
       [:div (str "Message: " message)]
-      [:button {:hx-get "/test"
-                :hx-trigger "click"
-                :hx-swap "outerHTML"}
-       "im the original message"]])))
+      my-message])))
 
 
 (defn render-page [req]
