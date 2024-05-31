@@ -8,6 +8,12 @@
 (add-tap #'p/submit)
 
 
+(def rs {:home-r                 "/"
+         :changes-reset-r        "/home/changes-reset"
+         :message-toggle-r       "/home/message-toggle"
+         :message-toggle-reset-r "/home/message-toggle-reset"})
+
+
 (def changes
   "Count the number of changes (since the last reload)."
   (atom 5))
@@ -24,7 +30,7 @@
 
 
 (def my-message
-  [:button {:hx-get "home/message-toggle"
+  [:button {:hx-get (get rs :message-toggle-r)
             :hx-trigger "click"
             :hx-swap "outerHTML"}
    "im the original message"])
@@ -32,7 +38,7 @@
 
 (defn message-toggle [_]
   (-> my-message
-      (assoc-in [1 :hx-get] "home/message-toggle-reset")
+      (assoc-in [1 :hx-get] (get rs :message-toggle-reset-r))
       (assoc 2 "im the new message")
       page/to-html))
 
@@ -55,7 +61,7 @@
                    :title "View the list of users"} "Users"]]
          [:li [:a {:href "/user/form"
                    :title "Fill out form to add new user"} "Add User"]]
-         [:li [:button {:hx-get "/changes-reset"
+         [:li [:button {:hx-get (get rs :changes-reset-r)
                         :hx-trigger "click"
                         :hx-target "#changes-id"
                         :hx-swap "outerHTML"
@@ -79,3 +85,10 @@
                   (str "Welcome to the User Manager application demo! "
                        "This uses just Aero, Beholder, Integrant, Polylith, Portal, Reitit, Rum, XTDB, Babashka, HTMX, Tailwind, Docker, and Devcontainers."))
         (assoc-in [:app :html :body] (body req)))))
+
+
+(def routes
+  [[(get rs :home-r)                 {:name ::home :get home}]
+   [(get rs :changes-reset-r)        {:handler changes-reset}]
+   [(get rs :message-toggle-r)       {:handler message-toggle}]
+   [(get rs :message-toggle-reset-r) {:handler message-toggle-reset}]])

@@ -26,7 +26,7 @@
 
 (def wrap-database
   {:name ::wrap-database
-   :description "place the database at :db"
+   :description "place the database at :app :db"
    :wrap (fn [handler db]
            (fn [req]
              (handler (assoc-in req [:app :db] db))))})
@@ -35,10 +35,7 @@
 (defn app [db]
   (r/ring-handler
    (r/router
-    [["/"                          {:name ::home :get home/home}]
-     ["/home/changes-reset"        {:handler home/changes-reset}]
-     ["/home/message-toggle"       {:handler home/message-toggle}]
-     ["/home/message-toggle-reset" {:handler home/message-toggle-reset}]]
+    home/routes
 
     {:data {:middleware [my-middleware
                          par/parameters-middleware
