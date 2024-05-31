@@ -31,19 +31,19 @@
      [:script {:src "js/htmx.min.js"}]]))
 
 
-(defn body
-  [children]
+(defn body-shell
+  [body]
     (conj
      html
      head
      [:body {:class ["absolute" "w-full" "min-h-full" "flex" "flex-col"]}
       [:.flex-grow]
       [:. {:class ["p-3" "mx-auto" "max-w-screen-sm" "w-full"]}
-       children]
+       body]
       [:.flex-grow]
       [:.flex-grow]]))
 
 
-(defn page
-  [& contents]
-  (apply body contents))
+(defn wrap-html-body
+  [& body]
+  (apply body-shell body))

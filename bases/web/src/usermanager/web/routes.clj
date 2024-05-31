@@ -1,10 +1,10 @@
 (ns usermanager.web.routes
   (:require [portal.api :as p]
-            [reitit.core :as rc]
             [reitit.ring :as r]
             [reitit.ring.middleware.parameters :as par]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.util.response :as resp]
+            [usermanager.web.controller.page :as page]
             [web.views.home :as home]))
 
 (println "in ns:" (str *ns*))
@@ -14,10 +14,14 @@
 (defn my-middleware
   [handler]
   (fn [req]
+    (tap> "req")
+    (tap> req)
     (let [resp (handler req)]
+      (tap> "resp")
+      (tap> resp)
       (if (resp/response? resp)
         resp
-        (home/render-page resp)))))
+        (page/render-page resp)))))
 
 
 (def wrap-database
@@ -25,16 +29,16 @@
    :description "place the database at :db"
    :wrap (fn [handler db]
            (fn [req]
-             (handler (assoc req :db db))))})
+             (handler (assoc-in req [:app :db] db))))})
 
 
 (defn app [db]
   (r/ring-handler
    (r/router
-    [["/"      home/message-default]
-     ["/reset" home/message-reset]
-     ["/test"  home/message-toggle-to]
-     ["/test2" home/message-toggle-back]]
+    [["/"                          {:name ::home :get home/home}]
+     ["/home/changes-reset"        {:handler home/changes-reset}]
+     ["/home/message-toggle"       {:handler home/message-toggle}]
+     ["/home/message-toggle-reset" {:handler home/message-toggle-reset}]]
 
     {:data {:middleware [my-middleware
                          par/parameters-middleware
@@ -51,6 +55,3 @@
      {:not-found (constantly {:status 404 :body "Not found"})
       :method-not-allowed (constantly {:status 405 :body "Method not allowed"})
       :not-acceptable (constantly {:status 406 :body "Not acceptable"})}))))
-
-(comment
-  rc/Match)

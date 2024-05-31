@@ -1,9 +1,7 @@
 (ns web.views.home
   (:require [portal.api :as p]
             [usermanager.database.interface :as db]
-            [web.layouts.default :as default]
-            [rum.core :as rum]
-            [ring.util.response :as rr]))
+            [usermanager.web.controller.page :as page]))
 
 
 (println "in ns:" (str *ns*))
@@ -15,81 +13,69 @@
   (atom 5))
 
 
-(defn message-default
-  [req]
-  (tap> req)
-  (assoc-in req [:params :message]
-            (str "Welcome to the User Manager application demo! "
-                 "This uses just Aero, Beholder, Integrant, Polylith, Portal, Reitit, Rum, XTDB, Babashka, HTMX, Tailwind, Docker, and Devcontainers.")))
-
-
-(defn to-html [hiccup]
-  (-> hiccup
-      rum/render-static-markup
-      str
-      rr/response))
-
-
 (defn my-changes [changes]
-  [:div {:id "my-changes-id"}
+  [:div {:id "changes-id"}
    (str "Your have made " changes " change(s) since the last reset")])
 
 
-(defn message-reset [_]
+(defn changes-reset [_]
   (reset! changes 0)
-  (to-html (my-changes @changes)))
+  (page/to-html (my-changes @changes)))
 
 
 (def my-message
-  [:button {:hx-get "/test"
+  [:button {:hx-get "home/message-toggle"
             :hx-trigger "click"
             :hx-swap "outerHTML"}
    "im the original message"])
 
 
-(defn message-toggle-to [_]
+(defn message-toggle [_]
   (-> my-message
-      (assoc-in [1 :hx-get] "/test2")
+      (assoc-in [1 :hx-get] "home/message-toggle-reset")
       (assoc 2 "im the new message")
-      to-html))
+      page/to-html))
 
 
-(defn message-toggle-back [_]
-  (to-html my-message))
+(defn message-toggle-reset [_]
+  (page/to-html my-message))
 
 
-(defn layout [req]
-  (let [db (:db req)
-        users (db/get-users db)
-        message (get-in req [:params :message])]
-    #_(tap> req)
-    (default/page
-     [:body
-      [:div
-       [:h1 (get (first users) :first-name)]
-       [:ul
-        [:li [:a {:href "/"} "Home"]]
-        [:li [:a {:href "/user/list"
-                  :title "View the list of users"} "Users"]]
-        [:li [:a {:href "/user/form"
-                  :title "Fill out form to add new user"} "Add User"]]
-        [:li [:button {:hx-get "/reset"
-                       :hx-trigger "click"
-                       :hx-target "#my-changes-id"
-                       :hx-swap "outerHTML"
-                       :title "Resets change tracking"}
-              "Reset"]]]
-       [:br]
-       [:div {:id "primary"}
-        [:div
-         [:h1 "Welcome to the User Managerx"]
-         [:p "This is a simple web application that allows you to manage users."]]]]
-      (my-changes @changes)
-      [:div (str "Message: " message)]
-      my-message])))
+(defn body [_]
+  (fn [req]
+    (let [db (get-in req [:app :db])
+          users (db/get-users db)
+          message (get-in req [:app :params :message])]
+      [:body
+       [:div
+        [:h1 (get (first users) :first-name)]
+        [:ul
+         [:li [:a {:href "/"} "Home"]]
+         [:li [:a {:href "/user/list"
+                   :title "View the list of users"} "Users"]]
+         [:li [:a {:href "/user/form"
+                   :title "Fill out form to add new user"} "Add User"]]
+         [:li [:button {:hx-get "/changes-reset"
+                        :hx-trigger "click"
+                        :hx-target "#changes-id"
+                        :hx-swap "outerHTML"
+                        :title "Resets change tracking"}
+               "Reset"]]]
+        [:br]
+        [:div {:id "primary"}
+         [:div
+          [:h1 "Welcome to the User Managerx"]
+          [:p "This is a simple web application that allows you to manage users."]]]]
+       (my-changes @changes)
+       [:div (str "Message: " message)]
+       my-message])))
 
 
-(defn render-page [req]
-  (let [data (assoc-in req [:params :changes] @changes)
-        html (str (rum/render-static-markup (layout data)))]
-    (rr/response html)))
+(def home
+  (fn [req]
+    (-> req
+        (assoc-in [:app :params :changes] @changes)
+        (assoc-in [:app :params :message]
+                  (str "Welcome to the User Manager application demo! "
+                       "This uses just Aero, Beholder, Integrant, Polylith, Portal, Reitit, Rum, XTDB, Babashka, HTMX, Tailwind, Docker, and Devcontainers."))
+        (assoc-in [:app :html :body] (body req)))))
