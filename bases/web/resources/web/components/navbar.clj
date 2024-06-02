@@ -1,7 +1,7 @@
 (ns web.components.navbar
   (:require [routes :as rs]))
 
-(def navbar
+(def component
   [:ul {:class ["flex" "flex-row"]}
    [:li {:class ["pr-4 py-4"]}
     [:a {:href "/"} "Home"]]
@@ -9,7 +9,7 @@
     [:a {:href (get rs/rs :user-list)
          :title "View the list of users"} "Users"]]
    [:li {:class ["pr-4 py-4"]}
-    [:a {:href "/user/form"
+    [:a {:href (get rs/rs :user-form)
          :title "Fill out form to add new user"} "Add User"]]
    [:li {:class ["pr-4 py-4"]}
     [:button {:hx-get (get rs/rs :home-changes-reset)

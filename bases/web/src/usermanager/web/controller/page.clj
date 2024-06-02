@@ -7,13 +7,6 @@
 (println "in ns:" (str *ns*))
 
 
-(defn to-html [hiccup]
-  (-> hiccup
-      rum/render-static-markup
-      str
-      rr/response))
-
-
 (defn render-page [req]
   (let [body (get-in req [:app :html :body])
         hiccup (d/wrap-html-body (body req))

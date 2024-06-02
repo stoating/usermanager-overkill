@@ -25,5 +25,5 @@
        first))
 
 
-(defn get-users [db]
+#_(defn get-users [db]
   (xt/q db '(from :users [*])))

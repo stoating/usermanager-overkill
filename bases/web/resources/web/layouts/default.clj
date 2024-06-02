@@ -1,5 +1,6 @@
 (ns web.layouts.default
-  (:require [web.components.navbar :as navbar]))
+  (:require [web.components.message-toggle :as message-toggle]
+            [web.components.navbar :as navbar]))
 
 (println "in ns:" (str *ns*))
 
@@ -40,8 +41,9 @@
      [:body {:class ["absolute" "w-full" "min-h-full" "flex" "flex-col"]}
       [:.flex-grow]
       [:div {:class ["p-3" "mx-auto" "max-w-screen-sm" "w-full"]}
-       navbar/navbar
-       body]
+       navbar/component
+       body
+       message-toggle/component]
       [:.flex-grow]
       [:.flex-grow]]))
 
