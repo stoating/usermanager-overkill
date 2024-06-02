@@ -21,7 +21,7 @@
 
 (defn get-user-by-id [db id]
   (->> (xt/q db '(from :users [*]))
-       (filter #(= (:xt/id %) id))
+       (filter (fn [user] (= (:xt/id user) id)))
        first))
 
 
