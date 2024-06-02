@@ -7,17 +7,19 @@
 (add-tap #'p/submit)
 
 
-(defn change-counter [changes]
+(defn change-counter [changes-count]
   [:div {:id "changes-id"}
-   (str "Your have made " changes " change(s) since the last reset")])
+   (str "Your have made " changes-count " change(s) since the last reset")])
 
 
 (defn changes-reset [req]
-  (reset! (get-in req [:app :state]) 0)
-  (util/to-html (change-counter @(get-in req [:app :state]))))
+  (let [state (get-in req [:app :state])
+        counter (get @state :counter)]
+    (swap! state assoc :counter 0)
+    (util/to-html (change-counter counter))))
 
 
-(defn component [& state]
-  [:<>
-   [:br]
-   (change-counter @(first state))])
+(defn component [req]
+  (let [state (get-in req [:app :state])
+        counter (get @state :counter)]
+    (change-counter counter)))

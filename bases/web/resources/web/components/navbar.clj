@@ -13,7 +13,7 @@
     [:a {:href (get rs/rs :user-form)
          :title "Fill out form to add new user"} "Add User"]]
    [:li {:class ["pr-4 py-4"]}
-    [:button {:hx-get (get rs/rs :home-changes-reset)
+    [:button {:hx-get (get rs/rs :default-changes-reset)
               :hx-trigger "click"
               :hx-target "#changes-id"
               :hx-swap "outerHTML"

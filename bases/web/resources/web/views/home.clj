@@ -12,7 +12,7 @@
      message]))
 
 
-(defn home [req]
+(defn prepare-req [req]
   (-> req
       (assoc-in [:app :params :message]
                 [:<>

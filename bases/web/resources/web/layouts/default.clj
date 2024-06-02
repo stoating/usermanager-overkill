@@ -39,19 +39,20 @@
 
 (defn body-shell
   [req body]
-  (let [state (get-in req [:app :state])]
-    (conj
-     html
-     head
-     [:body {:class ["absolute" "w-full" "min-h-full" "flex" "flex-col"]}
-      [:.flex-grow]
-      [:div {:class ["p-3" "mx-auto" "max-w-screen-sm" "w-full"]}
-       navbar/component
-       body
-       (changes-counter/component state)
-       message-toggle/component]
-      [:.flex-grow]
-      [:.flex-grow]])))
+  (conj
+   html
+   head
+   [:body {:class ["absolute" "w-full" "min-h-full" "flex" "flex-col"]}
+    [:.flex-grow]
+    [:div {:class ["p-3" "mx-auto" "max-w-screen-sm" "w-full"]}
+     navbar/component
+     body
+     [:br]
+     (changes-counter/component req)
+     [:br]
+     message-toggle/component]
+    [:.flex-grow]
+    [:.flex-grow]]))
 
 
 (defn wrap-html-body

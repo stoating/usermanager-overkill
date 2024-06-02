@@ -26,5 +26,5 @@
       [:td [:a {:href (str "/user/delete/" user-xt-id)} "Delete"]]]]]])
 
 
-(defn user-list [req]
+(defn prepare-req [req]
   (assoc-in req [:app :html :body] body))

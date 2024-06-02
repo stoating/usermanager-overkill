@@ -17,7 +17,7 @@
 (add-tap #'p/submit)
 
 
-(defn my-middleware
+(defn req-resp-interceptor
   [handler]
   (fn [req]
     (tap> "req")
@@ -50,19 +50,19 @@
   (r/ring-handler
    (r/router
     [[(get rs/rs :home)
-      {:name ::home :get home/home}]
-     [(get rs/rs :home-changes-reset)
+      {:name ::home :get home/prepare-req}]
+     [(get rs/rs :default-changes-reset)
       {:handler changes-counter/changes-reset}]
-     [(get rs/rs :home-message-toggle)
+     [(get rs/rs :default-message-toggle)
       {:handler message-toggle/message-toggle}]
-     [(get rs/rs :home-message-toggle-reset)
+     [(get rs/rs :default-message-toggle-reset)
       {:handler message-toggle/message-toggle-reset}]
      [(get rs/rs :user-form)
-      {:name ::user-form :get user-form/user-form}]
+      {:name ::user-form :get user-form/prepare-req}]
      [(get rs/rs :user-list)
-      {:name ::user-list :get user-list/user-list}]]
+      {:name ::user-list :get user-list/prepare-req}]]
 
-    {:data {:middleware [my-middleware
+    {:data {:middleware [req-resp-interceptor
                          par/parameters-middleware
                          wrap-keyword-params
                          [wrap-database db]

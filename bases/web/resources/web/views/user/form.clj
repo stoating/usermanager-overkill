@@ -33,5 +33,5 @@
              :value "Save User"}]]])
 
 
-(defn user-form [req]
+(defn prepare-req [req]
   (assoc-in req [:app :html :body] body))
