@@ -38,11 +38,18 @@
 
 
 (defmethod ig/init-key :app/app
-  [key {:keys [db]}]
+  [key {:keys [state db]}]
   (println "starting:" key)
-  (println "using   :" db)
-  (routes/app db))
+  (println "using state:" state)
+  (println "using db   :" db)
+  (routes/app (atom state) db))
 
+
+(comment
+  (def myatom (atom {:counter 5}))
+  myatom
+  @myatom
+  )
 
 (defmethod ig/init-key :app/database
   [key {:keys [url port]}]

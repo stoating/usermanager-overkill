@@ -1,6 +1,7 @@
 (ns web.components.navbar
   (:require [routes :as rs]))
 
+
 (def component
   [:ul {:class ["flex" "flex-row"]}
    [:li {:class ["pr-4 py-4"]}

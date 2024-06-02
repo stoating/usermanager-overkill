@@ -1,8 +1,12 @@
 (ns web.layouts.default
-  (:require [web.components.message-toggle :as message-toggle]
+  (:require [portal.api :as p]
+            [web.components.changes-counter :as changes-counter]
+            [web.components.message-toggle :as message-toggle]
             [web.components.navbar :as navbar]))
 
+
 (println "in ns:" (str *ns*))
+(add-tap #'p/submit)
 
 
 (def html
@@ -34,7 +38,8 @@
 
 
 (defn body-shell
-  [body]
+  [req body]
+  (let [state (get-in req [:app :state])]
     (conj
      html
      head
@@ -43,11 +48,12 @@
       [:div {:class ["p-3" "mx-auto" "max-w-screen-sm" "w-full"]}
        navbar/component
        body
+       (changes-counter/component state)
        message-toggle/component]
       [:.flex-grow]
-      [:.flex-grow]]))
+      [:.flex-grow]])))
 
 
 (defn wrap-html-body
-  [& body]
-  (apply body-shell body))
+  [req & body]
+  (apply body-shell req body))

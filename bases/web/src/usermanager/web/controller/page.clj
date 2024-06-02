@@ -9,6 +9,6 @@
 
 (defn render-page [req]
   (let [body (get-in req [:app :html :body])
-        hiccup (d/wrap-html-body (body req))
+        hiccup (d/wrap-html-body req (body req))
         html (str "<!DOCTYPE html>\n" (rum/render-static-markup hiccup))]
     (rr/response html)))

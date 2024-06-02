@@ -6,6 +6,7 @@
             [ring.util.response :as resp]
             [routes :as rs]
             [usermanager.web.controller.page :as page]
+            [web.components.changes-counter :as changes-counter]
             [web.components.message-toggle :as message-toggle]
             [web.components.navbar :as navbar]
             [web.views.home :as home]
@@ -37,13 +38,21 @@
              (handler (assoc-in req [:app :db] db))))})
 
 
-(defn app [db]
+(def wrap-state
+  {:name ::wrap-state
+   :description "place the state at :app :state"
+   :wrap (fn [handler state]
+           (fn [req]
+             (handler (assoc-in req [:app :state] state))))})
+
+
+(defn app [state db]
   (r/ring-handler
    (r/router
     [[(get rs/rs :home)
       {:name ::home :get home/home}]
      [(get rs/rs :home-changes-reset)
-      {:handler home/changes-reset}]
+      {:handler changes-counter/changes-reset}]
      [(get rs/rs :home-message-toggle)
       {:handler message-toggle/message-toggle}]
      [(get rs/rs :home-message-toggle-reset)
@@ -52,10 +61,12 @@
       {:name ::user-form :get user-form/user-form}]
      [(get rs/rs :user-list)
       {:name ::user-list :get user-list/user-list}]]
+
     {:data {:middleware [my-middleware
                          par/parameters-middleware
                          wrap-keyword-params
-                         [wrap-database db]]}})
+                         [wrap-database db]
+                         [wrap-state state]]}})
 
    (r/routes
     (r/redirect-trailing-slash-handler)
