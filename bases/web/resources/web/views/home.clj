@@ -1,8 +1,7 @@
 (ns web.views.home
   (:require [portal.api :as p]
             [routes :as rs]
-            [usermanager.web.controller.page :as page]
-            [web.components.navbar :as navbar]))
+            [usermanager.web.controller.page :as page]))
 
 
 (println "in ns:" (str *ns*))
@@ -45,9 +44,7 @@
 (defn body [_]
   (fn [req]
     (let [message (get-in req [:app :params :message])]
-      [:div {:class ["p-3" "mx-auto" "max-w-screen-sm" "w-full"]}
-       navbar/navbar
-       [:br]
+      [:<>
        message
        [:br]
        (my-changes @changes)

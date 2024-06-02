@@ -1,4 +1,5 @@
-(ns web.layouts.default)
+(ns web.layouts.default
+  (:require [web.components.navbar :as navbar]))
 
 (println "in ns:" (str *ns*))
 
@@ -38,7 +39,9 @@
      head
      [:body {:class ["absolute" "w-full" "min-h-full" "flex" "flex-col"]}
       [:.flex-grow]
-      body
+      [:div {:class ["p-3" "mx-auto" "max-w-screen-sm" "w-full"]}
+       navbar/navbar
+       body]
       [:.flex-grow]
       [:.flex-grow]]))
 

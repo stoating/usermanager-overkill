@@ -8,6 +8,7 @@
             [usermanager.web.controller.page :as page]
             [web.components.navbar :as navbar]
             [web.views.home :as home]
+            [web.views.user.form :as user-form]
             [web.views.user.list :as user-list]))
 
 (println "in ns:" (str *ns*))
@@ -42,8 +43,8 @@
      [(get rs/rs :home-changes-reset)        {:handler home/changes-reset}]
      [(get rs/rs :home-message-toggle)       {:handler home/message-toggle}]
      [(get rs/rs :home-message-toggle-reset) {:handler home/message-toggle-reset}]
-     [(get rs/rs :user-list)                 {:name ::user-list :get user-list/user-list}]
-     #_[(get rs :user-form)              {:name ::user-form :get user/user-form}]]
+     [(get rs/rs :user-form)                 {:name ::user-form :get user-form/user-form}]
+     [(get rs/rs :user-list)                 {:name ::user-list :get user-list/user-list}]]
 
     {:data {:middleware [my-middleware
                          par/parameters-middleware

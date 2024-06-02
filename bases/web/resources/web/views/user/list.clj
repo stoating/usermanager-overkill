@@ -1,6 +1,5 @@
 (ns web.views.user.list
-  (:require [portal.api :as p]
-            [web.components.navbar :as navbar]))
+  (:require [portal.api :as p]))
 
 (println "in ns:" (str *ns*))
 (add-tap #'p/submit)
@@ -9,8 +8,7 @@
 
 (defn body [_]
   (fn [_]
-    [:div {:class ["p-3" "mx-auto" "max-w-screen-sm" "w-full"]}
-     navbar/navbar
+    [:<>
      [:table
       [:thead
        [:tr
@@ -26,8 +24,4 @@
         [:td [:a {:href (str "/user/delete/" user-xt-id)} "Delete"]]]]]]))
 
 (defn user-list [req]
-  (-> req
-      (assoc-in [:app :params :message]
-                [:div
-                 [:h1 "You're on the users page"]])
-      (assoc-in [:app :html :body] (body req))))
+  (assoc-in req [:app :html :body] (body req)))
