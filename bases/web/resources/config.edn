@@ -1,7 +1,7 @@
 {:app/server {:port #long #env APP_SERVER_PORT
               :handler #ig/ref :app/app}
  :app/app {:db #ig/ref :app/database
-           :state {:counter 6}}
+           :state #include "state.edn"}
  :app/database {:url #env APP_BASE_URL
                 :port #long #env APP_XTDB_PORT
                 :portal #ig/ref :app/portal}
