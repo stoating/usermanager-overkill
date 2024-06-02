@@ -1,17 +1,12 @@
 (ns web.views.home
   (:require [portal.api :as p]
-            [usermanager.database.interface :as db]
-            [usermanager.web.controller.page :as page]))
+            [routes :as rs]
+            [usermanager.web.controller.page :as page]
+            [web.components.navbar :as navbar]))
 
 
 (println "in ns:" (str *ns*))
 (add-tap #'p/submit)
-
-
-(def rs {:home-r                 "/"
-         :changes-reset-r        "/home/changes-reset"
-         :message-toggle-r       "/home/message-toggle"
-         :message-toggle-reset-r "/home/message-toggle-reset"})
 
 
 (def changes
@@ -30,16 +25,16 @@
 
 
 (def my-message
-  [:button {:hx-get (get rs :message-toggle-r)
+  [:button {:hx-get (get rs/rs :home-message-toggle)
             :hx-trigger "click"
             :hx-swap "outerHTML"}
-   "im the original message"])
+   "click me to toggle message"])
 
 
 (defn message-toggle [_]
   (-> my-message
-      (assoc-in [1 :hx-get] (get rs :message-toggle-reset-r))
-      (assoc 2 "im the new message")
+      (assoc-in [1 :hx-get] (get rs/rs :home-message-toggle-reset))
+      (assoc 2 "click me to reset the message")
       page/to-html))
 
 
@@ -49,46 +44,22 @@
 
 (defn body [_]
   (fn [req]
-    (let [db (get-in req [:app :db])
-          users (db/get-users db)
-          message (get-in req [:app :params :message])]
-      [:body
-       [:div
-        [:h1 (get (first users) :first-name)]
-        [:ul
-         [:li [:a {:href "/"} "Home"]]
-         [:li [:a {:href "/user/list"
-                   :title "View the list of users"} "Users"]]
-         [:li [:a {:href "/user/form"
-                   :title "Fill out form to add new user"} "Add User"]]
-         [:li [:button {:hx-get (get rs :changes-reset-r)
-                        :hx-trigger "click"
-                        :hx-target "#changes-id"
-                        :hx-swap "outerHTML"
-                        :title "Resets change tracking"}
-               "Reset"]]]
-        [:br]
-        [:div {:id "primary"}
-         [:div
-          [:h1 "Welcome to the User Managerx"]
-          [:p "This is a simple web application that allows you to manage users."]]]]
+    (let [message (get-in req [:app :params :message])]
+      [:div {:class ["p-3" "mx-auto" "max-w-screen-sm" "w-full"]}
+       navbar/navbar
+       [:br]
+       message
+       [:br]
        (my-changes @changes)
-       [:div (str "Message: " message)]
+       [:br]
        my-message])))
 
 
-(def home
-  (fn [req]
-    (-> req
-        (assoc-in [:app :params :changes] @changes)
-        (assoc-in [:app :params :message]
-                  (str "Welcome to the User Manager application demo! "
-                       "This uses just Aero, Beholder, Integrant, Polylith, Portal, Reitit, Rum, XTDB, Babashka, HTMX, Tailwind, Docker, and Devcontainers."))
-        (assoc-in [:app :html :body] (body req)))))
-
-
-(def routes
-  [[(get rs :home-r)                 {:name ::home :get home}]
-   [(get rs :changes-reset-r)        {:handler changes-reset}]
-   [(get rs :message-toggle-r)       {:handler message-toggle}]
-   [(get rs :message-toggle-reset-r) {:handler message-toggle-reset}]])
+(defn home [req]
+  (-> req
+      (assoc-in [:app :params :changes] @changes)
+      (assoc-in [:app :params :message]
+                [:div
+                 [:h1 "Welcome to the User Manager"]
+                 [:p "This uses just Aero, Beholder, Integrant, Polylith, Portal, Reitit, Rum, XTDB, Babashka, HTMX, Tailwind, Docker, and Devcontainers."]])
+      (assoc-in [:app :html :body] (body req))))

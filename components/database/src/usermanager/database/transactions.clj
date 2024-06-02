@@ -9,16 +9,18 @@
 (add-tap #'p/submit)
 
 
+(defn- insert-department-p
+  [db name id]
+  (xt/submit-tx db [[:put-docs :departments
+                     {:name name
+                      :xt/id id}]]))
+
 (defn insert-department
   ([db name]
    (let [max-id (q/get-departments-max-id db)]
      (if (nil? max-id)
-       (insert-department db name 0)
-       (insert-department db name (inc max-id)))))
-  ([db name id]
-   (xt/submit-tx db [[:put-docs :departments
-                      {:name name
-                       :xt/id id}]])))
+       (insert-department-p db name 0)
+       (insert-department-p db name (inc max-id))))))
 
 
 (defn delete-user-by-id
@@ -35,12 +37,14 @@
 (comment
   (def mynode (xtc/start-client "http://localhost:6543"))
   (xt/status mynode)
+  (insert-department mynode "Engineering")
   (insert-user mynode {:first-name "Bonk"
                        :last-name "Bonk"
                        :email "honk@gmail.com"})
   (xt/q mynode '(from :users [*]))
+  (xt/q mynode '(from :departments [*]))
   (xt/submit-tx mynode [[:delete-docs :users
                          #uuid "e6d0122d-08ba-4cfd-99bf-c9b027483a6f"]])
   (q/get-user-by-id mynode #uuid "e6d0122d-08ba-4cfd-99bf-c9b027483a6f")
   (delete-user-by-id mynode #uuid "e6d0122d-08ba-4cfd-99bf-c9b027483a6f")
-)
+  )

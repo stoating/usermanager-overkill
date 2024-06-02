@@ -4,8 +4,11 @@
             [reitit.ring.middleware.parameters :as par]
             [ring.middleware.keyword-params :refer [wrap-keyword-params]]
             [ring.util.response :as resp]
+            [routes :as rs]
             [usermanager.web.controller.page :as page]
-            [web.views.home :as home]))
+            [web.components.navbar :as navbar]
+            [web.views.home :as home]
+            [web.views.user.list :as user-list]))
 
 (println "in ns:" (str *ns*))
 (add-tap #'p/submit)
@@ -35,7 +38,12 @@
 (defn app [db]
   (r/ring-handler
    (r/router
-    home/routes
+    [[(get rs/rs :home)                      {:name ::home :get home/home}]
+     [(get rs/rs :home-changes-reset)        {:handler home/changes-reset}]
+     [(get rs/rs :home-message-toggle)       {:handler home/message-toggle}]
+     [(get rs/rs :home-message-toggle-reset) {:handler home/message-toggle-reset}]
+     [(get rs/rs :user-list)                 {:name ::user-list :get user-list/user-list}]
+     #_[(get rs :user-form)              {:name ::user-form :get user/user-form}]]
 
     {:data {:middleware [my-middleware
                          par/parameters-middleware
@@ -49,6 +57,12 @@
      {:path "/"})
 
     (r/create-default-handler
-     {:not-found (constantly {:status 404 :body "Not found"})
+     {:not-found          (constantly {:status 404 :body "Not found"})
       :method-not-allowed (constantly {:status 405 :body "Method not allowed"})
-      :not-acceptable (constantly {:status 406 :body "Not acceptable"})}))))
+      :not-acceptable     (constantly {:status 406 :body "Not acceptable"})}))))
+
+(comment
+  (require '[clojure.pprint :as pprint])
+  (pprint/pprint home/routes)
+  (pprint/pprint navbar/routes)
+  (pprint/pprint (apply merge home/routes navbar/routes)))

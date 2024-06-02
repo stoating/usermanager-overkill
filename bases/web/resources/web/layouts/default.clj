@@ -26,9 +26,9 @@
      [:link {:rel "icon"
              :type "image/png"
              :sizes "16x16"
-             :href "img/favicon-16x16.png"}]
-     [:link {:rel "stylesheet" :href "css/tailwind_output.css"}]
-     [:script {:src "js/htmx.min.js"}]]))
+             :href "/img/favicon-16x16.png"}]
+     [:link {:rel "stylesheet" :href "/css/tailwind_output.css"}]
+     [:script {:src "/js/htmx.min.js"}]]))
 
 
 (defn body-shell
@@ -38,8 +38,7 @@
      head
      [:body {:class ["absolute" "w-full" "min-h-full" "flex" "flex-col"]}
       [:.flex-grow]
-      [:. {:class ["p-3" "mx-auto" "max-w-screen-sm" "w-full"]}
-       body]
+      body
       [:.flex-grow]
       [:.flex-grow]]))
 
