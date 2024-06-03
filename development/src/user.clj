@@ -8,14 +8,19 @@
 (integrant.repl/set-prep! (fn [] web/config))
 
 (comment
+  ;; at startup. run once.
   (defonce start-app
     (do (fw/watcher)
         (ig-repl/go)))
 
-  (ig-repl/go)
-  (ig-repl/halt)
+  ;; run to restart system
   (ig-repl/reset)
 
+  ;; run to start flow-storm debugger
+  :dbg
+
+  (ig-repl/go)
+  (ig-repl/halt)
   (ig-repl/prep)
   (ig-repl/init)
   (ig-repl/clear)
