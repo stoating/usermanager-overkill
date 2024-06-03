@@ -14,8 +14,8 @@
   (-> component
       (assoc-in [1 :hx-get] (get rs/rs :default-message-toggle-reset))
       (assoc 2 "click me to reset the message")
-      util/to-html))
+      util/hiccup->html-resp))
 
 
 (defn message-toggle-reset [_]
-  (util/to-html component))
+  (util/hiccup->html-resp component))

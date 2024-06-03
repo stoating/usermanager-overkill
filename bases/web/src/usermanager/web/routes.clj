@@ -20,11 +20,11 @@
 (defn req-resp-interceptor
   [handler]
   (fn [req]
-    (tap> "req")
-    (tap> req)
+    #_(tap> "req")
+    #_(tap> req)
     (let [resp (handler req)]
-      (tap> "resp")
-      (tap> resp)
+      #_(tap> "resp")
+      #_(tap> resp)
       (if (resp/response? resp)
         resp
         (page/render-page resp)))))

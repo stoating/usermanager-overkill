@@ -6,7 +6,7 @@
 (println "in ns:" (str *ns*))
 
 
-(defn to-html [hiccup]
+(defn hiccup->html-resp [hiccup]
   (-> hiccup
       rum/render-static-markup
       str

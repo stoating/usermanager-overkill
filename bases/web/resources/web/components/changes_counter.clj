@@ -17,7 +17,7 @@
     (swap! state assoc :counter 0)
     (->> (get @state :counter)
          change-counter
-         util/to-html)))
+         util/hiccup->html-resp)))
 
 
 (defn component [req]
