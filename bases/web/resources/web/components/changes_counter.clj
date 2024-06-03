@@ -15,11 +15,12 @@
 (defn changes-reset [req]
   (let [state (get-in req [:app :state])]
     (swap! state assoc :counter 0)
-    (let [counter (get @state :counter)]
-      (util/to-html (change-counter counter)))))
+    (->> (get @state :counter)
+         change-counter
+         util/to-html)))
 
 
 (defn component [req]
-  (let [state (get-in req [:app :state])
-        counter (get @state :counter)]
-    (change-counter counter)))
+  (let [state (get-in req [:app :state])]
+    (->> (get @state :counter)
+         change-counter)))

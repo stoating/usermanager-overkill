@@ -17,5 +17,5 @@
       (assoc-in [:app :params :message]
                 [:<>
                  [:h1 "Welcome to the User Manager"]
-                 [:p "This uses just Aero, Beholder, Integrant, Polylith, Portal, Reitit, Rum, XTDB, Babashka, HTMX, Tailwind, Docker, and Devcontainers."]])
+                 [:p "This uses just Aero, Beholder, Integrant, Polylith, Portal, Reitit, Rum, XTDB, Babashka, Flow-storm, HTMX, Tailwind, Docker, and Devcontainers."]])
       (assoc-in [:app :html :body] body)))
