@@ -8,7 +8,7 @@
 (integrant.repl/set-prep! (fn [] web/config))
 
 (comment
-  ;; at startup. run once.
+  ;; run once after connecting to repl
   (defonce start-app
     (do (fw/watcher)
         (ig-repl/go)))
