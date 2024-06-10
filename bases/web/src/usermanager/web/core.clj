@@ -3,7 +3,6 @@
             [clojure.java.io :as io]
             [integrant.core :as ig]
             [next.jdbc.xt]
-            [portal.api :as p]
             [ring.adapter.jetty :as jetty]
             [usermanager.database.interface :as db]
             [usermanager.web.routes :as routes])
@@ -45,26 +44,12 @@
   (routes/app (atom state) db))
 
 
-(comment
-  (def myatom (atom {:counter 5}))
-  myatom
-  @myatom
-  )
-
 (defmethod ig/init-key :app/database
   [key {:keys [url port]}]
   (let [xtdb-url (str url ":" port)]
     (println "starting:" key)
     (println "url     :" xtdb-url)
     (db/init-db xtdb-url)))
-
-
-(defmethod ig/init-key :app/portal
-  [key value]
-  (println "starting:" key)
-  (println "using   :" value)
-  (defonce portal (p/open))
-  (println "portal  :" portal))
 
 
 (defmethod ig/halt-key! :app/server

@@ -3,6 +3,4 @@
  :app/app {:db #ig/ref :app/database
            :state #include "state.edn"}
  :app/database {:url #env APP_BASE_URL
-                :port #long #env APP_XTDB_PORT
-                :portal #ig/ref :app/portal}
- :app/portal {}}
+                :port #long #env APP_XTDB_PORT}}

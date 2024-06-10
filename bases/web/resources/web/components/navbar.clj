@@ -5,7 +5,7 @@
 (def component
   [:ul {:class ["flex" "flex-row"]}
    [:li {:class ["pr-4 py-4"]}
-    [:a {:href "/"} "Home"]]
+    [:a {:href (get rs/rs :home)} "Home"]]
    [:li {:class ["pr-4 py-4"]}
     [:a {:href (get rs/rs :user-list)
          :title "View the list of users"} "Users"]]

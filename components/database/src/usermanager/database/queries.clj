@@ -2,7 +2,7 @@
   (:require [xtdb.api :as xt]))
 
 
-#_(defn get-department-by-id [db id]
+(defn get-department-by-id [db id]
   (-> (xt/q db '(-> (from :departments [name xt/id])
                     (return name)))
       (nth id)))

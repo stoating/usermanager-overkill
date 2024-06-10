@@ -1,6 +1,9 @@
 (ns usermanager.database.transactions
-  (:require [portal.api :as p]
+  (:require [malli.core :as m]
+            [malli.dev.pretty :as pretty]
+            [portal.api :as p]
             [usermanager.database.queries :as q]
+            [usermanager.database.schema :as schema]
             [xtdb.api :as xt]
             [xtdb.client :as xtc]))
 
@@ -15,23 +18,43 @@
                      {:name name
                       :xt/id id}]]))
 
+
 (defn insert-department
   ([db name]
    (let [max-id (q/get-departments-max-id db)]
-     (if (nil? max-id)
-       (insert-department-p db name 0)
-       (insert-department-p db name (inc max-id))))))
+     (if (m/validate schema/Department name)
+       (if (nil? max-id)
+         (insert-department-p db name 0)
+         (insert-department-p db name (inc max-id)))
+       (pretty/explain schema/Department name)))))
 
 
-(defn delete-user-by-id
+#_(defn delete-user-by-id
   [db id]
   (xt/submit-tx db [[:delete-docs :users id]]))
 
 
-(defn insert-user
+(defn department-id-exists? [db id]
+  (try
+    (q/get-department-by-id db id)
+    (catch Exception e (.getMessage e)
+           false)))
+
+
+(defn- insert-user-p
   [db user]
   (xt/submit-tx db [[:put-docs :users
                      (assoc user :xt/id (random-uuid))]]))
+
+
+(defn insert-user
+  [db user]
+  (if (m/validate schema/User user)
+    (let [id (:department_id user)]
+      (if (department-id-exists? db id)
+        (insert-user-p db user)
+        (println (format "Warning: id %d does not exist in Departments table" id))))
+    (pretty/explain schema/User user)))
 
 
 (comment
@@ -43,8 +66,4 @@
                        :email "honk@gmail.com"})
   (xt/q mynode '(from :users [*]))
   (xt/q mynode '(from :departments [*]))
-  (xt/submit-tx mynode [[:delete-docs :users
-                         #uuid "e6d0122d-08ba-4cfd-99bf-c9b027483a6f"]])
-  (q/get-user-by-id mynode #uuid "e6d0122d-08ba-4cfd-99bf-c9b027483a6f")
-  (delete-user-by-id mynode #uuid "e6d0122d-08ba-4cfd-99bf-c9b027483a6f")
   )
