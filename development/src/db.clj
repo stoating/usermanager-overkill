@@ -1,20 +1,35 @@
 (ns db
-  (:require [xtdb.api :as xt]
+  (:require [clojure.pprint :as pp]
+            [usermanager.database.seed :as seed]
+            [usermanager.database.queries :as q]
+            [usermanager.database.transactions :as tx]
+            [xtdb.api :as xt]
             [xtdb.client :as xtc]))
 
 (comment
-  (def mynode (xtc/start-client "http://localhost:6543"))
-  (xt/status mynode)
+  ;; create connection to db
+  (def db (xtc/start-client "http://localhost:6543"))
+  (xt/status db)
 
-  (xt/q mynode '(from :departments [*]))
-  (xt/q mynode '(from :users [*]))
-  (get (first (xt/q mynode '(-> (from :users [first-name])
+  ;; populate users
+  ;; the print ensures the dom updates correctly?
+  (def populate-users
+    (do (doseq [cur-user seed/users-seed]
+          (tx/insert-user db cur-user))
+        (pp/pprint (xt/q db '(from :users [*])))))
+
+  ;; debug
+  (pp/pprint (xt/q db '(from :departments [*])))
+  (pp/pprint (xt/q db '(from :users [*])))
+
+  (q/get-department-by-id db 2)
+  (get (first (xt/q db '(-> (from :users [first-name])
                                 (order-by first-name))))
        :first-name)
 
   ;; get department by id where id is 2
   (defn get-department-by-id [id]
-    (-> (xt/q mynode '(-> (from :departments [name xt/id])
+    (-> (xt/q db '(-> (from :departments [name xt/id])
                           (return name)))
         (nth id)))
 
@@ -23,11 +38,11 @@
          (filter #(= (:xt/id %) id))
          first))
 
-  (xt/submit-tx mynode [[]])
+  (xt/submit-tx db [[]])
 
-  (get-user-by-id mynode #uuid "898ab528-71ec-4aaa-aa28-238e8a409f7a")
+  (get-user-by-id db #uuid "898ab528-71ec-4aaa-aa28-238e8a409f7a")
 
-  (mynode)
+  (db)
   (def mydata [{:department-id 4,
                 :email "sean@worldsingles.com",
                 :first-name "Sean",
@@ -48,11 +63,11 @@
                         :name name}]]))
 
 
-  (if (nil? (get-max-id-departments mynode))
-    (insert-department mynode 0 "Engineering")
-    (-> (get-max-id-departments mynode)
+  (if (nil? (get-max-id-departments db))
+    (insert-department db 0 "Engineering")
+    (-> (get-max-id-departments db)
         inc
-        (insert-department mynode "Engineering")))
+        (insert-department db "Engineering")))
 
 
   (defn get-max-id-departments [db]
@@ -61,7 +76,7 @@
                       (limit 1)))
         (get-in [0 :xt/id])))
 
-  (get-max-id-departments mynode)
+  (get-max-id-departments db)
 
   (get-in (first [{:first-name "John"}]) [:first-name])
   (get (first [{:first-name "John"}]) :first-name)

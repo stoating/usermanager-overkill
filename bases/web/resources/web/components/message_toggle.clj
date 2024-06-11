@@ -3,6 +3,9 @@
             [usermanager.web.controller.util :as util]))
 
 
+(println "in ns:" (str *ns*))
+
+
 (def component
   [:button {:hx-get (get rs/rs :default-message-toggle)
             :hx-trigger "click"

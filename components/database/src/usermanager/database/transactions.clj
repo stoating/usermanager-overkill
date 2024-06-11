@@ -29,9 +29,9 @@
        (pretty/explain schema/Department name)))))
 
 
-#_(defn delete-user-by-id
+(defn delete-user-by-id
   [db id]
-  (xt/submit-tx db [[:delete-docs :users id]]))
+  (xt/submit-tx db [[:delete-docs :users :xt/id id]]))
 
 
 (defn department-id-exists? [db id]
@@ -58,12 +58,15 @@
 
 
 (comment
+  (require '[clojure.pprint :as pp])
   (def mynode (xtc/start-client "http://localhost:6543"))
   (xt/status mynode)
   (insert-department mynode "Engineering")
   (insert-user mynode {:first-name "Bonk"
                        :last-name "Bonk"
                        :email "honk@gmail.com"})
-  (xt/q mynode '(from :users [*]))
+  (pp/pprint (xt/q mynode '(from :users [*])))
   (xt/q mynode '(from :departments [*]))
+  (delete-user-by-id mynode #uuid "9fa3bf57-63af-4917-b20b-bfa86b8935cd")
+  (delete-user-by-id mynode "Sean")
   )

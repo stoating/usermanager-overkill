@@ -2,6 +2,9 @@
   (:require [routes :as rs]))
 
 
+(println "in ns:" (str *ns*))
+
+
 (def component
   [:ul {:class ["flex" "flex-row"]}
    [:li {:class ["pr-4 py-4"]}

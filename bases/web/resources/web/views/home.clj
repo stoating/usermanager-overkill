@@ -8,8 +8,7 @@
 
 (defn body [req]
   (let [message (get-in req [:app :params :message])]
-    [:<>
-     message]))
+    message))
 
 
 (defn prepare-req [req]

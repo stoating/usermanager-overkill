@@ -12,6 +12,14 @@
    (str "Your have made " changes-count " change(s) since the last reset")])
 
 
+(defn changes-inc [req]
+  (let [state (get-in req [:app :state])]
+    (swap! state assoc :counter (inc (get @state :counter)))
+    (->> (get @state :counter)
+         change-counter
+         util/hiccup->html-resp)))
+
+
 (defn changes-reset [req]
   (let [state (get-in req [:app :state])]
     (swap! state assoc :counter 0)
