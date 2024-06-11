@@ -9,7 +9,6 @@
             [web.components.changes-counter :as changes-counter]
             [web.components.message-toggle :as message-toggle]
             [web.components.navbar :as navbar]
-            [web.components.user-row :as user]
             [web.views.home :as home]
             [web.views.user.form :as user-form]
             [web.views.user.list :as user-list]))
@@ -21,11 +20,7 @@
 (defn req-resp-interceptor
   [handler]
   (fn [req]
-    #_(tap> "req")
-    #_(tap> req)
     (let [resp (handler req)]
-      #_(tap> "resp")
-      #_(tap> resp)
       (if (resp/response? resp)
         resp
         (page/render-page resp)))))
@@ -50,6 +45,7 @@
 (defn app [state db]
   (r/ring-handler
    (r/router
+    ;; views
     [[(get rs/rs :home)
       {:name ::home :get home/prepare-req}]
      [(get rs/rs :user-list)
@@ -57,18 +53,24 @@
      [(get rs/rs :user-form)
       {:name ::user-form :get user-form/prepare-req}]
 
+     ;; actions
+     ;; change counter
      [(get rs/rs :default-changes-inc)
       {:handler changes-counter/changes-inc}]
      [(get rs/rs :default-changes-reset)
       {:handler changes-counter/changes-reset}]
 
+     ;; message toggle
      [(get rs/rs :default-message-toggle)
       {:handler message-toggle/message-toggle}]
      [(get rs/rs :default-message-toggle-reset)
       {:handler message-toggle/message-toggle-reset}]
 
+     ;; user actions
+     [(str (get rs/rs :user-add))
+      {:handler user-form/user-add}]
      [(str (get rs/rs :user-delete) "/:id")
-      {:handler user/delete-user}]]
+      {:handler user-list/user-delete}]]
 
     {:data {:middleware [req-resp-interceptor
                          par/parameters-middleware

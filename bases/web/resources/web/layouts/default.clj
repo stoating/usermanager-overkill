@@ -38,7 +38,7 @@
 
 
 (defn body-shell
-  [req body]
+  [resp body]
   (conj
    html
    head
@@ -48,7 +48,7 @@
      navbar/component
      body
      [:br]
-     (changes-counter/component req)
+     (changes-counter/component resp)
      [:br]
      message-toggle/component]
     [:.flex-grow]
@@ -56,5 +56,5 @@
 
 
 (defn wrap-html-body
-  [req & body]
-  (apply body-shell req body))
+  [resp & body]
+  (apply body-shell resp body))
