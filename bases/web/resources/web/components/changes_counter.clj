@@ -9,7 +9,7 @@
 
 (defn change-counter [changes-count]
   [:div {:id "changes-id"}
-   (str "Your have made " changes-count " change(s) since the last reset")])
+   [:p "Your have made " [:span {:class ["text-lg" "font-bold"]} changes-count] " change(s) since the last reset"]])
 
 
 (defn changes-inc [req]

@@ -5,9 +5,21 @@
 
 (println "in ns:" (str *ns*))
 
+(def toggle-button-css
+  ["px-4"
+   "py-2"
+   "text-white"
+   "bg-gray-600"
+   "font-bold"
+   "shadow-xl"
+   "rounded"
+   "hover:bg-gray-800"
+   "transition"
+   "duration-200"])
 
 (def component
-  [:button {:hx-get (get rs/rs :default-message-toggle)
+  [:button {:class toggle-button-css
+            :hx-get (get rs/rs :default-message-toggle)
             :hx-trigger "click"
             :hx-swap "outerHTML"}
    "click me to toggle message"])

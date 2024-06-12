@@ -9,42 +9,99 @@
 (add-tap #'p/submit)
 
 
-(defn user-add-form [req]
+(def button-css
+  ["block"
+   "w-full"
+   "py-3"
+   "rounded"
+   "border"
+   "border-gray-800"
+   "shadow-xl"
+   "bg-teal-300"
+   "text-sm"
+   "font-bold"
+   "uppercase"
+   "transition"
+   "duration-200"
+   "hover:bg-teal-700"
+   "hover:border-gray-400"
+   "hover:text-white"])
+
+
+(def label-css
+  ["block"
+   "uppercase"
+   "tracking-wide"
+   "text-white"
+   "text-xs"
+   "font-bold"
+   "py-1"])
+
+
+(def input-css
+  ["appearance-none"
+   "block"
+   "w-full"
+   "bg-gray-200"
+   "text-gray-700"
+   "border"
+   "border-gray-700"
+   "rounded"
+   "py-3"
+   "px-4"
+   "leading-tight"
+   "focus:outline-none"
+   "focus:bg-white"])
+
+
+(defn user-form [req]
   (let [db (get-in req [:app :db])
         departments (db/get-departments db)]
-    [:form {:id "user-add-form"}
+    [:form {:class ["w-full bg-gray-600 rounded-lg shadow-xl p-2"]
+            :id "user-form"}
+     [:. {:class ["flex flex-wrap"]}
 
-     [:div
-      [:label {:for "first_name"} "First Name"]
-      [:input {:type "text" :name "first_name" :value ""}]]
+      [:. {:class ["w-full md:w-1/2 px-3 py-2"]}
+       [:label {:class label-css
+                :for "first_name"} "First Name"]
+       [:input {:class input-css
+                :type "text" :name "first_name" :value ""}]]
 
-     [:div
-      [:label {:for "last_name"} "Last Name"]
-      [:input {:type "text" :name "last_name" :value ""}]]
+      [:. {:class ["w-full md:w-1/2 px-3 md:py-2"]}
+       [:label {:class label-css
+                :for "last_name"} "Last Name"]
+       [:input {:class input-css
+                :type "text" :name "last_name" :value ""}]]
 
-     [:div
-      [:label {:for "email"} "Email"]
-      [:input {:type "text" :name "email" :value ""}]]
+      [:. {:class ["w-full px-3 py-2"]}
+       [:label {:class label-css
+                :for "email"} "Email"]
+       [:input {:class input-css
+                :type "text" :name "email" :value ""}]]
 
-     [:div
-      [:label {:for "department_id"} "Department"]
-      [:select {:type "number" :name "department_id" :value ""}
-       [:option {:value "" :selected "selected"} ""]
-       (for [i (range (count departments))]
-         (let [department (departments i)]
-           [:option {:value (department :xt/id)} (department :name)]))]]
+      [:. {:class ["w-full md:w-2/3 px-3 md:pt-2 md:pb-3"]}
+       [:label {:class label-css
+                :for "department_id"} "Department"]
+       [:. {:class ["relative"]}
+        [:select {:class input-css
+                  :type "number" :name "department_id" :value ""}
+         (for [i (range (count departments))]
+           (let [department (departments i)]
+             [:option {:value (department :xt/id)} (department :name)]))]]]
 
-     [:button {:type "submit"
-               :hx-post (get rs/rs :user-add)
-               :hx-trigger "click"
-               :hx-target "#user-add-form"
-               :hx-swap "outerHTML"}
-      "Add User"
-      [:. {:title "Increases change tracking"
-           :hx-get (get rs/rs :default-changes-inc)
-           :hx-trigger "click from:closest button"
-           :hx-target "#changes-id"
-           :hx-swap "outerHTML"}]]]))
+      [:. {:class ["w-full md:w-1/3 md:pt-8 pt-7 px-3 py-2"]}
+       [:button {:class button-css
+                 :type "submit"
+                 :hx-post (get rs/rs :user-add)
+                 :hx-trigger "click"
+                 :hx-target "#user-form"
+                 :hx-swap "outerHTML"}
+        "Add User"
+        [:. {:title "Increases change tracking"
+             :hx-get (get rs/rs :default-changes-inc)
+             :hx-trigger "click from:closest button"
+             :hx-target "#changes-id"
+             :hx-swap "outerHTML"}]]]]]))
 
 
 (defn user-add [req]
@@ -55,12 +112,11 @@
                         :email (params :email)
                         :department_id (->> (params :department_id)
                                             (Integer/parseInt))})
-    (util/hiccup->html-resp (user-add-form req))))
-
+    (util/hiccup->html-resp (user-form req))))
 
 
 (defn prepare-req [req]
-  (assoc-in req [:app :html :body] user-add-form))
+  (assoc-in req [:app :html :body] user-form))
 
 
 (comment

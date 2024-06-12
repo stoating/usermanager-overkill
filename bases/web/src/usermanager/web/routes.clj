@@ -52,6 +52,8 @@
       {:name ::user-list :get user-list/prepare-req}]
      [(get rs/rs :user-form)
       {:name ::user-form :get user-form/prepare-req}]
+     [(str (get rs/rs :user-form) "/:id")
+      {:name ::user-form-id :get user-form/prepare-req}]
 
      ;; actions
      ;; change counter

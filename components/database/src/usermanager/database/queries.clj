@@ -4,6 +4,7 @@
 
 (defn get-department-by-id [db id]
   (-> (xt/q db '(-> (from :departments [name xt/id])
+                    (order-by {:val xt/id :dir :asc})
                     (return name)))
       (nth id)))
 

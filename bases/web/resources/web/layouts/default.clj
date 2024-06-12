@@ -42,15 +42,17 @@
   (conj
    html
    head
-   [:body {:class ["absolute" "w-full" "min-h-full" "flex" "flex-col"]}
+   [:body {:class ["bg-gray-300"]}
+    [:header {:class ["relative w-screen"]}
+     navbar/component]
     [:.flex-grow]
-    [:div {:class ["p-3" "mx-auto" "max-w-screen-sm" "w-full"]}
-     navbar/component
-     body
-     [:br]
-     (changes-counter/component resp)
-     [:br]
-     message-toggle/component]
+    [:div {:class ["mx-auto" "max-w-screen-sm" "w-full" "py-3"]}
+     [:. {:class ["md:px-0 px-1 py-3"]}
+      body]
+     [:. {:class ["md:px-0 px-1 py-3"]}
+      (changes-counter/component resp)]
+     [:. {:class ["md:px-0 px-1 py-3"]}
+      message-toggle/component]]
     [:.flex-grow]
     [:.flex-grow]]))
 

@@ -15,6 +15,7 @@
   (-> req
       (assoc-in [:app :params :message]
                 [:<>
-                 [:h1 "Welcome to the User Manager"]
-                 [:p "This uses just Aero, Beholder, Integrant, Malli, Polylith, Portal, Reitit, Rum, XTDB, Babashka, Flow-storm, HTMX, Tailwind, Docker, and Devcontainers."]])
+                 [:h1 {:class ["py-3" "font-bold"]}
+                  "Welcome to the User Manager"]
+                 [:p "This uses (just) Aero, Beholder, Integrant, Malli, Polylith, Portal, Reitit, Rum, XTDB, Babashka, Flow-storm, HTMX, Tailwind, Docker, and Devcontainers."]])
       (assoc-in [:app :html :body] body)))

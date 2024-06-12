@@ -22,15 +22,18 @@
   (pp/pprint (xt/q db '(from :departments [*])))
   (pp/pprint (xt/q db '(from :users [*])))
 
+
+  (get-user-by-id db #uuid "af03ebbe-6a4a-4d0b-8c80-49ecd72bf81f")
+
   (q/get-department-by-id db 2)
   (get (first (xt/q db '(-> (from :users [first-name])
-                                (order-by first-name))))
+                            (order-by first-name))))
        :first-name)
 
   ;; get department by id where id is 2
   (defn get-department-by-id [id]
     (-> (xt/q db '(-> (from :departments [name xt/id])
-                          (return name)))
+                      (return name)))
         (nth id)))
 
   (defn get-user-by-id [db id]
