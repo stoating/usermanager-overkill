@@ -55,8 +55,22 @@
 
 
 (defn user-form [req]
-  (let [db (get-in req [:app :db])
-        departments (db/get-departments db)]
+  (let [{:keys [app path-params]} req
+        {db :db} app
+        {id :id} path-params
+
+        user (if id (db/get-user-by-id db (parse-uuid id)) "")
+        {:keys [first-name last-name email department-id]} user
+
+        departments (db/get-departments db)
+
+        post-fn (if id
+                  (str (get rs/rs :user-update) "/" id)
+                  (get rs/rs :user-add))
+        button-text (if id
+                      "Update User"
+                      "Add User")]
+
     [:form {:class ["w-full bg-gray-600 rounded-lg shadow-xl p-2"]
             :id "user-form"}
      [:. {:class ["flex flex-wrap"]}
@@ -65,38 +79,40 @@
        [:label {:class label-css
                 :for "first_name"} "First Name"]
        [:input {:class input-css
-                :type "text" :name "first_name" :value ""}]]
+                :type "text" :name "first_name" :value first-name}]]
 
       [:. {:class ["w-full md:w-1/2 px-3 md:py-2"]}
        [:label {:class label-css
                 :for "last_name"} "Last Name"]
        [:input {:class input-css
-                :type "text" :name "last_name" :value ""}]]
+                :type "text" :name "last_name" :value last-name}]]
 
       [:. {:class ["w-full px-3 py-2"]}
        [:label {:class label-css
                 :for "email"} "Email"]
        [:input {:class input-css
-                :type "text" :name "email" :value ""}]]
+                :type "text" :name "email" :value email}]]
 
       [:. {:class ["w-full md:w-2/3 px-3 md:pt-2 md:pb-3"]}
        [:label {:class label-css
                 :for "department_id"} "Department"]
        [:. {:class ["relative"]}
         [:select {:class input-css
-                  :type "number" :name "department_id" :value ""}
+                  :type "number" :name "department_id"}
          (for [i (range (count departments))]
-           (let [department (departments i)]
-             [:option {:value (department :xt/id)} (department :name)]))]]]
+           (let [cur_dep (departments i)]
+             (if (= (cur_dep :xt/id) department-id)
+               [:option {:value (cur_dep :xt/id) :selected true} (cur_dep :name)]
+               [:option {:value (cur_dep :xt/id)} (cur_dep :name)])))]]]
 
       [:. {:class ["w-full md:w-1/3 md:pt-8 pt-7 px-3 py-2"]}
        [:button {:class button-css
                  :type "submit"
-                 :hx-post (get rs/rs :user-add)
+                 :hx-post post-fn
                  :hx-trigger "click"
                  :hx-target "#user-form"
                  :hx-swap "outerHTML"}
-        "Add User"
+        button-text
         [:. {:title "Increases change tracking"
              :hx-get (get rs/rs :default-changes-inc)
              :hx-trigger "click from:closest button"
@@ -106,37 +122,27 @@
 
 (defn user-add [req]
   (let [db (get-in req [:app :db])
-        params (get-in req [:params])]
-    (db/insert-user db {:first_name (params :first_name)
-                        :last_name (params :last_name)
+        params (util/kebabify (get-in req [:params]))]
+    (db/insert-user db {:first-name (params :first-name)
+                        :last-name (params :last-name)
                         :email (params :email)
-                        :department_id (->> (params :department_id)
+                        :department-id (->> (params :department-id)
                                             (Integer/parseInt))})
+    (util/hiccup->html-resp (user-form req))))
+
+
+(defn user-update [req]
+  (let [db (get-in req [:app :db])
+        params (util/kebabify (get-in req [:params]))
+        id (get-in req [:path-params :id])]
+    (db/update-user db {:first-name (params :first-name)
+                        :last-name (params :last-name)
+                        :email (params :email)
+                        :department-id (->> (params :department-id)
+                                            (Integer/parseInt))
+                        :xt/id (parse-uuid id)})
     (util/hiccup->html-resp (user-form req))))
 
 
 (defn prepare-req [req]
   (assoc-in req [:app :html :body] user-form))
-
-
-(comment
-  (require '[xtdb.client :as xtc]
-           '[xtdb.api :as xt]
-           '[clojure.pprint :as pp])
-  ;; create connection to db
-  (def db (xtc/start-client "http://localhost:6543"))
-  (xt/status db)
-
-  (Integer/parseInt "1")
-
-  (pp/pprint (db/get-departments db))
-  (pp/pprint (db/get-users db))
-  (count (db/get-departments db))
-  (for [count (range (count (db/get-departments db)))]
-    (println (get ((db/get-departments db) count) :name)))
-  (db/insert-user db {:first_name "bonk"
-                      :last_name "bonk"
-                      :email "email@email.com"
-                      :department_id 1})
-
-  )

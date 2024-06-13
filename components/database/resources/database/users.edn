@@ -1,16 +1,16 @@
-[{:first_name    "Sean"
-  :last_name     "Corfield"
+[{:first-name    "Sean"
+  :last-name     "Corfield"
   :email         "sean@worldsingles.com"
-  :department_id 3}
- {:first_name    "Steve"
-  :last_name     "McQueen"
+  :department-id 3}
+ {:first-name    "Steve"
+  :last-name     "McQueen"
   :email         "kingofcool@gmail.com"
-  :department_id 2}
- {:first_name    "Honk"
-  :last_name     "McHonkerton"
+  :department-id 2}
+ {:first-name    "Honk"
+  :last-name     "McHonkerton"
   :email         "dooper.doopson@gdoop.com"
-  :department_id 1}
- {:first_name    "Funky"
-  :last_name     "Kong"
+  :department-id 1}
+ {:first-name    "Funky"
+  :last-name     "Kong"
   :email         "kong.mcbong@long.ng"
-  :department_id 3}]
+  :department-id 3}]

@@ -62,7 +62,6 @@
 
 
 (defn users-table [req]
-  (tap> req)
   (let [db (get-in req [:app :db])
         users (db/get-users db)]
     [:table {:class table-css}

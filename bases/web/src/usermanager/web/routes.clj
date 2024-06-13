@@ -72,7 +72,9 @@
      [(str (get rs/rs :user-add))
       {:handler user-form/user-add}]
      [(str (get rs/rs :user-delete) "/:id")
-      {:handler user-list/user-delete}]]
+      {:handler user-list/user-delete}]
+     [(str (get rs/rs :user-update) "/:id")
+      {:handler user-form/user-update}]]
 
     {:data {:middleware [req-resp-interceptor
                          par/parameters-middleware

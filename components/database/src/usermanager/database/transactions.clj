@@ -50,10 +50,32 @@
 (defn insert-user
   [db user]
   (if (m/validate schema/User user)
-    (let [id (:department_id user)]
+    (let [id (:department-id user)]
       (if (department-id-exists? db id)
         (insert-user-p db user)
         (println (format "Warning: id %d does not exist in Departments table" id))))
+    (pretty/explain schema/User user)))
+
+
+(defn update-user-p
+  [db user]
+  (xt/submit-tx db
+                [[:update '{:table :users
+                            :bind [{:xt/id $xt/id}]
+                            :set {:first-name $first-name
+                                  :last-name $last-name
+                                  :email $email
+                                  :department-id $department-id}}
+                  user]]))
+
+
+(defn update-user
+  [db user]
+  (if (m/validate schema/User user)
+    (let [id (user :department-id)]
+      (if (department-id-exists? db id)
+        (update-user-p db user)
+        (println (format "Warning: department id %d does not exist" id))))
     (pretty/explain schema/User user)))
 
 
@@ -61,12 +83,6 @@
   (require '[clojure.pprint :as pp])
   (def mynode (xtc/start-client "http://localhost:6543"))
   (xt/status mynode)
-  (insert-department mynode "Engineering")
-  (insert-user mynode {:first-name "Bonk"
-                       :last-name "Bonk"
-                       :email "honk@gmail.com"})
   (pp/pprint (xt/q mynode '(from :users [*])))
   (xt/q mynode '(from :departments [*]))
-  (delete-user-by-id mynode #uuid "9fa3bf57-63af-4917-b20b-bfa86b8935cd")
-  (delete-user-by-id mynode "Sean")
   )
