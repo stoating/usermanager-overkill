@@ -17,7 +17,7 @@
 
 
 (def config
-  (-> "./config.edn"
+  (-> "config.edn"
       (io/resource)
       (aero/read-config)))
 

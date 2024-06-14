@@ -11,14 +11,14 @@
 
 
 (def departments-seed
-  (-> "./database/departments.edn"
+  (-> "database/departments.edn"
       io/resource
       slurp
       edn/read-string))
 
 
 (def users-seed
-  (-> "./database/users.edn"
+  (-> "database/users.edn"
       io/resource
       slurp
       edn/read-string))

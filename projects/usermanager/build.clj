@@ -14,7 +14,7 @@
          :uber-file (format "target/%s-standalone.jar" app)
          :basis (b/create-basis {})
          :class-dir class-dir
-         :src-dirs ["src"]
+         :src-dirs ["src" "resources"]
          :ns-compile [main]))
 
 (defn uber
@@ -22,10 +22,12 @@
   [opts]
   (b/delete {:path "target"})
   (let [opts (uber-opts opts)]
-    (println "\nCopying source...")
-    (b/copy-dir {:src-dirs ["src"] :target-dir class-dir})
+    (println "\nCopying src and resources dirs to" class-dir "...")
+    (b/copy-dir {:src-dirs ["src" "resources"] :target-dir class-dir})
+
     (println (str "\nCompiling " main "..."))
     (b/compile-clj opts)
+
     (println "\nBuilding JAR...")
     (b/uber opts))
   opts)
