@@ -11,21 +11,20 @@
                                      "-Dclojure.storm.instrumentOnlyPrefixes=routes,web,usermanager"]}
 
            :dev  {:extra-paths ["development/src"]
-                  :extra-deps  {;; components
+                  :extra-deps  {;; core components
                                 poly/db   {:local/root "components/database"}
-                                poly/fw   {:local/root "components/filewatcher"}
                                 poly/log  {:local/root "components/log"}
                                 poly/time {:local/root "components/time"}
 
-                               ;; bases
+                                ;; bases
                                 poly/web  {:local/root "bases/web"}
 
-                               ;; other
-                                com.nextjournal/beholder    {:mvn/version "1.0.2"}
-                                integrant/integrant         {:mvn/version "0.9.0"}
-                                integrant/repl              {:mvn/version "0.3.3"}
-                                org.clojure/tools.namespace {:mvn/version "1.5.0"}
-                                djblue/portal {:mvn/version "0.55.1"}}}
+                                ;; dev components
+                                poly/fw   {:local/root "components/filewatcher"}
+
+                                ;; dev other
+                                djblue/portal  {:mvn/version "0.55.1"}
+                                integrant/repl {:mvn/version "0.3.3"}}}
 
            :test {:extra-paths ["bases/web/test"
                                 "components/database/test"

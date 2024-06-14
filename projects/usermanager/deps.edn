@@ -1,8 +1,10 @@
-{:deps {poly/web  {:local/root "../../bases/web"}
+{:deps {;; components
         poly/db   {:local/root "../../components/database"}
-        poly/fw   {:local/root "../../components/filewatcher"}
         poly/log  {:local/root "../../components/log"}
         poly/time {:local/root "../../components/time"}
+
+        ;; bases
+        poly/web  {:local/root "../../bases/web"}
 
         org.clojure/clojure {:mvn/version "1.11.2"}}
 
