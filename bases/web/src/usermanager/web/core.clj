@@ -16,10 +16,10 @@
   (ig/ref value))
 
 
-(def config
+(defn config [env]
   (-> "config.edn"
       (io/resource)
-      (aero/read-config)))
+      (aero/read-config env)))
 
 
 (defmethod ig/init-key :app/server
@@ -59,4 +59,4 @@
 
 
 (defn -main []
-  (ig/init config))
+  (ig/init (config {:profile :prod})))

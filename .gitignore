@@ -26,6 +26,12 @@
 artifacts
 projects/**/pom.xml
 
+# environment
+.env
+
+# tailwind
+**/tailwind_output.css
+
 # nrepl
 .nrepl-port
 
@@ -44,8 +50,5 @@ projects/**/pom.xml
 # clj-kondo
 .clj-kondo/*
 
-# tailwind
-**/tailwind_output.css
-
 # scripts
-scripts/container_id.txt
+container_id.txt

@@ -6,7 +6,7 @@
 
 (println "in ns:" (str *ns*))
 
-(integrant.repl/set-prep! (fn [] web/config))
+(integrant.repl/set-prep! (fn [] (web/config {:profile :dev})))
 
 (comment
   ;; run once after connecting to repl

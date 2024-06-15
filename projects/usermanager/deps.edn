@@ -1,4 +1,6 @@
-{:deps {;; components
+{:mvn/repos {"ossrh-snapshots" {:url "https://s01.oss.sonatype.org/content/repositories/snapshots"}}
+
+ :deps {;; components
         poly/db   {:local/root "../../components/database"}
         poly/log  {:local/root "../../components/log"}
         poly/time {:local/root "../../components/time"}

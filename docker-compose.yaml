@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        - APP_SERVER_PORT_CONTAINER=${APP_SERVER_PORT_CONTAINER}
+        - APP_XTDB_PORT_CONTAINER=${APP_XTDB_PORT_CONTAINER}
+        - APP_XTDB_URL=${APP_XTDB_URL}
+    env_file:
+      - .env
+    ports:
+      - ${APP_SERVER_PORT_HOST}:${APP_SERVER_PORT_CONTAINER}
+    depends_on:
+      - xtdb
+    command: ["java", "-jar", "target/usermanager-standalone.jar"]
+
+  xtdb:
+    image: ghcr.io/xtdb/xtdb-standalone-ea
+    env_file:
+      - .env
+    ports:
+      - ${APP_XTDB_PORT_HOST}:${APP_XTDB_PORT_CONTAINER}

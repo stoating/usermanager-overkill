@@ -17,5 +17,5 @@
                 [:<>
                  [:h1 {:class ["py-3" "font-bold"]}
                   "Welcome to the User Manager"]
-                 [:p "This uses (just) Aero, Beholder, Camel-Snake-Kebab, Integrant, Malli, Polylith, Portal, Reitit, Rum, XTDB, Babashka, Flow-storm, HTMX, Tailwind, Docker, and Devcontainers."]])
+                 [:p "This uses (just) Aero, Beholder, Camel-Snake-Kebab, Integrant, Malli, Polylith, Portal, Reitit, Rum, XTDB, Babashka, Flow-storm, HTMX, Tailwind, Docker, Docker-Compose, and Devcontainers."]])
       (assoc-in [:app :html :body] body)))
