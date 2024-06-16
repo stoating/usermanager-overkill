@@ -56,5 +56,13 @@
 
 ## todo
 
+- better handling of env (env.edn)
 - CI/CD with github actions
+- make amazing documentation
 - add tests
+
+## future
+- add mail
+- add login
+- add roles
+- update front-end to clojurescript
