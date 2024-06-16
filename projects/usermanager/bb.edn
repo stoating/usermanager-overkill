@@ -56,7 +56,7 @@
    :task (shell "printenv")}
 
   startup-dev
-  {:doc "development startup sequence for the web base"
+  {:doc "startup sequence for the web base"
    :task (do (run 'print-env)
              (run '-startup-parallel {:parallel true}))}
 
@@ -77,12 +77,4 @@
   {:doc "run start xtdb container"
    :task (do (try (run 'xtdb-container-remove)
                   (finally
-                    (run 'xtdb-container-pull-run))))}
-
-  startup-prod
-  {:doc "production startup sequence for the web base"
-   :task (do ((wait/wait-for-port (env "APP_XTDB_HOST_NAME")
-                                  (Integer/parseInt (env "APP_XTDB_CONT_PORT")))
-              (shell
-                (str "java -jar "
-                     "projects/usermanager/target/usermanager-standalone.jar"))))}}}
+                    (run 'xtdb-container-pull-run))))}}}

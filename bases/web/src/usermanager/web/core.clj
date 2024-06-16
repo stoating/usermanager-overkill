@@ -44,8 +44,8 @@
 
 
 (defmethod ig/init-key :app/database
-  [key {:keys [url port]}]
-  (let [xtdb-url (str url ":" port)]
+  [key {:keys [host-name port]}]
+  (let [xtdb-url (str "http://" host-name ":" port)]
     (println "starting:" key)
     (println "url     :" xtdb-url)
     (db/init-db xtdb-url)))

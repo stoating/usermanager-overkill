@@ -1,22 +1,41 @@
-FROM clojure:tools-deps
+# start with an ubuntu image
+FROM mcr.microsoft.com/devcontainers/base:jammy
 
-ARG APP_SERVER_PORT_CONTAINER
-ARG APP_XTDB_PORT_CONTAINER
-ARG APP_XTDB_URL
 
-ENV APP_SERVER_PORT_CONTAINER=${APP_SERVER_PORT_CONTAINER}
-ENV APP_XTDB_PORT_CONTAINER=${APP_XTDB_PORT_CONTAINER}
-ENV APP_XTDB_URL=${APP_XTDB_URL}
+# stage: install clojure"
+# - update apt on the ubuntu box"
+RUN apt update
+RUN apt upgrade -y
 
-RUN echo "APP_SERVER_PORT_CONTAINER is $APP_SERVER_PORT_CONTAINER"
-RUN echo "APP_XTDB_PORT_CONTAINER is $APP_XTDB_PORT_CONTAINER"
-RUN echo "APP_XTDB_URL is $APP_XTDB_URL"
 
-EXPOSE ${APP_SERVER_PORT_CONTAINER}
-EXPOSE ${APP_XTDB_PORT_CONTAINER}
-#EXPOSE ${APP_XTDB_URL}
+# - install dependencies for clojure
+RUN apt install bash
+RUN apt install curl
+RUN apt install rlwrap
+RUN apt install openjdk-21-jre -y
+
+
+# - install clojure.
+# - see: https://clojure.org/guides/install_clojure
+RUN curl --location --remote-name \
+   https://github.com/clojure/brew-install/releases/latest/download/linux-install.sh
+RUN chmod +x linux-install.sh
+RUN sudo ./linux-install.sh
+RUN sudo rm linux-install.sh
+
+
+# stage: install babashka
+# - see: https://github.com/babashka/babashka#installation
+RUN curl --location --remote-name --silent \
+    https://raw.githubusercontent.com/babashka/babashka/master/install
+RUN chmod +x install
+RUN ./install
+RUN sudo rm install
+
 
 COPY . /usr/src/app
-WORKDIR /usr/src/app/projects/usermanager
 
+
+WORKDIR /usr/src/app/projects/usermanager
 RUN clojure -T:build uber
+WORKDIR /usr/src/app
