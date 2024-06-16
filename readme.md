@@ -31,6 +31,7 @@
   - development
     - vscode
       - Command Palette -> Dev Containers: Rebuild and Reopen in Container
+        - the first time you do this, it will take a while
       - Command Palette -> Calva: Start a Project REPL and Connect (aka Jack-In)
       - development/src/user.clj -> evaluate 'start-app'
     - other IDEs
@@ -41,6 +42,7 @@
   - production
     - rename 'update_me.env' to '.env'
     - ``docker-compose up``
+      - the first time you do this, it will take a while
 
 ## notes
 

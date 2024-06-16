@@ -15,7 +15,54 @@
   // set *default* container specific settings.json values on container create.
   "customizations": {
     "vscode": {
-      "settings": {},
+      "settings": {
+        "calva.autoEvaluateCode": {
+          "onConnect": {
+            "clj": "(when-let [requires (resolve 'clojure.main/repl-requires)] (clojure.core/apply clojure.core/require @requires))",
+            "cljs": "(try (require '[cljs.repl :refer [apropos dir doc find-doc print-doc pst source]]) (catch :default e (js/console.warn \"Failed to require cljs.repl utilities:\" (.-message e))))"
+          },
+          "onFileLoaded": {
+            "clj": null,
+            "cljs": null
+          }
+        },
+        "calva.paredit.defaultKeyMap": "strict",
+        "calva.prettyPrintingOptions": {
+          "printEngine": "pprint",
+          "enabled": false,
+          "width": 120,
+          "maxLength": 50
+        },
+        "clojure.trace.server": "verbose",
+        "editor.defaultFormatter": "betterthantomorrow.calva",
+        "editor.fontLigatures": true,
+        "editor.indentSize": "tabSize",
+        "editor.inlineSuggest.enabled": true,
+        "editor.rulers": [
+          80,
+          120
+        ],
+        "editor.renderWhitespace": "all",
+        "editor.stickyScroll.enabled": true,
+        "editor.wordWrap": "on",
+        "files.trimTrailingWhitespace": true,
+        "github.gitProtocol": "ssh",
+        "glassit.alpha": 215,
+        "prettifySymbolsMode.substitutions":[
+          {
+            "language": "clojure",
+            "substitutions": [
+              { "ugly": "fn", "pretty": " λ", "pre": "\\b", "post": "\\b"},
+              { "ugly": "#",  "pretty": "λ", "post": "[((]"},
+              { "ugly": "#",  "pretty": "∈", "post": "[{]"}
+            ]
+          }
+        ],
+        "workbench.colorTheme": "Night Wolf (black) (No Italics)",
+        "workbench.colorCustomizations": {
+          "editorWhitespace.foreground": "#45504d"
+        }
+      },
       "extensions": [
         "betterthantomorrow.calva",
         "bradlc.vscode-tailwindcss",
@@ -35,6 +82,7 @@
         "redhat.vscode-yaml",
         "s-nlf-fh.glassit",
         "shardulm94.trailing-spaces",
+        "siegebell.prettify-symbols-mode",
         "zainchen.json"
       ]
     }
