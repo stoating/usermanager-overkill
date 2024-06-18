@@ -50,7 +50,8 @@ COPY . /usr/src/app
 
 
 # stage: generate tailwind css
-RUN tailwindcss -i /usr/src/app/bases/web/resources/tools/tailwind/tailwind.css -o /usr/src/app/public/css/tailwind_output.css
+WORKDIR /usr/src/app/bases/web/resources/tools/tailwind
+RUN tailwindcss -i tailwind.css -o ../../public/css/tailwind_output.css
 
 
 # stage: build clojure project
