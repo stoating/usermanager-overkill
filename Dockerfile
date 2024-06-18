@@ -33,9 +33,28 @@ RUN ./install
 RUN sudo rm install
 
 
+# stage: "install" clojurescript
+RUN apt install nodejs -y
+RUN apt install npm -y
+
+
+# stage: install tailwind
+RUN sudo curl --location --remote-name --silent \
+    https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-arm64
+RUN sudo chmod +x tailwindcss-linux-arm64
+RUN sudo mv tailwindcss-linux-arm64 /usr/local/bin/tailwindcss
+
+
+# stage: copy project to container
 COPY . /usr/src/app
 
 
+# stage: generate tailwind css
+WORKDIR /usr/src/app/bases/web/resources/tools/tailwind
+RUN npx tailwindcss -i tailwind.css -o ../../public/css/tailwind_output.css
+
+
+# stage: build clojure project
 WORKDIR /usr/src/app/projects/usermanager
 RUN clojure -T:build uber
 WORKDIR /usr/src/app
