@@ -2,6 +2,10 @@
 FROM mcr.microsoft.com/devcontainers/base:jammy
 
 
+ARG APP_CPU_ARCH
+RUN echo "underlying cpu arch: $APP_CPU_ARCH"
+
+
 # stage: install clojure"
 # - update apt on the ubuntu box"
 RUN apt update
@@ -40,9 +44,9 @@ RUN apt install npm -y
 
 # stage: install tailwind
 RUN sudo curl --location --remote-name --silent \
-    https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-arm64
-RUN sudo chmod +x tailwindcss-linux-arm64
-RUN sudo mv tailwindcss-linux-arm64 /usr/local/bin/tailwindcss
+    https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-${APP_CPU_ARCH}
+RUN sudo chmod +x tailwindcss-linux-${APP_CPU_ARCH}
+RUN sudo mv tailwindcss-linux-${APP_CPU_ARCH} /usr/local/bin/tailwindcss
 
 
 # stage: copy project to container

@@ -2,7 +2,10 @@ version: '3.9'
 
 services:
   app:
-    build: .
+    build:
+      context: .
+      args:
+        APP_CPU_ARCH: ${APP_CPU_ARCH}
     tty: true
     stdin_open: true
     restart: always
