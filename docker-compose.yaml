@@ -12,7 +12,7 @@ services:
     env_file:
       - .env
     ports:
-      - ${APP_SERVER_HOST_PORT}:${APP_SERVER_CONT_PORT}
+      - ${APP_APP_HOST_PORT}:${APP_APP_CONT_PORT}
     depends_on:
       - xtdb
     command: ["bb", "startup-prod"]

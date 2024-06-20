@@ -1,5 +1,5 @@
-{:app/server {:port #profile {:dev #long #env APP_SERVER_HOST_PORT
-                              :prod #long #env APP_SERVER_CONT_PORT}
+{:app/server {:port #profile {:dev #long #env APP_APP_HOST_PORT
+                              :prod #long #env APP_APP_CONT_PORT}
               :handler #ig/ref :app/app}
 
  :app/app {:db #ig/ref :app/database
