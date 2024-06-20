@@ -19,6 +19,7 @@ services:
 
   xtdb:
     image: ghcr.io/xtdb/xtdb-standalone-ea
+    restart: always
     env_file:
       - .env
     ports:
