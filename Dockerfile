@@ -3,7 +3,10 @@ FROM mcr.microsoft.com/devcontainers/base:jammy
 
 
 ARG APP_CPU_ARCH
+ARG APP_SERVER_CONT_PORT
+
 RUN echo "underlying cpu arch: $APP_CPU_ARCH"
+RUN echo "server container port: $APP_SERVER_CONT_PORT"
 
 
 # stage: install clojure"
@@ -56,6 +59,9 @@ COPY . /usr/src/app
 # stage: generate tailwind css
 WORKDIR /usr/src/app/bases/web/resources/tools/tailwind
 RUN npx tailwindcss -i tailwind.css -o ../../public/css/tailwind_output.css
+
+
+EXPOSE ${APP_SERVER_CONT_PORT}
 
 
 # stage: build clojure project

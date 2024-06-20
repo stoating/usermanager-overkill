@@ -6,6 +6,7 @@ services:
       context: .
       args:
         APP_CPU_ARCH: ${APP_CPU_ARCH}
+        APP_SERVER_CONT_PORT: ${APP_SERVER_CONT_PORT}
     tty: true
     stdin_open: true
     restart: always
