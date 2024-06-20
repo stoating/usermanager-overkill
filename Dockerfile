@@ -58,6 +58,8 @@ WORKDIR /usr/src/app/bases/web/resources/tools/tailwind
 RUN npx tailwindcss -i tailwind.css -o ../../public/css/tailwind_output.css
 
 
+# stage: expose port
+# variables cannot be used in the EXPOSE directive
 EXPOSE 8080
 
 
