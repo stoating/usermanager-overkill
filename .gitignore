@@ -26,9 +26,6 @@
 artifacts
 projects/**/pom.xml
 
-# vscode
-.vscode/*
-
 # environment
 .env
 
