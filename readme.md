@@ -1,20 +1,92 @@
-# Over-engineering the User Manager
+# User Manager Overkill
+
+----
+
+'I'm here to do, not read':
+
+- have docker and docker compose installed
+- clone repository
+- rename '.env.deleteme' to '.env'
+- ``docker compose up``
+
+----
+
+'
+
+This repo is a simple web application irresponsibly built with the following Clojure libraries:
+
+- Aero (configuration)
+- Beholder (filewatcher)
+- Camel-Snake-Kebab (naming conventions)
+- Integrant (lifecycle)
+- Malli (schema)
+- Polylith (sw-architecture)
+- Portal (beautiful, convenient debugging)
+- Reitit (routing)
+- Rum (html rendering)
+- Flow-storm (omniscient debugging)
+
+Using:
+
+- hiccup (html templating)
+
+And the following databases:
+
+- XTDB V2 (immutable db w/ XTQL)
+
+We additionally try to use the clojure ecosystem to its fullest with:
+
+- Babashka (clojure scripting)
+
+For the front-end, we try to use the hip old-is-new-again-back-to-basics tech, including:
+
+- HTMX (fancy ajax)
+- Tailwind (css class shortcuts)
+
+And the following devops tools:
+
+- Docker
+- Docker-Compose
+- Devcontainers (irresponsibly done)
+- Github Actions
+
+## goals
+
+In general the goal is to create a **_luxurious_** development/deployment experience which introduces a whole bunch of the clojure web ecosystem and debug tooling. For someone interested in playing with a bunch of popular modern clojure web libraries, this project could be an fun starting point.
+
+Other goals include:
+
+- Make it painfully easy to start developing a 'fully-loaded' clojure web application which you have _full access_ to and _complete control_ over.
+
+- Make it painfully easy to locally build and deploy the same application, keeping the dev and prod environments as similar as possible.
+
+- Provide _helpful pieces_ for setting up a 'production' environment, including a reverse proxy, https encryption, and automated deployment via github actions.
+
+## non-goals
+
+This is explorative work for the purpose of constructive joy. This is not best-practices from an authority in Clojure. This is a 'make it work, make it fun, make it better' project.
+
+This is not:
+
+- a 'make it perfect' project (though you are welcome to help)
+- production code
+- minimalism
 
 ## prerequisites
+
+To get the project up and running in the development environment, you will need:
 
 - docker
 
 ## recommendations
 
-- This will work best with:
-  - vscode (otherwise the .devcontainer will need to be modified and the development workflow will need to be adjusted)
-    - Remote Development extension pack
+- vscode (otherwise the .devcontainer will need to be modified and the development workflow will need to be adjusted)
+  - Remote Development extension pack
 
 - OS:
-  - Windows:
-    - WSL2
-    - for the love of all that is good and holy, just use WSL2
-  - Other OS's:
+  - If Windows:
+    - for the love of all that is good and holy, just use WSL2. If you use Windows, use Linux.
+  - If Other OS's:
     - I'm sure you'll be fine
 
 ## setup
@@ -126,8 +198,14 @@
 
 ## future
 
-- setup server with ansible
+- update front-end to clojurescript
+- shadow-cljs
+- reagent
+- re-frame
+- electric clojure
+- add security with buddy
 - add mail
 - add login
 - add roles
-- update front-end to clojurescript
+- add websockets
+- server setup automation
