@@ -14,8 +14,8 @@
 
 
 (def head
-  (let [title "my_title"
-        description "my_description"]
+  (let [title "stoating"
+        description "just stoating around..."]
     [:head
      [:title title]
      [:meta {:name "description" :content description}]
