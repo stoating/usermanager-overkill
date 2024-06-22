@@ -18,7 +18,7 @@
          :ns-compile [main]))
 
 (defn uber
-  "Build the uberjar"
+  "Build the uberjar..."
   [opts]
   (b/delete {:path "target"})
   (let [opts (uber-opts opts)]
