@@ -103,6 +103,11 @@
   - ``docker system prune -a --volumes``
 
 - now lets set up the ci/cd
+  - on the server, copy your servers public key into the authorized_keys file
+    - ``cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys``
+  - on your github repo, go to settings -> deploy keys
+    - add the the necessary secrets (KEY USERNAME HOST)
+    - KEY is the private key
 
 ## notes
 
@@ -116,7 +121,6 @@
 
 ## todo
 
-- CI/CD with github actions
 - make amazing documentation
 - add tests
 
