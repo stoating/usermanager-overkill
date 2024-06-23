@@ -4,10 +4,10 @@
 
 "I'm here to _do_, not to _read_":
 
-- have [docker](/https://docs.docker.com/get-docker/) installed
+- have [docker](https://docs.docker.com/get-docker/) installed
 - clone repository
 - rename '.env.deleteme' to '.env'
-- update .env to match your underlying platform (linux-arm64, linux-armv7, linux-x64 [for tailwind](/https://github.com/tailwindlabs/tailwindcss/releases/tag/v3.4.4) you can find this with ``uname -m``)
+- update .env to match your underlying platform (linux-arm64, linux-armv7, linux-x64 [for tailwind](https://github.com/tailwindlabs/tailwindcss/releases/tag/v3.4.4) you can find this with ``uname -m``)
 - ``docker compose up``
 
 ----
@@ -75,7 +75,7 @@ This is not:
 
 To get the project up and running in the development environment, you will need:
 
-- [docker](/https://docs.docker.com/get-docker/)
+- [docker](https://docs.docker.com/get-docker/)
 
 ## recommendations
 
@@ -85,7 +85,7 @@ To get the project up and running in the development environment, you will need:
 
 - OS:
   - If Windows:
-    - for the love of all that is good and holy, just use [WSL2](/https://learn.microsoft.com/en-us/windows/wsl/install). If you use Windows, [use Linux](/https://learn.microsoft.com/en-us/windows/wsl/install).
+    - for the love of all that is good and holy, just use [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install). If you use Windows, [use Linux](https://learn.microsoft.com/en-us/windows/wsl/install).
   - If Other OS's:
     - I'm sure you'll be fine, but ymmv.
 
@@ -95,7 +95,7 @@ To get the project up and running in the development environment, you will need:
   - windows:
     - start WSL2
     - from WSL2, clone the repository
-    - do _not_ clone to windows and mount the files in WSL2. This [will not work](/https://blog.arkey.fr/2019/09/13/watchservice-and-bind-mount/) with the filewatcher.
+    - do _not_ clone to windows and mount the files in WSL2. This [will not work](https://blog.arkey.fr/2019/09/13/watchservice-and-bind-mount/) with the filewatcher.
   - Other OS's:
     - I'm sure you'll be fine
 
@@ -112,7 +112,7 @@ To get the project up and running in the development environment, you will need:
 
 - pre-production
   - rename '.env.deleteme' to '.env'
-  - update .env to match your underlying platform (linux-arm64, linux-armv7, linux-x64 [for tailwind](/https://github.com/tailwindlabs/tailwindcss/releases/tag/v3.4.4) you can find this with ``uname -m``)
+  - update .env to match your underlying platform (linux-arm64, linux-armv7, linux-x64 [for tailwind](https://github.com/tailwindlabs/tailwindcss/releases/tag/v3.4.4) you can find this with ``uname -m``)
   - ``docker compose up``
 
 ## 'production' (notes to get this working on a virtual private server (VPS) like Digital Ocean)
@@ -165,7 +165,7 @@ To get the project up and running in the development environment, you will need:
   - ``cd /home/app && cp update_me.env .env``
   - edit the .env file to your liking
   - ``nano .env``
-  - in my case, i needed to change the underlying platform from linux-amd64 to linux-x64. this is used for [downloading tailwindcss](/https://github.com/tailwindlabs/tailwindcss/releases/tag/v3.4.4>)
+  - in my case, i needed to change the underlying platform from linux-amd64 to linux-x64. this is used for [downloading tailwindcss](https://github.com/tailwindlabs/tailwindcss/releases/tag/v3.4.4>)
 
 - now you will need to run the docker-compose file
   - ``docker compose up -d``
@@ -182,8 +182,8 @@ To get the project up and running in the development environment, you will need:
 
 ## thanks
 
-- A good amount of the current server-setup, filewatcher, time, and logging came from [Biff](/https://github.com/jacobobryant/biff). Thanks Biff ([Jacob Bryant](/https://github.com/jacobobryant))! If you want to build something with more batteries included and good documentation, check his project out.
-- Also thank you to [Sean Corfield](/https://github.com/seancorfield) for the initial [User Manager](/https://github.com/seancorfield/usermanager-example).
+- A good amount of the current server-setup, filewatcher, time, and logging came from [Biff](https://github.com/jacobobryant/biff). Thanks Biff ([Jacob Bryant](https://github.com/jacobobryant))! If you want to build something with more batteries included and good documentation, check his project out.
+- Also thank you to [Sean Corfield](https://github.com/seancorfield) for the initial [User Manager](https://github.com/seancorfield/usermanager-example).
 
 
 ## next steps
