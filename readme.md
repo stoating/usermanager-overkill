@@ -2,18 +2,17 @@
 
 ----
 
-'I'm here to do, not read':
+"I'm here to _do_, not to _read_":
 
-- have docker and docker compose installed
+- have [docker](/https://docs.docker.com/get-docker/) installed
 - clone repository
 - rename '.env.deleteme' to '.env'
+- update .env to match your underlying platform (linux-arm64, linux-armv7, linux-x64 [for tailwind](/https://github.com/tailwindlabs/tailwindcss/releases/tag/v3.4.4) you can find this with ``uname -m``)
 - ``docker compose up``
 
 ----
 
-'
-
-This repo is a simple web application irresponsibly built with the following Clojure libraries:
+This repo is a simple web application built with the following Clojure libraries:
 
 - Aero (configuration)
 - Beholder (filewatcher)
@@ -40,14 +39,14 @@ We additionally try to use the clojure ecosystem to its fullest with:
 
 For the front-end, we try to use the hip old-is-new-again-back-to-basics tech, including:
 
-- HTMX (fancy ajax)
+- HTMX (modern ajax with memes)
 - Tailwind (css class shortcuts)
 
 And the following devops tools:
 
 - Docker
 - Docker-Compose
-- Devcontainers (irresponsibly done)
+- Devcontainers (setup for vscode)
 - Github Actions
 
 ## goals
@@ -56,7 +55,7 @@ In general the goal is to create a **_luxurious_** development/deployment experi
 
 Other goals include:
 
-- Make it painfully easy to start developing a 'fully-loaded' clojure web application which you have _full access_ to and _complete control_ over.
+- Make it painfully easy to start developing a 'fully-loaded' clojure-centric web application which you have _full access_ to and _complete control_ over from the beginning.
 
 - Make it painfully easy to locally build and deploy the same application, keeping the dev and prod environments as similar as possible.
 
@@ -68,7 +67,7 @@ This is explorative work for the purpose of constructive joy. This is not best-p
 
 This is not:
 
-- a 'make it perfect' project (though you are welcome to help)
+- a 'make it perfect' project (though you are welcome to help with PRs and feedback!)
 - production code
 - minimalism
 
@@ -76,18 +75,19 @@ This is not:
 
 To get the project up and running in the development environment, you will need:
 
-- docker
+- [docker](/https://docs.docker.com/get-docker/)
 
 ## recommendations
 
-- vscode (otherwise the .devcontainer will need to be modified and the development workflow will need to be adjusted)
+- use vscode (otherwise the .devcontainer will need to be modified and the development workflow will need to be adjusted)
   - Remote Development extension pack
+  - If you want to make this easily work with other IDEs, PRs are welcome :)
 
 - OS:
   - If Windows:
-    - for the love of all that is good and holy, just use WSL2. If you use Windows, use Linux.
+    - for the love of all that is good and holy, just use [WSL2](/https://learn.microsoft.com/en-us/windows/wsl/install). If you use Windows, [use Linux](/https://learn.microsoft.com/en-us/windows/wsl/install).
   - If Other OS's:
-    - I'm sure you'll be fine
+    - I'm sure you'll be fine, but ymmv.
 
 ## setup
 
@@ -95,28 +95,27 @@ To get the project up and running in the development environment, you will need:
   - windows:
     - start WSL2
     - from WSL2, clone the repository
-    - do _not_ clone to windows and mount the files in WSL2
+    - do _not_ clone to windows and mount the files in WSL2. This [will not work](/https://blog.arkey.fr/2019/09/13/watchservice-and-bind-mount/) with the filewatcher.
   - Other OS's:
     - I'm sure you'll be fine
 
-- run
-  - development
-    - vscode
-      - Command Palette -> Dev Containers: Rebuild and Reopen in Container
-        - the first time you do this, it will take a while
-      - Command Palette -> Calva: Start a Project REPL and Connect (aka Jack-In)
-      - development/src/user.clj -> evaluate 'start-app'
-    - other IDEs
-      - ``devcontainer up --workspace-folder .``
-      - follow something like [dev-containers-emacs](https://happihacking.com/blog/posts/2023/dev-containers-emacs/)
-      - help me fill this out for _your_ preferred IDE!
-
-  - pre-production
-    - rename 'update_me.env' to '.env'
-    - ``docker-compose up``
+- development
+  - vscode
+    - Command Palette -> Dev Containers: Rebuild and Reopen in Container
       - the first time you do this, it will take a while
+    - Command Palette -> Calva: Start a Project REPL and Connect (aka Jack-In) (+clj-storm,dev,test)
+    - development/src/user.clj -> evaluate 'start-app'
+  - other IDEs
+    - ``devcontainer up --workspace-folder .``
+    - follow something like [dev-containers-emacs](https://happihacking.com/blog/posts/2023/dev-containers-emacs/)
+    - help me fill this out for _your_ preferred IDE!
 
-## production
+- pre-production
+  - rename '.env.deleteme' to '.env'
+  - update .env to match your underlying platform (linux-arm64, linux-armv7, linux-x64 [for tailwind](/https://github.com/tailwindlabs/tailwindcss/releases/tag/v3.4.4) you can find this with ``uname -m``)
+  - ``docker compose up``
+
+## 'production' (notes to get this working on a virtual private server (VPS) like Digital Ocean)
 
 - as a note. while running upgrades the screen may turn scary purple. this is normal. keep hitting enter.
 
@@ -144,7 +143,7 @@ To get the project up and running in the development environment, you will need:
   - ``cat ~/.ssh/id_rsa.pub`` and copy the output
   - on github: (your repo -> settings -> deploy keys) and add the copied key
 
-- if you have memory issues (your server, i cant help you directly), you may want to add some swap space?
+- if you have memory issues (your VPS, i cant help you personally), you may want to add some swap space?
   - ``fallocate -l 1G /swapfile``
   - ``chmod 600 /swapfile``
   - ``mkswap /swapfile``
@@ -166,11 +165,11 @@ To get the project up and running in the development environment, you will need:
   - ``cd /home/app && cp update_me.env .env``
   - edit the .env file to your liking
   - ``nano .env``
-  - in my case, i needed to change the cpu architecture from amd64 to x64
+  - in my case, i needed to change the underlying platform from linux-amd64 to linux-x64. this is used for [downloading tailwindcss](/https://github.com/tailwindlabs/tailwindcss/releases/tag/v3.4.4>)
 
 - now you will need to run the docker-compose file
   - ``docker compose up -d``
-  - you may need to mess around with commands like ``docker compose down`` and ``docker compose up --force-recreate``
+  - you may need to mess around with commands like ``docker compose down``, ``docker compose up --build`` and ``docker compose up --force-recreate``
   - you can clear out your old containers and volumes with:
   - ``docker system prune -a --volumes``
 
@@ -181,31 +180,25 @@ To get the project up and running in the development environment, you will need:
     - add the the necessary secrets (KEY USERNAME HOST)
     - KEY is the private key
 
-## notes
+## thanks
 
-- OS:
-  - windows:
-    - start WSL2
-    - from WSL2, clone the repository
-    - do _not_ clone to windows and mount the files in WSL2
-  - other platforms:
-    - you'll probably be fine
+- A good amount of the current server-setup, filewatcher, time, and logging came from [Biff](/https://github.com/jacobobryant/biff). Thanks Biff ([Jacob Bryant](/https://github.com/jacobobryant))! If you want to build something with more batteries included and good documentation, check his project out.
+- Also thank you to [Sean Corfield](/https://github.com/seancorfield) for the initial [User Manager](/https://github.com/seancorfield/usermanager-example).
 
-## todo
 
-- make amazing documentation
-- add tests
-
-## future
+## next steps
 
 - update front-end to clojurescript
+- actually do tests...
 - shadow-cljs
 - reagent
 - re-frame
 - electric clojure
+- rama
 - add security with buddy
 - add mail
 - add login
 - add roles
 - add websockets
-- server setup automation
+- server creation automation with terraform
+- server setup automation with ansible

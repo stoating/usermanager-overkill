@@ -10,6 +10,8 @@
                         :jvm-opts   ["-Dclojure.storm.instrumentEnable=true"
                                      "-Dclojure.storm.instrumentOnlyPrefixes=routes,web,usermanager"]}
 
+           :+default {}
+
            :dev  {:extra-paths ["development/src"]
                   :extra-deps  {;; core components
                                 poly/db   {:local/root "components/database"}

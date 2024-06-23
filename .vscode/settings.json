@@ -5,7 +5,7 @@
             "name": "usermanager",
             "cljsType": "none",
             "menuSelections": {
-                "cljAliases": ["dev", "test", "+default"]
+                "cljAliases": ["+clj-storm", "dev", "test"]
             }
         }
     ]

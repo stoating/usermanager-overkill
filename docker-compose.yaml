@@ -3,7 +3,7 @@ services:
     build:
       context: .
       args:
-        APP_CPU_ARCH: ${APP_CPU_ARCH}
+        APP_PLATFORM: ${APP_PLATFORM}
     tty: true
     stdin_open: true
     restart: always

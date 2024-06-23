@@ -4,7 +4,10 @@
 
   "build": {
     // Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
-    "dockerfile": "Dockerfile"
+    "dockerfile": "Dockerfile",
+    "args": {
+      "APP_PLATFORM":"linux-x64"
+    }
   },
 
   "features": {
@@ -100,7 +103,6 @@
   "postCreateCommand": "bb startup-dev",
 
   "containerEnv": {
-    "APP_CPU_ARCH":"x64",
     "APP_APP_HOST_PORT": "8080",
     "APP_APP_CONT_PORT": "3001",
     "APP_XTDB_HOST_NAME": "localhost",

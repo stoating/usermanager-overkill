@@ -1,12 +1,15 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.140.1/containers/alpine/.devcontainer/base.Dockerfile
 
-# defines
+# args
 ARG POLYLITH_VERSION=0.2.19
 
 
 # start with an ubuntu image
 FROM mcr.microsoft.com/devcontainers/base:jammy
 
+# args from devcontainer.json
+ARG APP_PLATFORM
+RUN echo "$APP_PLATFORM"
 
 # stage: install clojure"
 # - update apt on the ubuntu box"
@@ -69,6 +72,6 @@ RUN apt install npm -y
 
 # stage: install tailwind
 RUN sudo curl --location --remote-name --silent \
-    https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-arm64
-RUN sudo chmod +x tailwindcss-linux-arm64
-RUN sudo mv tailwindcss-linux-arm64 /usr/local/bin/tailwindcss
+    https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-${APP_PLATFORM}
+RUN sudo chmod +x tailwindcss-${APP_PLATFORM}
+RUN sudo mv tailwindcss-${APP_PLATFORM} /usr/local/bin/tailwindcss
