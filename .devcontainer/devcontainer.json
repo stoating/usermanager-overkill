@@ -108,8 +108,8 @@
     "APP_XTDB_HOST_NAME": "localhost",
     "APP_XTDB_HOST_PORT": "6543",
     "APP_XTDB_CONT_PORT": "3000",
-    "APP_GITHUB_USER_NAME": "stoating",
-    "APP_GITHUB_USER_EMAIL": "stoating.around@gmail.com"
+    "APP_GITHUB_USER_NAME": "",
+    "APP_GITHUB_USER_EMAIL": ""
   }
 
   // uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
