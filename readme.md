@@ -185,7 +185,6 @@ To get the project up and running in the development environment, you will need:
 - A good amount of the current server-setup, filewatcher, time, and logging came from [Biff](https://github.com/jacobobryant/biff). Thanks Biff ([Jacob Bryant](https://github.com/jacobobryant))! If you want to build something with more batteries included and good documentation, check his project out.
 - Also thank you to [Sean Corfield](https://github.com/seancorfield) for the initial [User Manager](https://github.com/seancorfield/usermanager-example).
 
-
 ## next steps
 
 - update front-end to clojurescript
