@@ -128,7 +128,7 @@
                         :email (params :email)
                         :department-id (->> (params :department-id)
                                             (Integer/parseInt))})
-    (util/hiccup->html-resp (user-form req))))
+    (util/hiccup->html-resp (user-form req) {"HX-Redirect" (get rs/rs :user-list)})))
 
 
 (defn user-update [req]
@@ -141,7 +141,7 @@
                         :department-id (->> (params :department-id)
                                             (Integer/parseInt))
                         :xt/id (parse-uuid id)})
-    (util/hiccup->html-resp (user-form req))))
+    (util/hiccup->html-resp (user-form req) {"HX-Redirect" (get rs/rs :user-list)})))
 
 
 (defn prepare-req [req]

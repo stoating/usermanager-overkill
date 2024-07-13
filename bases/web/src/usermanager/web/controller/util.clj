@@ -17,8 +17,15 @@
   (map-keys csk/->kebab-case-keyword m))
 
 
-(defn hiccup->html-resp [hiccup]
-  (-> hiccup
-      rum/render-static-markup
-      str
-      rr/response))
+(defn hiccup->html-resp
+  ([hiccup]
+   (-> hiccup
+       rum/render-static-markup
+       str
+       rr/response))
+  ([hiccup headers]
+   (-> hiccup
+       rum/render-static-markup
+       str
+       rr/response
+       (assoc-in [:headers] headers))))
